@@ -15,6 +15,7 @@ def run_remote(params):
         params['radius'], params['sphere_val']
     )
     painting = artist.paint()
+    print(painting.shape)
 
     # 2. Geometry
     geom = Geometry(
@@ -27,7 +28,6 @@ def run_remote(params):
 
     # 3. Tomography 
     tomo = Tomography(painting, proj_geom, params['algorithm'])
-    """
     projections = tomo.project()
     #slices = Tomo.reconstruct(projections) 
 
@@ -36,7 +36,6 @@ def run_remote(params):
         pickle.dump(projections, f)
         #Tomo.save_projections('projections',projections)
         #Tomo.save_reconstruction('slices',slices)
-    """
     print("Remote computation done!")
 
 
