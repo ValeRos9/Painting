@@ -25,13 +25,16 @@ def run_remote(params):
     )
     proj_geom = geom.projection()
 
-    # 3. Tomography (GPU happens here)
+    # 3. Tomography 
     tomo = Tomography(painting, proj_geom, params['algorithm'])
     projections = tomo.project()
+    #slices = Tomo.reconstruct(projections) 
 
-    # 4. Save result
+    # 4. Save result (I think it only currently saves projections but doesn't do the reconstruction)
     with open("result.pkl", "wb") as f:
         pickle.dump(projections, f)
+        #Tomo.save_projections('projections',projections)
+        #Tomo.save_reconstruction('slices',slices)
 
     print("Remote computation done!")
 
