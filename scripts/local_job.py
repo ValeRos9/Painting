@@ -18,15 +18,16 @@ def run_remote_part(params):
         pickle.dump(params, f)
 
     # 2. Send params to remote server
+
     subprocess.run([
-        "scp", "params.pkl",
-        f"{REMOTE_USER}@{REMOTE_HOST}:{REMOTE_PATH}/"
+    "scp", "params.pkl",
+    f"{REMOTE_USER}@{REMOTE_HOST}:/data/rosariovr/Painting/"
     ])
 
     # 3. Run remote script
     subprocess.run([
-        "ssh", f"{REMOTE_USER}@{REMOTE_HOST}",
-        f"cd /data/rosariovr/Painting && PYTHONPATH=. python3 scripts/remote_job.py params.pkl"
+    "ssh", f"{REMOTE_USER}@{REMOTE_HOST}",
+    "cd /data/rosariovr/Painting && PYTHONPATH=/data/rosariovr/Painting conda run -n Painting python scripts/remote_job.py /data/rosariovr/Painting/params.pkl"
     ])
 
     # 4. Get results back

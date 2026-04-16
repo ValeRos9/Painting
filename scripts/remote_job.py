@@ -15,7 +15,7 @@ def run_remote(params):
         params['radius'], params['sphere_val']
     )
     painting = artist.paint()
-    print(painting.shape)
+    print(painting.volume.shape)
 
     # 2. Geometry
     geom = Geometry(
