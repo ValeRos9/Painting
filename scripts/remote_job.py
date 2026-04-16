@@ -29,7 +29,7 @@ def run_remote(params):
     # 4. Save result 
     with open("result.pkl", "wb") as f:
         pickle.dump(projections[0], f)
-
+    
     print("Remote computation done!")
 
 

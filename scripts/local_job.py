@@ -41,7 +41,7 @@ def run_remote_part(params):
     # 5. Load result
     with open("result.pkl", "rb") as f:
         projections = pickle.load(f)
-
+        print(projections)
     print("Simulation executed, projections received!")
 
 
