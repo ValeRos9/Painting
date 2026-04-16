@@ -9,23 +9,13 @@ def run_remote(params):
     print("Running on remote GPU server...")
 
     # 1. Create Painting
-    artist = Painting_generator(
-        params['dim_x'], params['dim_y'], params['thickness'],
-        params['layers_val'], params['N_spheres'],
-        params['radius'], params['sphere_val']
-    )
+    artist = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
+        params['layers_val'], params['N_spheres'],params['radius'], params['sphere_val'])
     painting = artist.paint()
-    print(painting.volume.shape)
 
-    # 2. Geometry
-    geom = Geometry(
-        painting, params['SO'], params['OD'], params['n_proj'],
-        params['geometry_type'],
-        params['det_x'], params['det_y'],
-        params['spacing_x'], params['spacing_y']
-    )
-    proj_geom = geom.projection()
-    print(proj_geom)
+    # 2. Generate projection Geometry
+    proj_geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
+        params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y']).projection()
 
     # 3. Perform projections
     tomo = Tomography(painting, proj_geom, params['algorithm'])

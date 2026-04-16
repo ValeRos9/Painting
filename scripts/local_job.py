@@ -34,7 +34,7 @@ def run_remote_part(params):
     # 4. Get results back
     subprocess.run([
         "scp",
-        f"{REMOTE_USER}@{REMOTE_HOST}:{REMOTE_PATH}/result.pkl",
+        f"{REMOTE_USER}@{REMOTE_HOST}:/data/rosariovr/Painting/result.pkl",
         "."
     ])
 
