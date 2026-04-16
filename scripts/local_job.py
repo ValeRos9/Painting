@@ -7,9 +7,9 @@ from Classes.GUI import User_interface #new
 from Classes.mu import Attenuation
 
 
-REMOTE_USER = "user"
-REMOTE_HOST = "your.server.com"
-REMOTE_PATH = "/path/to/workdir"   # same folder where remote_job.py lives
+REMOTE_USER = "rosariovr"
+REMOTE_HOST = "carbonite"
+REMOTE_PATH = "/data/rosariovr/Painting/scripts"   # same folder where remote_job.py lives
 
 
 def run_remote_part(params):
@@ -26,7 +26,7 @@ def run_remote_part(params):
     # 3. Run remote script
     subprocess.run([
         "ssh", f"{REMOTE_USER}@{REMOTE_HOST}",
-        f"python3 {REMOTE_PATH}/remote_job.py params.pkl"
+        f"cd /data/rosariovr/Painting && PYTHONPATH=. python3 scripts/remote_job.py params.pkl"
     ])
 
     # 4. Get results back
