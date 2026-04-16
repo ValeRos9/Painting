@@ -3,6 +3,7 @@ import pickle #new
 import subprocess #new 
 import threading #new
 
+
 from Classes.GUI import User_interface #new
 from Classes.mu import Attenuation
 
@@ -42,8 +43,6 @@ def run_remote_part(params):
         projections = pickle.load(f)
 
     print("Simulation executed, projections received!")
-
-    # 👉 If you want: update GUI here with projections
 
 
 def run_logic(params):
