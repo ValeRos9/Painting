@@ -30,7 +30,7 @@ def run_remote(params):
     # 3. Tomography 
     tomo = Tomography(painting, proj_geom, params['algorithm'])
     projections = tomo.project()
-    Tomo.save_projections('projections',projections)
+    tomo.save_projections('projections',projections)
 
     # 4. Save result (I think it only currently saves projections but doesn't do the reconstruction)
     with open("result.pkl", "wb") as f:
