@@ -3,8 +3,7 @@ import pickle #new
 import subprocess #new 
 import threading #new
 
-
-from Classes.GUI import User_interface #new
+from Classes.GUI import User_interface 
 from Classes.mu import Attenuation
 
 

@@ -9,9 +9,8 @@ def run_remote(params):
     print("Running on remote GPU server...")
 
     # 1. Create Painting
-    artist = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
-        params['layers_val'], params['N_spheres'],params['radius'], params['sphere_val'])
-    painting = artist.paint()
+    painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
+        params['layers_val'], params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
     # 2. Generate projection Geometry
     proj_geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
