@@ -1,50 +1,63 @@
 import pickle
 import socket
-import struct
 import threading
+import subprocess
+import time
 
 from Classes.GUI import User_interface
 from Classes.mu import Attenuation
 
 
 REMOTE_HOST = "carbonite"
+REMOTE_USER = "rosariovr"
 PORT = 5000
 
-
-# ---------- Communication helpers ----------
-
-def send_msg(sock, obj):
-    data = pickle.dumps(obj)
-    sock.sendall(struct.pack(">Q", len(data)) + data)
-
-
-def recv_msg(sock):
-    def recv_all(n):
-        data = b""
-        while len(data) < n:
-            packet = sock.recv(n - len(data))
-            if not packet:
-                return None
-            data += packet
-        return data
-
-    size = struct.unpack(">Q", recv_all(8))[0]
-    return pickle.loads(recv_all(size))
+REMOTE_CMD = (
+    "nohup bash -c '"
+    "PYTHONPATH=/data/rosariovr/Painting "
+    "conda run -n Painting "
+    "python /data/rosariovr/Painting/scripts/remote_worker.py "
+    "> /data/rosariovr/Painting/worker.log 2>&1 &'"
+)
 
 
-# ---------- Remote call ----------
+# ---------- simple remote call ----------
 
 def call_remote(params):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((REMOTE_HOST, PORT))
-        send_msg(s, params)
-        return recv_msg(s)
+    try:
+        return send_and_receive(params)
+    except Exception:
+        print("Worker not running → starting it...")
+        start_worker()
+        time.sleep(2)  # give it a moment
+        return send_and_receive(params)
+
+
+def send_and_receive(params):
+    data = pickle.dumps(params)
+
+    with socket.create_connection((REMOTE_HOST, PORT), timeout=5) as s:
+        # send
+        s.sendall(len(data).to_bytes(8, "big") + data)
+
+        # receive
+        size = int.from_bytes(s.recv(8), "big")
+        result = b""
+        while len(result) < size:
+            result += s.recv(4096)
+
+    return pickle.loads(result)
+
+
+# ---------- worker startup ----------
+
+def start_worker():
+    subprocess.Popen(["ssh", f"{REMOTE_USER}@{REMOTE_HOST}", REMOTE_CMD])
 
 
 # ---------- GUI logic ----------
 
 def run_logic(params):
-    # Compute locally
     mu = Attenuation(params['E'], params['symb']).value()
     params['sphere_val'] = mu
 
@@ -56,17 +69,16 @@ def run_logic(params):
             print("Received projections:")
             print(result)
         except Exception as e:
-            print("Remote error:", e)
+            print("Error:", e)
 
     threading.Thread(target=worker, daemon=True).start()
 
 
-# ---------- Entry point ----------
+# ---------- entry ----------
 
 if __name__ == "__main__":
     Viewer = User_interface(callback=run_logic)
     Viewer.run()
-
 
 
 """

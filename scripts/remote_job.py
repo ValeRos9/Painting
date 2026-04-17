@@ -1,39 +1,15 @@
-import pickle
 import socket
-import struct
-import sys
+import pickle
 
 from Classes.Generator import Painting_generator
 from Classes.Geometry import Geometry
 from Classes.Tomography import Tomography
 
 
-HOST = "0.0.0.0"
 PORT = 5000
 
 
-# ---------- Communication helpers ----------
-
-def send_msg(sock, obj):
-    data = pickle.dumps(obj)
-    sock.sendall(struct.pack(">Q", len(data)) + data)
-
-
-def recv_msg(sock):
-    def recv_all(n):
-        data = b""
-        while len(data) < n:
-            packet = sock.recv(n - len(data))
-            if not packet:
-                return None
-            data += packet
-        return data
-
-    size = struct.unpack(">Q", recv_all(8))[0]
-    return pickle.loads(recv_all(size))
-
-
-# ---------- Core computation ----------
+# ---------- computation ----------
 
 def run_job(params):
     painting = Painting_generator(
@@ -43,7 +19,8 @@ def run_job(params):
     ).paint()
 
     geom = Geometry(
-        painting, params['SO'], params['OD'],
+        painting,
+        params['SO'], params['OD'],
         params['n_proj'], params['geometry_type'],
         params['det_x'], params['det_y'],
         params['spacing_x'], params['spacing_y']
@@ -55,38 +32,57 @@ def run_job(params):
     return projections[0]
 
 
-# ---------- Worker loop ----------
+# ---------- communication ----------
 
-def handle_client(conn):
-    try:
-        params = recv_msg(conn)
-        print("Job received", file=sys.stderr)
+def recv_all(sock, n):
+    data = b""
+    while len(data) < n:
+        chunk = sock.recv(n - len(data))
+        if not chunk:
+            return None
+        data += chunk
+    return data
 
-        result = run_job(params)
 
-        send_msg(conn, result)
+def recv_msg(sock):
+    size = int.from_bytes(sock.recv(8), "big")
+    data = recv_all(sock, size)
+    return pickle.loads(data)
 
-    except Exception as e:
-        print("Worker error:", e, file=sys.stderr)
-    finally:
-        conn.close()
 
+def send_msg(sock, obj):
+    data = pickle.dumps(obj)
+    sock.sendall(len(data).to_bytes(8, "big") + data)
+
+
+# ---------- server loop ----------
 
 def main():
-    print(f"Worker listening on port {PORT}", file=sys.stderr)
+    print("Worker running...")
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((HOST, PORT))
+        s.bind(("0.0.0.0", PORT))
         s.listen()
 
         while True:
             conn, _ = s.accept()
-            handle_client(conn)
 
+            try:
+                params = recv_msg(conn)
+                result = run_job(params)
+                send_msg(conn, result)
+
+            except Exception as e:
+                print("Error:", e)
+
+            finally:
+                conn.close()
+
+
+# ---------- entry ----------
 
 if __name__ == "__main__":
     main()
-
 
 
 
