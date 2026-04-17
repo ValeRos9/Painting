@@ -1,40 +1,3 @@
-import pickle, subprocess, threading, os, time
-from Classes.GUI import User_interface 
-from Classes.mu import Attenuation
-
-USER, HOST, PATH = "rosariovr", "carbonite", "/data/rosariovr/Painting"
-CMD = f"cd {PATH} && PYTHONPATH={PATH} conda run -n Painting python scripts/remote_job.py"
-
-def run_remote(params):
-    res_file = f"res_{int(time.time())}.pkl"  # Nom unique
-    try:
-        # 1. Lance SSH : envoie params (stdin), ignore les bannières (stdout=DEVNULL)
-        cmd_ssh = ["ssh", "-T", f"{USER}@{HOST}", CMD, res_file]
-        proc = subprocess.Popen(cmd_ssh, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-        _, err = proc.communicate(input=pickle.dumps(params))
-        
-        if proc.returncode != 0: raise Exception(err.decode()[:100])
-
-        # 2. Récupère le fichier résultat et nettoie
-        subprocess.run(["scp", "-q", f"{USER}@{HOST}:{PATH}/{res_file}", "."], check=True)
-        with open(res_file, "rb") as f: data = pickle.load(f)
-        print("Succès ! Projections reçues.")
-        
-        os.remove(res_file) # Nettoie local
-    except Exception as e:
-        print(f"Échec: {e}")
-    finally:
-        # Nettoie distant (silencieux)
-        subprocess.run(["ssh", "-T", f"{USER}@{HOST}", "rm", "-f", f"{PATH}/{res_file}"], capture_output=True)
-
-def run_logic(p):
-    p['sphere_val'] = Attenuation(p['E'], p['symb']).value()
-    threading.Thread(target=run_remote, args=(p,)).start()
-
-if __name__ == "__main__":
-    User_interface(callback=run_logic).run()
-
-"""
 import numpy as np
 import pickle #new
 import subprocess #new 
@@ -98,4 +61,3 @@ def run_logic(params):
 # Start GUI
 Viewer = User_interface(callback=run_logic)
 Viewer.run()
-"""
