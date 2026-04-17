@@ -1,23 +1,23 @@
 import pickle, subprocess, threading
-
 from Classes.GUI import User_interface 
 from Classes.mu import Attenuation
 
 USER, HOST, PATH = "rosariovr", "carbonite", "/data/rosariovr/Painting"
+# -T désactive le terminal pour éviter les bannières SSH qui corrompent le flux
 CMD = f"cd {PATH} && PYTHONPATH={PATH} conda run -n Painting python scripts/remote_job.py"
 
 def run_remote(params):
-    try:
-        # Envoie les params (stdin) et récupère le résultat (stdout)
-        proc = subprocess.Popen(["ssh", f"{USER}@{HOST}", CMD], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        out, _ = proc.communicate(pickle.dumps(params))
-        
-        if proc.returncode == 0:
-            print("Simulation works, projections received !", pickle.loads(out))
-        else:
-            print("Erreur distante")
-    except Exception as e:
-        print(f"Failed: {e}")
+    # -T : Pas de terminal, pipe stdin/stdout directement
+    proc = subprocess.Popen(["ssh", "-T", f"{USER}@{HOST}", CMD], 
+                            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+    out, err = proc.communicate(input=pickle.dumps(params))
+    
+    if proc.returncode == 0 and out:
+        print("Succès ! Projections reçues.")
+        # data = pickle.loads(out) # Décommentez pour utiliser les données
+    else:
+        print(f"Échec distant : {err.decode()}")
 
 def run_logic(p):
     p['sphere_val'] = Attenuation(p['E'], p['symb']).value()
