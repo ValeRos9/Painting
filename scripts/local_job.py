@@ -1,3 +1,75 @@
+import pickle
+import socket
+import struct
+import threading
+
+from Classes.GUI import User_interface
+from Classes.mu import Attenuation
+
+
+REMOTE_HOST = "carbonite"
+PORT = 5000
+
+
+# ---------- Communication helpers ----------
+
+def send_msg(sock, obj):
+    data = pickle.dumps(obj)
+    sock.sendall(struct.pack(">Q", len(data)) + data)
+
+
+def recv_msg(sock):
+    def recv_all(n):
+        data = b""
+        while len(data) < n:
+            packet = sock.recv(n - len(data))
+            if not packet:
+                return None
+            data += packet
+        return data
+
+    size = struct.unpack(">Q", recv_all(8))[0]
+    return pickle.loads(recv_all(size))
+
+
+# ---------- Remote call ----------
+
+def call_remote(params):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((REMOTE_HOST, PORT))
+        send_msg(s, params)
+        return recv_msg(s)
+
+
+# ---------- GUI logic ----------
+
+def run_logic(params):
+    # Compute locally
+    mu = Attenuation(params['E'], params['symb']).value()
+    params['sphere_val'] = mu
+
+    print("mu:", mu)
+
+    def worker():
+        try:
+            result = call_remote(params)
+            print("Received projections:")
+            print(result)
+        except Exception as e:
+            print("Remote error:", e)
+
+    threading.Thread(target=worker, daemon=True).start()
+
+
+# ---------- Entry point ----------
+
+if __name__ == "__main__":
+    Viewer = User_interface(callback=run_logic)
+    Viewer.run()
+
+
+
+"""
 import numpy as np
 import pickle #new
 import subprocess #new 
@@ -61,3 +133,4 @@ def run_logic(params):
 # Start GUI
 Viewer = User_interface(callback=run_logic)
 Viewer.run()
+"""
