@@ -1,6 +1,7 @@
 import sys
 import pickle
 
+from Classes.mu import attenuation
 from Classes.Generator import Painting_generator
 from Classes.Geometry import Geometry
 from Classes.Tomography import Tomography
@@ -12,8 +13,11 @@ def run_remote(params):
     print("Running on remote GPU server...")
 
     # 1. Create Painting
+
+    mu_for_each_layer = {"oil":1,"ground":2,"wood":3}
+
     painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
-        params['layers_val'], params['N_spheres'],params['radius'], params['sphere_val']).paint()
+        mu_for_each_layer, params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
 
     # 2. Generate projection Geometry
