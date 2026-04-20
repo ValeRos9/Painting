@@ -15,11 +15,13 @@ def run_remote(params):
     painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
         params['layers_val'], params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
-    print(painting.volume)
 
     # 2. Generate projection Geometry
-    proj_geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
-        params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y']).projection()
+    Geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
+        params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y'])
+    proj_geom = Geom.projection()
+    #tomo_visual = Geom.tomosipo_visualization()
+
 
     # 3. Perform projections and reconstructions 
     tomo = Tomography(painting, proj_geom, params['algorithm'])
@@ -31,6 +33,7 @@ def run_remote(params):
     # 4. Save projection image  
     with open("result.pkl", "wb") as f:
         pickle.dump(projections[0], f)
+        #pickle.dump(tomo_visual,f)
 
 
 with open(sys.argv[1], "rb") as f:

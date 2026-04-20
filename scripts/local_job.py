@@ -31,10 +31,11 @@ def run_remote_part(params):
 #Function: that Runs when user clicks "Run" in GUI
 def run_logic(params):
 
+    print(params)
     #Compute mu locally
-    params['sphere_val'] = Attenuation(params['E'], params['symb']).value()
+    params['sphere_val'] = Attenuation(params['E'], params['symb']).value() 
     print("mu:", params['sphere_val'])
-
+    print(params)
     #Run remote job in background (so GUI doesn't freeze)
     thread = threading.Thread(target=run_remote_part, args=(params,))
     thread.start()
