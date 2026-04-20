@@ -11,13 +11,13 @@ class User_interface:
         self.entries = {}
 
         fields = [
-            ("Energy", "E", 100), ("Symbol", "symb", "Pb"),
-            ("Dim X", "dim_x", 100), ("Dim Y", "dim_y", 100),
-            ("Thickness", "thickness", "10"), ("Layers Val", "layers_val", "0"),
-            ("N Spheres", "N_spheres", 10), ("Radius", "radius", 1), ("Sphere Val", "sphere_val", 1.0),
-            ("SO", "SO", 1000), ("OD", "OD", 200), ("Projections", "n_proj", 180),
-            ("Det X", "det_x", 1024), ("Det Y", "det_y", 1024),
-            ("Spacing X", "spacing_x", 1.0), ("Spacing Y", "spacing_y", 1.0),
+            ("Energy []", "E", 100), ("Symbol", "symb", "Pb"),
+            ("Dim X []", "dim_x", 100), ("Dim Y []", "dim_y", 100),
+            ("Thickness []", "thickness", "10"), ("Layers Val []", "layers_val", "0"),
+            ("N Spheres", "N_spheres", 10), ("Radius []", "radius", 1), 
+            ("SO []", "SO", 1000), ("OD []", "OD", 200), ("N Projections", "n_proj", 180),
+            ("Det X []", "det_x", 1024), ("Det Y []", "det_y", 1024),
+            ("Spacing X []", "spacing_x", 1.0), ("Spacing Y []", "spacing_y", 1.0),
             ("Geometry Type", "geometry_type", "cone"), ("Recon Method", "algorithm", "FDK_CUDA")
         ]
 
@@ -37,9 +37,8 @@ class User_interface:
             'dim_x': int(p['dim_x'].get()), 'dim_y': int(p['dim_y'].get()),
             'thickness': np.array([int(x) for x in p['thickness'].get().split(',')]),
             'layers_val': np.array([float(x) for x in p['layers_val'].get().split(',')]),
-            'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),
-            'sphere_val': float(p['sphere_val'].get()), 'SO': float(p['SO'].get()),
-            'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),
+            'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()), 
+            'SO': float(p['SO'].get()), 'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),
             'det_x': int(p['det_x'].get()), 'det_y': int(p['det_y'].get()),
             'spacing_x': float(p['spacing_x'].get()), 'spacing_y': float(p['spacing_y'].get()),
             'geometry_type': str(p['geometry_type'].get()), 'algorithm': str(p['algorithm'].get())
