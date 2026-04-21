@@ -41,7 +41,7 @@ class Attenuation:
             # Calculate weight fraction (w_i)
             w_i = (count * element.mass) / total_mass
             # Get mass attenuation coefficient for element
-            mu_rho_i = xray.CS_Total(element.number, self.E)
+            mu_rho_i = xray.CS_Total(element.number, self.energy)
             total_mu_rho += w_i * mu_rho_i
         
         return total_mu_rho
