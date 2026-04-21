@@ -26,14 +26,14 @@ class Attenuation:
         #Example: "C6H10O5"
         atoms = chemparse.parse_formula(self.symb)
         # Returns: [{'C': 6.0, 'H': 10.0, 'O': 5.0}]
-        counter = 0
-        summer = 0
+        total_mass = sum(count*getattr(ptable, atom).mass for count,atom in atoms.item())
         for atom, count in atoms.items():
+            element = getattr(ptable, atom)
+            wi = count*element.mass
             print(self.energy)
-            print(count,xray.CS_Total(getattr(ptable, atom).number, self.energy))
-            counter += count
-            summer += count * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
-        return summer/counter
+            print(count,xray.CS_Total(element.number, self.energy))
+            summer += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
+        return summer/total_mass
 
 """"
     #Use some computation to figure out the value of wood, oil and ground then store it in some additional file that people can check
