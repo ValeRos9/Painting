@@ -12,6 +12,12 @@ def run_remote(params):
     #Test to see if we are in the remote 
     print("Running on remote GPU server...")
 
+    print(params)
+    #Compute mu locally
+    params['sphere_val'] = Attenuation(params['E'], params['symb']).value() 
+    print("mu:", params['sphere_val'])
+    print(params)
+
     # 1. Create Painting
 
     mu_for_each_layer = {"oil":1,"ground":2,"wood":3}
