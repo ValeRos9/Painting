@@ -24,7 +24,7 @@ class Attenuation:
     #do wood, oil, ground in a separate file that will be called up by this one 
     def value(self):
         #Example: "C6H10O5"
-        print(self.symb)
+        print(chemparse.parse_formula(self.symb))
         atoms = chemparse.parse_formula(self.symb)[0]
         # Returns: [{'C': 6.0, 'H': 10.0, 'O': 5.0}]
 
