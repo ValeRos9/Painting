@@ -14,7 +14,6 @@ class Painting_generator:
         self.N_spheres = N_spheres 
         self.radius = radius
         self.sphere_val = sphere_val
-        print(layers_val)
     
     def paint(self):
         """creates a Painting, generating volume, inserting spheres and adding intensity values"""
