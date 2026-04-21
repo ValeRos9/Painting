@@ -1,11 +1,9 @@
-import pickle #new
-import subprocess #new 
-import threading #new
+import pickle 
+import subprocess  
+import threading 
 import os 
-
 from Classes.GUI import User_interface 
 from Classes.mu import Attenuation
-
 
 USER_HOST = "rosariovr@carbonite"
 REMOTE_DIR = "/data/rosariovr/Painting"
@@ -24,9 +22,13 @@ def run_remote_part(params):
 
     #Load result
     with open("result.pkl", "rb") as f:
-        projections = pickle.load(f)
-        print(projections.shape)
+        data = pickle.load(f)
+
+    with open("proj0000.tif", "wb") as f:
+        f.write(data)
     print("Simulation executed, projections received!")
+    
+    os.system("open -a ImageJ proj0000.tif")
 
 #Function: that Runs when user clicks "Run" in GUI
 def run_logic(params):

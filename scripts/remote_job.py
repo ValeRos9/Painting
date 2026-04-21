@@ -37,9 +37,12 @@ def run_remote(params):
     #tomo.save_reconstruction('slices',slices)
 
     #Save projection image  
+    with open("projections/proj0000.tif", "rb") as f:
+        data = f.read()
+
     with open("result.pkl", "wb") as f:
-        pickle.dump(projections[0], f)
-        #pickle.dump(tomo_visual,f)
+        pickle.dump(data, f)
+
 
 with open(sys.argv[1], "rb") as f:
     params = pickle.load(f)
