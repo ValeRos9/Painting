@@ -29,6 +29,7 @@ class Attenuation:
         total_mass = sum(count*getattr(ptable, atom).mass for atom,count in atoms.items())
         print(self.energy)
         print(total_mass)
+        summer = 0
         for atom, count in atoms.items():
             print(atom,count)
             element = getattr(ptable, atom)
