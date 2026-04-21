@@ -24,27 +24,14 @@ class Attenuation:
     #do wood, oil, ground in a separate file that will be called up by this one 
     def value(self):
         #Example: "C6H10O5"
-        print(chemparse.parse_formula(self.symb))
         atoms = chemparse.parse_formula(self.symb)
         # Returns: [{'C': 6.0, 'H': 10.0, 'O': 5.0}]
-
-        # Calculate total molecular mass
+        counter = 0
+        summer = 0
         for atom, count in atoms.items():
-            print(count,getattr(ptable, atom).mass)
-            print(count * getattr(ptable, atom).mass)
-        total_mass = sum(count * getattr(ptable, atom).mass for atom, count in atoms.items())
-        print(total_mass)
-        
-        total_mu_rho = 0.0
-        for atom, count in atoms.items():
-            element = getattr(ptable, atom)
-            # Calculate weight fraction (w_i)
-            w_i = (count * element.mass) / total_mass
-            # Get mass attenuation coefficient for element
-            mu_rho_i = xray.CS_Total(element.number, self.energy)
-            total_mu_rho += w_i * mu_rho_i
-        
-        return total_mu_rho
+            counter += count
+            summer += count * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
+        return summer/counter
 
 """"
     #Use some computation to figure out the value of wood, oil and ground then store it in some additional file that people can check
