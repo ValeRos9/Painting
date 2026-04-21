@@ -12,6 +12,7 @@ def run_remote(params):
 
     #Set mu 
     params['sphere_val'] = Attenuation(params['E'], params['symb']).value() 
+    print(params['sphere_val'])
 
     materials = {"oil":1,"ground":2,"wood":3}
     layer_materials = [materials["oil"],materials["ground"],materials["wood"]]
@@ -21,7 +22,6 @@ def run_remote(params):
         layer_materials, params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
     print(painting.volume.shape)
-
 
     #Generate projection Geometry
     Geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
