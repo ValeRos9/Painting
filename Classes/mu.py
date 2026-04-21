@@ -25,10 +25,11 @@ class Attenuation:
     def value(self):
         #Example: "C6H10O5"
         print(chemparse.parse_formula(self.symb))
-        atoms = chemparse.parse_formula(self.symb)[0]
+        atoms = chemparse.parse_formula(self.symb)
         # Returns: [{'C': 6.0, 'H': 10.0, 'O': 5.0}]
 
         # Calculate total molecular mass
+        print(count * getattr(ptable, symb).mass for symb, count in atoms.items())
         total_mass = sum(count * getattr(ptable, symb).mass for symb, count in atoms.items())
         
         total_mu_rho = 0.0
