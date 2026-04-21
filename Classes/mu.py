@@ -30,6 +30,7 @@ class Attenuation:
         print(self.energy)
         print(total_mass)
         for atom, count in atoms.items():
+            print(atom,count)
             element = getattr(ptable, atom)
             wi = count*element.mass
             print(wi,xray.CS_Total(element.number, self.energy))
