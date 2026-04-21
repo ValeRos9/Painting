@@ -29,12 +29,15 @@ class Attenuation:
         # Returns: [{'C': 6.0, 'H': 10.0, 'O': 5.0}]
 
         # Calculate total molecular mass
-        print(count * getattr(ptable, symb).mass for symb, count in atoms.items())
-        total_mass = sum(count * getattr(ptable, symb).mass for symb, count in atoms.items())
+        for atom, count in atoms.items():
+            print(count,getattr(ptable, atom).mass)
+            print(count * getattr(ptable, atom).mass)
+        total_mass = sum(count * getattr(ptable, atom).mass for atom, count in atoms.items())
+        print(total_mass)
         
         total_mu_rho = 0.0
-        for sym, count in atoms.items():
-            element = getattr(ptable, symb)
+        for atom, count in atoms.items():
+            element = getattr(ptable, atom)
             # Calculate weight fraction (w_i)
             w_i = (count * element.mass) / total_mass
             # Get mass attenuation coefficient for element
