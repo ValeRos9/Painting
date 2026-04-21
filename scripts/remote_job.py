@@ -11,9 +11,10 @@ def run_remote(params):
     print("Running on remote GPU server...")
 
     #Set mu 
-    params['sphere_val'] = Attenuation(params['E'], params['symb']).value() 
+    params['sphere_val'] = Attenuation(params['E'], params['pigment']).value() 
     print(params['sphere_val'])
-
+    
+    #This needs to be done 
     materials = {"oil":1,"ground":2,"wood":3}
     layer_materials = [materials["oil"],materials["ground"],materials["wood"]]
 

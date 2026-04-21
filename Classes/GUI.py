@@ -16,7 +16,7 @@ class User_interface:
         s2.pack(fill="x", padx=20, pady=10)
 
         f1 = [
-            ("Energy [keV]","E",100),("Symbol","symb","Pb"),
+            ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
             ("Dim X []","dim_x",100),("Dim Y []","dim_y",100),
             ("Thickness []","thickness","10"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
@@ -41,7 +41,7 @@ class User_interface:
     def _get_params(self):
         p = self.entries
         return {
-            'E': int(p['E'].get()), 'symb': p['symb'].get(),
+            'E': int(p['E'].get()), 'pigment': p['pigment'].get(),
             'dim_x': int(p['dim_x'].get()), 'dim_y': int(p['dim_y'].get()),
             'thickness': np.array([int(x) for x in p['thickness'].get().split(',')]),
             'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),
