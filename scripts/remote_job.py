@@ -14,11 +14,13 @@ def run_remote(params):
     #Set mu 
     params['sphere_val'] = Attenuation(params['E'], params['symb']).value() 
     #Do mu 
-    mu_for_each_layer = {"oil":1,"ground":2,"wood":3}
+    materials = {"oil":1,"ground":2,"wood":3}
+    layer_materials = [materials["oil"],materials["ground"],materials["wood"]]
+    print(layer_materials)
 
     #Create Painting
     painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
-        mu_for_each_layer, params['N_spheres'],params['radius'], params['sphere_val']).paint()
+        layer_materials, params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
     print(Painting.volume)
 
