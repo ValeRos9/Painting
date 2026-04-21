@@ -1,7 +1,7 @@
 import sys
 import pickle
 
-from Classes.mu import attenuation
+from Classes.mu import Attenuation
 from Classes.Generator import Painting_generator
 from Classes.Geometry import Geometry
 from Classes.Tomography import Tomography
