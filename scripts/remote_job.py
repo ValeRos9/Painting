@@ -22,7 +22,7 @@ def run_remote(params):
     painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
         layer_materials, params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
-    print(Painting.volume)
+    print(painting.volume)
 
 
     #Generate projection Geometry
