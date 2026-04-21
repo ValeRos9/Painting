@@ -8,7 +8,6 @@ from Classes.mu import Attenuation
 USER_HOST = "rosariovr@carbonite"
 REMOTE_DIR = "/data/rosariovr/Painting"
 
-#Function that does the remote part 
 def run_remote_part(params):
 
     #Save parameters locally
@@ -27,7 +26,7 @@ def run_remote_part(params):
     with open("proj0000.tif", "wb") as f:
         f.write(data)
     print("Simulation executed, projections received!")
-    
+
     os.system("open -a ImageJ proj0000.tif")
 
 #Function: that Runs when user clicks "Run" in GUI
