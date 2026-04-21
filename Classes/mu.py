@@ -29,6 +29,7 @@ class Attenuation:
         counter = 0
         summer = 0
         for atom, count in atoms.items():
+            print(count,xray.CS_Total(getattr(ptable, atom).number, self.energy))
             counter += count
             summer += count * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
         return summer/counter
