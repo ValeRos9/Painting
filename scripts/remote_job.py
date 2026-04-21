@@ -1,6 +1,5 @@
 import sys
 import pickle
-
 from Classes.mu import Attenuation
 from Classes.Generator import Painting_generator
 from Classes.Geometry import Geometry
@@ -13,16 +12,15 @@ def run_remote(params):
 
     #Set mu 
     params['sphere_val'] = Attenuation(params['E'], params['symb']).value() 
-    #Do mu 
+
     materials = {"oil":1,"ground":2,"wood":3}
     layer_materials = [materials["oil"],materials["ground"],materials["wood"]]
-    print(layer_materials)
 
     #Create Painting
     painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
         layer_materials, params['N_spheres'],params['radius'], params['sphere_val']).paint()
 
-    print(painting.volume)
+    print(painting.volume.shape())
 
 
     #Generate projection Geometry
@@ -35,8 +33,8 @@ def run_remote(params):
     tomo = Tomography(painting, proj_geom, params['algorithm'])
     projections = tomo.project()
     tomo.save_projections('projections',projections)
-    slices = tomo.reconstruct(projections)
-    tomo.save_reconstruction('slices',slices)
+    #slices = tomo.reconstruct(projections)
+    #tomo.save_reconstruction('slices',slices)
 
     #Save projection image  
     with open("result.pkl", "wb") as f:
