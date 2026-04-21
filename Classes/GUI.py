@@ -16,7 +16,7 @@ class User_interface:
         s2.pack(fill="x", padx=20, pady=10)
 
         f1 = [
-            ("Energy []","E",100),("Symbol","symb","Pb"),
+            ("Energy [keV]","E",100),("Symbol","symb","Pb"),
             ("Dim X []","dim_x",100),("Dim Y []","dim_y",100),
             ("Thickness []","thickness","10"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
