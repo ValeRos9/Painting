@@ -26,12 +26,13 @@ class Attenuation:
         #Example: "C6H10O5"
         atoms = chemparse.parse_formula(self.symb)
         # Returns: [{'C': 6.0, 'H': 10.0, 'O': 5.0}]
-        total_mass = sum(count*getattr(ptable, atom).mass for count,atom in atoms.item())
+        total_mass = sum(count*getattr(ptable, atom).mass for count,atom in atoms.items())
+        print(self.energy)
+        print(total_mass)
         for atom, count in atoms.items():
             element = getattr(ptable, atom)
             wi = count*element.mass
-            print(self.energy)
-            print(count,xray.CS_Total(element.number, self.energy))
+            print(wi,xray.CS_Total(element.number, self.energy))
             summer += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
         return summer/total_mass
 
