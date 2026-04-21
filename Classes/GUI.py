@@ -10,8 +10,8 @@ class User_interface:
         self.root.geometry("400x800")
         self.entries = {}
 
-        s1 = ttk.LabelFrame(self.root, text="Section 1")
-        s2 = ttk.LabelFrame(self.root, text="Section 2")
+        s1 = ttk.LabelFrame(self.root, text="Painting")
+        s2 = ttk.LabelFrame(self.root, text="CT")
         s1.pack(fill="x", padx=20, pady=10)
         s2.pack(fill="x", padx=20, pady=10)
 
