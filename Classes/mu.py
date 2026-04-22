@@ -22,6 +22,8 @@ class Attenuation:
             amount += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
         return amount/total_mass
 
+
+""""
     def mu__wood_or_oil(self):
         keyword = wood 
         self.storage(keyword)
@@ -45,7 +47,7 @@ class Attenuation:
 
 
 
-""""
+
 I would create an external files to computes wood and oil, then keep the mu's obtained somwhere and file in case you need it again 
 You will need to recompute it for any energy anyways 
     def library():

@@ -4,7 +4,7 @@ import numpy as np
 import random
 import sys
 from .Painting import Painting
-from .Painting import mu
+from .mu import Attenuation
 
 class Painting_generator:
     def __init__(self,E,pigment,dim_x,dim_y,thickness,layers_val,N_spheres,radius):
@@ -18,6 +18,7 @@ class Painting_generator:
         self.radius = radius
     
     def paint(self):
+        """generates a volume, inserts spheres and adds mu/rho values"""
         Sheet = np.empty((np.sum(self.thickness),self.dim_y,self.dim_x))
         for idx_layer in range(self.thickness.size):
 
@@ -88,7 +89,7 @@ class Painting_generator:
         self.sphere_val = sphere_val
     
     def paint(self):
-        """creates a Painting, generating volume, inserting spheres and adding intensity values"""
+        creates a Painting, generating volume, inserting spheres and adding intensity values
 
         Sheet = np.empty((np.sum(self.thickness),self.dim_y,self.dim_x,))
         for idx_layer in range(self.thickness.size):
@@ -117,7 +118,7 @@ class Painting_generator:
 
     @staticmethod
     def random_insert_spheres(layer, nspheres, r, intensity):
-        """Generates valid center points and insert a sphere of radius r at those points"""
+        Generates valid center points and insert a sphere of radius r at those points
 
         #Creates a box with at center a standard sphere of radius r
         x,y,z = np.meshgrid(np.arange(2*r+1), np.arange(2*r+1), np.arange(2*r+1), indexing='ij')
