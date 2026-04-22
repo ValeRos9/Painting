@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import numpy as np
-
 import threading 
 
 class User_interface:
