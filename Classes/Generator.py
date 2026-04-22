@@ -4,7 +4,7 @@ import numpy as np
 import random
 import sys
 from .Painting import Painting
-from .Painting import Attenuation
+from .Painting import mu
 
 
 class Painting_generator:
@@ -26,23 +26,23 @@ class Painting_generator:
 
             #Set intensity value for Paint Layer and generate spheres (the view is from the front of the Painting)
             if idx_layer == 0: 
-                start_idx = idx_layer
-                end_idx = self.thickness[idx_layer]
-                Sheet[start_idx:end_idx,:,:] = self.layers_val[idx_layer]
+                b_i = idx_layer
+                f_i = self.thickness[idx_layer]
+                Sheet[b_i:f_i,:,:] = self.layers_val[idx_layer]
 
                 if self.thickness[idx_layer] < 2 * self.radius + 1:
                     print("Error! thickness of Paint layer", self.thickness[idx_layer], "is too small compared with r_sphere=", self.radius,",radius can't be more than",(self.thickness[idx_layer]-1)/2)
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
-                    val_sphere = Attenuation(params['E'], params['pigment']).value() 
-                    centers = self.random_insert_spheres(Sheet[start_idx:end_idx,:,:], self.N_spheres, self.radius, val_sphere)
+                    mu_rho_sphere = Attenuation(self.E, self.pigment).value() 
+                    centers = self.random_insert_spheres(Sheet[b_i:f_i,:,:], self.N_spheres, self.radius, mu_rho_sphere)
 
             #Set intensity values for subsequent Layers (Ground/Wodd Layer)
             else: 
-                start_idx = np.sum(self.thickness[0:idx_layer])
-                end_idx = np.sum(self.thickness[0:idx_layer+1]) #+1 is needed to iterate through the full array
-                Sheet[start_idx:end_idx,:,:]=self.layers_val[idx_layer]
+                b_i = np.sum(self.thickness[0:idx_layer])
+                f_i = np.sum(self.thickness[0:idx_layer+1]) #+1 is needed to iterate through the full array
+                Sheet[b_i:f_i,:,:]=self.layers_val[idx_layer]
         
         return Painting(Sheet)
 

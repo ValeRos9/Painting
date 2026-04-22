@@ -6,24 +6,16 @@ from Classes.Geometry import Geometry
 from Classes.Tomography import Tomography
 
 
+######## main #######
 with open(sys.argv[1], "rb") as f:
     params = pickle.load(f)
 
 #Test to see if we are in the remote 
 print("Running on remote GPU server...")
 
-#Set mu 
-params['sphere_val'] = Attenuation(params['E'], params['pigment']).value() 
-print(params['sphere_val'])
-
-#This needs to be done 
-materials = {"oil":1,"ground":2,"wood":3}
-layer_materials = [materials["oil"],materials["ground"],materials["wood"]]
-
 #Create Painting
 painting = Painting_generator(params['dim_x'], params['dim_y'], params['thickness'],
     layer_materials, params['N_spheres'],params['radius'], params['sphere_val']).paint()
-
 print(painting.volume.shape)
 
 #Generate Projection Geometry
