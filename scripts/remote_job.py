@@ -16,7 +16,8 @@ print("Running on remote GPU server...")
 #Create Painting
 layers = {"P":50,"G":20,"W":10}  #dictionary specifiying layer type and thickness 
 painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], params['dim_y'], 
-    params['thickness'], layers, params['N_spheres'],params['radius']).paint()
+    layers, params['N_spheres'],params['radius']).paint()
+    
 print(painting.volume.shape)
 
 #Generate Projection Geometry
