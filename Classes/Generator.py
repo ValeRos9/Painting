@@ -7,42 +7,47 @@ from .Painting import Painting
 from .mu import Attenuation
 
 class Painting_generator:
-    def __init__(self,E,pigment,dim_x,dim_y,thickness,layers_val,N_spheres,radius):
+    def __init__(self,E,pigment,dim_x,dim_y,layers,N_spheres,radius):
         self.E = E
         self.pigment = pigment
         self.dim_x = dim_x
         self.dim_y = dim_y
-        self.thickness = thickness
-        self.layers_val = layers_val
+        self.layers = layers #this is a dict 
         self.N_spheres = N_spheres 
         self.radius = radius
-    
+
+        print(self.layers)
+
     def paint(self):
         """generates a volume, inserts spheres and adds mu/rho values"""
-        Sheet = np.empty((np.sum(self.thickness),self.dim_y,self.dim_x))
-        for idx_layer in range(self.thickness.size):
 
-            #Set intensity value for Paint Layer and generate spheres (the view is from the front of the Painting)
-            if idx_layer == 0: 
-                b_i = idx_layer
-                f_i = self.thickness[idx_layer]
-                Sheet[b_i:f_i,:,:] = self.layers_val[idx_layer]
+        #Create volume
+        total_thickness = sum(count for count self.layers.keys())
+        volume = np.empty((total_thickness,self.dim_y,self.dim_x))
 
-                if self.thickness[idx_layer] < 2 * self.radius + 1:
-                    print("Error! thickness of Paint layer", self.thickness[idx_layer], "is too small compared with r_sphere=", self.radius,",radius can't be more than",(self.thickness[idx_layer]-1)/2)
+        for typex, thickness in layers.items():
+            i = 0
+            if typex == 'P':
+                #mu_oil = mu[typex] = Attenuation(self.E, =).=()
+                mu_rho_oil = 3
+                volume[i:thickness,:,:] = mu_rho_oil
+                if thickness < 2 * self.radius + 1:
+                    print("Error! thickness of Paint layer", end, "is too small compared with r_sphere=", self.radius,",radius can't be more than",(thickness-1)/2)
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
                     mu_rho_sphere = Attenuation(self.E, self.pigment).value() 
-                    centers = self.random_insert_spheres(Sheet[b_i:f_i,:,:], self.N_spheres, self.radius, mu_rho_sphere)
+                    centers = self.random_insert_spheres(volume[i:thickness,:,:], self.N_spheres, self.radius, mu_rho_sphere)
 
-            #Set intensity values for subsequent Layers (Ground/Wodd Layer)
-            else: 
-                b_i = np.sum(self.thickness[0:idx_layer])
-                f_i = np.sum(self.thickness[0:idx_layer+1]) #+1 is needed to iterate through the full array
-                Sheet[b_i:f_i,:,:]=self.layers_val[idx_layer]
-        
-        return Painting(Sheet)
+                    i += thickness
+            else:
+                mu_rho_whatever = 2
+                volume[i:thickness,:,:]=mu_rho_whatever
+
+                i += thickness
+
+        return Painting(volume)
+
 
     @staticmethod
     def random_insert_spheres(layer, nspheres, r, intensity):
