@@ -21,11 +21,28 @@ class Attenuation:
             wi = count*element.mass
             amount += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
         return amount/total_mass
+
+    def mu__wood_or_oil(self):
+        keyword = wood 
+        self.storage(keyword)
+        summer = 0
+        for molecules,percentage in wood.items:
+            compound = pcp.get_compounds(molecules, 'name')[0]
+            formula = compound.molecular_formula
+            mu_rho_compound = self.value(formula)
+            summer += percentage * mu_rho_compound
+        return summer
     
-    @staticmethod
-    def library(keyword): #enter a string 
-        materials = {wood:mu_wood,oil:mu_oil}
-        return materials[keyword]
+    @statimethod
+    def storage(string)
+        if string == wood
+            return molecules_wood = {"cellulose": 0.45,"hemicellulose": 0.25,"lignin": 0.28}
+        elif string == oil 
+            return molecules_oil = {}
+        else 
+            return print("error")
+
+
 
 
 """"
