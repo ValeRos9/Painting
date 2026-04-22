@@ -18,7 +18,6 @@ class Painting_generator:
         self.radius = radius
     
     def paint(self):
-        """creates a Painting, generating volume, inserting spheres and adding intensity values"""
         Sheet = np.empty((np.sum(self.thickness),self.dim_y,self.dim_x))
         for idx_layer in range(self.thickness.size):
 
