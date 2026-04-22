@@ -20,7 +20,7 @@ class User_interface:
         f1 = [
             ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
             ("Dim X []","dim_x",100),("Dim Y []","dim_y",100),
-            ("Layers {'type':thickness}","layers","{'P': 10, 'G': 2, 'W': 2}"),
+            ("Layers {'type':thickness[]}","layers","{'P': 10, 'G': 2, 'W': 2}"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
         ]
         f2 = [
@@ -34,7 +34,7 @@ class User_interface:
             for label, key, default in fields:
                 f = ttk.Frame(parent); f.pack(fill="x", padx=10, pady=5)
                 ttk.Label(f, text=label, width=15, anchor="e").pack(side="left", padx=(0,10))
-                e = ttk.Entry(f); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True)
+                e = ttk.Entry(f,width=50); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True)
                 self.entries[key] = e
 
         ttk.Button(self.root, text="Run", command=self._execute).pack(pady=20, fill="x", padx=20)
