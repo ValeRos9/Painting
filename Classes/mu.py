@@ -22,11 +22,12 @@ class Attenuation:
             amount += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
         return amount/total_mass
 
+#You need to compute the mu for wood and oil and then fit everything together in a general manner
 
-""""
+"""
     def mu__wood_or_oil(self):
         keyword = wood 
-        self.storage(keyword)
+        molecules = self.storage(keyword)
         summer = 0
         for molecules,percentage in wood.items:
             compound = pcp.get_compounds(molecules, 'name')[0]
@@ -40,33 +41,10 @@ class Attenuation:
         if string == wood
             return molecules_wood = {"cellulose": 0.45,"hemicellulose": 0.25,"lignin": 0.28}
         elif string == oil 
-            return molecules_oil = {}
+            return molecules_oil = {"C18H30O2":0.519, "C18H34O2":0.185, "C18H32O2": 0.142, "C16H32O2":0.07, "C18H36O2":0.034} 
+            #α-Linolenic acid (51.9–55.2%), "oleic acid": (18.5–22.6%),
+            #linoleic acid:14.2–17%, palmitic acid: 7%, stearic acid:3.4%
         else 
             return print("error")
+""""
 
-
-
-
-
-I would create an external files to computes wood and oil, then keep the mu's obtained somwhere and file in case you need it again 
-You will need to recompute it for any energy anyways 
-    def library():
-        wood = {
-            "cellulose": 0.45,
-            "hemicellulose": 0.25,
-            "lignin": 0.28,
-            }
-
-            compound = pcp.get_compounds(keyword_material, 'name')[0]
-            formula = compound.molecular_formula
-
-        }
-        oil = {
-            "alpha-linolenic acid": (51.9–55.2%),
-            "monounsaturated oleic acid": (18.5–22.6%), 
-The saturated acids palmitic acid (about 7%) and stearic acid (3.4–4.6%),
-The doubly unsaturated linoleic acid (14.2–17%).
-
-        }
-
-"""

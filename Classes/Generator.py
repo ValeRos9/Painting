@@ -23,9 +23,11 @@ class Painting_generator:
         total_thickness = sum(count for count in self.layers.values())
         volume = np.empty((total_thickness,self.dim_y,self.dim_x))
         i = 0
+
+        #Attenuation = Attenuation(self.E, self.pigment)
         for typex, thickness in self.layers.items():
             if typex == 'P':
-                #mu_oil = mu[typex] = Attenuation(self.E, =).=()
+                #mu_oil = Attenuation.mu_wood_or_oil()
                 mu_rho_oil = 3
                 volume[i:i+thickness,:,:] = mu_rho_oil
 
@@ -38,6 +40,8 @@ class Painting_generator:
                     centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho_sphere)
                     i += thickness
             else:
+                #mu_whatever = Attenuation.mu_wood_or_oil()
+                #But your still missing mu_ground
                 mu_rho_whatever = 2
                 volume[i:i+thickness,:,:]=mu_rho_whatever
                 i += thickness
