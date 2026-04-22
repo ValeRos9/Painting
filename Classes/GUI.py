@@ -20,12 +20,12 @@ class User_interface:
         f1 = [
             ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
             ("Dim X []","dim_x",100),("Dim Y []","dim_y",100),
-            ("Layers {Type,Thickness}","layers","{'P': 10, 'G': 2, 'W': 2}"),
+            ("Layers","layers","{'P': 10, 'G': 2, 'W': 2}"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
         ]
         f2 = [
-            ("SO []","SO",1000),("OD []","OD",200),("N Projections","n_proj",180),
-            ("Det X []","det_x",1024),("Det Y []","det_y",1024),
+            ("SO []","SO",1000),("OD []","OD",200),("N Projections","n_proj",1),
+            ("Det X []","det_x",256),("Det Y []","det_y",256),
             ("Spacing X []","spacing_x",1.0),("Spacing Y []","spacing_y",1.0),
             ("Geometry Type","geometry_type","cone"),("Recon Method","algorithm","FDK_CUDA")
         ]

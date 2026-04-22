@@ -18,12 +18,11 @@ class Painting_generator:
 
     def paint(self):
         """generates a volume, inserts spheres and adds mu/rho values"""
-
         #Create volume
+        print(self.layers)
         total_thickness = sum(count for count in self.layers.values())
         volume = np.empty((total_thickness,self.dim_y,self.dim_x))
         i = 0
-
         for typex, thickness in self.layers.items():
             if typex == 'P':
                 #mu_oil = mu[typex] = Attenuation(self.E, =).=()
@@ -80,44 +79,6 @@ class Painting_generator:
         return centers
 
 """
-class Painting_generator:
-    def __init__(self,dim_x,dim_y,thickness,layers_val,N_spheres,radius,sphere_val):
-        self.dim_x = dim_x
-        self.dim_y = dim_y
-        self.thickness = thickness
-        self.layers_val = layers_val
-        self.N_spheres = N_spheres 
-        self.radius = radius
-        self.sphere_val = sphere_val
-    
-    def paint(self):
-        creates a Painting, generating volume, inserting spheres and adding intensity values
-
-        Sheet = np.empty((np.sum(self.thickness),self.dim_y,self.dim_x,))
-        for idx_layer in range(self.thickness.size):
-
-            #Set intensity value for Paint Layer and generate spheres (the view is from the front of the Painting)
-            if idx_layer == 0: 
-                start_idx = idx_layer
-                end_idx = self.thickness[idx_layer]
-
-                Sheet[start_idx:end_idx,:,:] = self.layers_val[idx_layer]
-
-                if self.thickness[idx_layer] < 2 * self.radius + 1:
-                    print("Error! thickness of Paint layer", self.thickness[idx_layer], "is too small compared with r_sphere=", self.radius,",radius can't be more than",(self.thickness[idx_layer]-1)/2)
-                    raise SystemExit(1)
-                else:
-                    centers = self.random_insert_spheres(Sheet[start_idx:end_idx,:,:], self.N_spheres, self.radius, self.sphere_val)
-
-            #Set intensity values for subsequent Layers (Ground/Wodd Layer)
-            else: 
-                start_idx = np.sum(self.thickness[0:idx_layer])
-                end_idx = np.sum(self.thickness[0:idx_layer+1]) #+1 is needed to iterate through the full array
-
-                Sheet[start_idx:end_idx,:,:]=self.layers_val[idx_layer]
-        
-        return Painting(Sheet)
-
     @staticmethod
     def random_insert_spheres(layer, nspheres, r, intensity):
         Generates valid center points and insert a sphere of radius r at those points
