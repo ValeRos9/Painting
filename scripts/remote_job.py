@@ -14,10 +14,8 @@ with open(sys.argv[1], "rb") as f:
 print("Running on remote GPU server...")
 
 #Create Painting
-print(params['layers'])
-layers = {"P":50,"G":20,"W":10}  #dictionary specifiying layer type and thickness 
 painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], params['dim_y'], 
-    layers, params['N_spheres'],params['radius']).paint()
+    params['layers'], params['N_spheres'],params['radius']).paint()
 
 print(painting.volume.shape)
 
