@@ -44,7 +44,7 @@ class User_interface:
         return {
             'E': int(p['E'].get()), 'pigment': p['pigment'].get(),
             'dim_x': int(p['dim_x'].get()), 'dim_y': int(p['dim_y'].get()),
-            'layers': np.array([int(x) for x in p['thickness'].get().split(',')]),
+            'layers': np.array([int(x) for x in p['layers'].get().split(',')]),
             'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),
             'SO': float(p['SO'].get()), 'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),
             'det_x': int(p['det_x'].get()), 'det_y': int(p['det_y'].get()),
