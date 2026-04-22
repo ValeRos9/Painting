@@ -8,6 +8,7 @@ from Classes.mu import Attenuation
 
 def run_remotely(params):
 
+    #SSH and Remote directory path 
     USER_HOST = "rosariovr@carbonite"
     REMOTE_DIR = "/data/rosariovr/Painting"
     
