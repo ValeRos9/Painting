@@ -23,11 +23,13 @@ class Painting_generator:
         total_thickness = sum(count for count in self.layers.values())
         volume = np.empty((total_thickness,self.dim_y,self.dim_x))
         i = 0
-        for typex, thickness in layers.items():
+
+        for typex, thickness in self.layers.items():
             if typex == 'P':
                 #mu_oil = mu[typex] = Attenuation(self.E, =).=()
                 mu_rho_oil = 3
                 volume[i:i+thickness,:,:] = mu_rho_oil
+
                 if i+thickness < 2 * self.radius + 1:
                     print("Error! thickness of Paint layer", i+thickness, "is too small compared with r_sphere=", self.radius,",radius can't be more than",(i+thickness-1)/2)
                     raise SystemExit(1)
@@ -35,12 +37,10 @@ class Painting_generator:
                     #insert spheres with value mu/rho_sphere 
                     mu_rho_sphere = Attenuation(self.E, self.pigment).value() 
                     centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho_sphere)
-
                     i += thickness
             else:
                 mu_rho_whatever = 2
                 volume[i:i+thickness,:,:]=mu_rho_whatever
-
                 i += thickness
 
         return Painting(volume)
