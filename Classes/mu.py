@@ -13,7 +13,7 @@ class Attenuation:
         self.pigment = pigment
 
     def value(self):
-        atoms = chemparse.parse_formula(self.symb)
+        atoms = chemparse.parse_formula(self.pigment)
         total_mass = sum(count*getattr(ptable, atom).mass for atom,count in atoms.items())
         amount = 0
         for atom, count in atoms.items():
@@ -21,6 +21,12 @@ class Attenuation:
             wi = count*element.mass
             amount += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
         return amount/total_mass
+    
+    @staticmethod
+    def library(keyword): #enter a string 
+        materials = {wood:mu_wood,oil:mu_oil}
+        return materials[keyword]
+
 
 """"
 I would create an external files to computes wood and oil, then keep the mu's obtained somwhere and file in case you need it again 

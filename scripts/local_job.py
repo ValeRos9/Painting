@@ -6,10 +6,10 @@ from Classes.GUI import User_interface
 from Classes.mu import Attenuation
 
 
-USER_HOST = "rosariovr@carbonite"
-REMOTE_DIR = "/data/rosariovr/Painting"
-
 def run_remotely(params):
+
+    USER_HOST = "rosariovr@carbonite"
+    REMOTE_DIR = "/data/rosariovr/Painting"
     
     with open("params.pkl", "wb") as f:
         pickle.dump(params, f)
