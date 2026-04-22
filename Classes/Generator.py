@@ -6,7 +6,6 @@ import sys
 from .Painting import Painting
 from .Painting import mu
 
-
 class Painting_generator:
     def __init__(self,E,pigment,dim_x,dim_y,thickness,layers_val,N_spheres,radius):
         self.E = E
@@ -20,7 +19,6 @@ class Painting_generator:
     
     def paint(self):
         """creates a Painting, generating volume, inserting spheres and adding intensity values"""
-
         Sheet = np.empty((np.sum(self.thickness),self.dim_y,self.dim_x))
         for idx_layer in range(self.thickness.size):
 
