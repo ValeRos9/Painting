@@ -33,8 +33,8 @@ class User_interface:
         for parent, fields in [(s1,f1),(s2,f2)]:
             for label, key, default in fields:
                 f = ttk.Frame(parent); f.pack(fill="x", padx=10, pady=5)
-                ttk.Label(f, text=label, width=15, anchor="e").pack(side="left", padx=(0,10))
-                e = ttk.Entry(f,width=10); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True)
+                ttk.Label(f, text=label, width=30, anchor="e").pack(side="left", padx=(0,10))
+                e = ttk.Entry(f,width=5); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True)
                 self.entries[key] = e
 
         ttk.Button(self.root, text="Run", command=self._execute).pack(pady=20, fill="x", padx=20)
