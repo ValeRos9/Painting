@@ -19,14 +19,11 @@ class Painting_generator:
     def paint(self):
         """generates a volume, inserts spheres and adds mu/rho values"""
 
-        print(self.layers)
-
         #Create volume
-        total_thickness = sum(count for count in self.layers.keys())
+        total_thickness = sum(count for count in self.layers.values())
         volume = np.empty((total_thickness,self.dim_y,self.dim_x))
-
+        i = 0
         for typex, thickness in layers.items():
-            i = 0
             if typex == 'P':
                 #mu_oil = mu[typex] = Attenuation(self.E, =).=()
                 mu_rho_oil = 3
