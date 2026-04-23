@@ -31,7 +31,7 @@ class Attenuation:
         for comp, weight in composition.items():
             if any(c.isdigit() for c in comp):
                 mu_rho += weight * self.mu_rho_molecule(comp)
-            else
+            else:
                 mu_rho += weight * self._element_mu_rho(comp)
         return mu_rho
     
