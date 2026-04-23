@@ -18,16 +18,17 @@ class Painting_generator:
 
     def paint(self):
         """generates a volume, inserts spheres and adds mu/rho values"""
+
         #Create volume
-        print(self.layers)
         total_thickness = sum(count for count in self.layers.values())
         volume = np.empty((total_thickness,self.dim_y,self.dim_x))
-        i = 0
 
-        #Attenuation = Attenuation(self.E, self.pigment)
+        i = 0
+        mu = Attenuation(self.E)
         for typex, thickness in self.layers.items():
             if typex == 'P':
-                #mu_oil = Attenuation.mu_wood_or_oil()
+                #mu_rho_oil = mu.value('O')
+                print("mu_oil",mu.value('O'))
                 mu_rho_oil = 3
                 volume[i:i+thickness,:,:] = mu_rho_oil
 
@@ -36,15 +37,17 @@ class Painting_generator:
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
-                    mu_rho_sphere = Attenuation(self.E, self.pigment).value() 
-                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho_sphere)
-                    i += thickness
+                    print("mu_pigment",mu.value(self.pigment))
+                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu.value(self.pigment))
             else:
-                #mu_whatever = Attenuation.mu_wood_or_oil()
-                #But your still missing mu_ground
+                #Remember your missing the ground layer value, and you need to put typex
+                #mu_rho_std = mu.value(typex)
+
+                print("mu_wood",mu.value('W'))
                 mu_rho_whatever = 2
                 volume[i:i+thickness,:,:]=mu_rho_whatever
-                i += thickness
+
+            i += thickness
 
         return Painting(volume)
 
