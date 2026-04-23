@@ -24,11 +24,13 @@ Geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['g
     params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y'])
 proj_geom = Geom.projection()
 #tomo_visual = Geom.tomosipo_visualization()
+print(proj_geom)
+
 
 #Perform Tomography 
-tomo = Tomography(painting, proj_geom, params['algorithm'])
-projections = tomo.project()
-tomo.save_projections('projections',projections)
+#tomo = Tomography(painting, proj_geom, params['algorithm'])
+#projections = tomo.project()
+#tomo.save_projections('projections',projections)
 #slices = tomo.reconstruct(projections)
 #tomo.save_reconstruction('slices',slices)
 
