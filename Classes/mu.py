@@ -32,12 +32,8 @@ class Attenuation:
             if any(c.isdigit() for c in comp):
                 mu_rho += weight * self.mu_rho_molecule(comp)
             else:
-                mu_rho += weight * self._element_mu_rho(comp)
+                mu_rho += weight * self.cs_total(getattr(ptable, comp).number, self.E)
         return mu_rho
-    
-    def mu_rho_element(self, symbol):
-        element = getattr(ptable, symbol)
-        return self.cs_total(element.number, self.E)
 
     def mu_rho_molecule(self, molecule):
         atoms = chp.parse_formula(molecule)
