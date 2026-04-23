@@ -30,7 +30,7 @@ class Painting_generator:
             if typex == 'P':
                 #volume[i:i+thickness,:,:] = mu_rho.value('O')
                 volume[i:i+thickness,:,:] = 0
-                print("mu_oil",mu.value('O'))
+                print("mu_oil",mu_rho.value('O'))
 
                 if i+thickness < 2 * self.radius + 1:
                     print("Error! thickness of Paint layer", i+thickness, "is too small compared with r_sphere=", self.radius,",radius can't be more than",(i+thickness-1)/2)
