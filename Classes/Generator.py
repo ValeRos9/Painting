@@ -27,9 +27,9 @@ class Painting_generator:
         i = 0
         mu_rho = Attenuation(self.E)
         for typex, thickness in self.layers.items():
+            
             if typex == 'P':
-                #volume[i:i+thickness,:,:] = mu_rho.value('O')
-                volume[i:i+thickness,:,:] = 0
+                volume[i:i+thickness,:,:] = mu_rho.value('O')
                 print("mu_oil",mu_rho.value('O'))
 
                 if i+thickness < 2 * self.radius + 1:
@@ -37,14 +37,12 @@ class Painting_generator:
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
-                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, 1)
-                    #centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho.value(self.pigment))
+                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho.value(self.pigment))
                     print("mu_pigment",mu_rho.value(self.pigment))
             else:
                 #Remember your missing the ground layer value, and you need to put typex
                 #mu.value(typex) not mu.value('W')
-                #volume[i:i+thickness,:,:]=mu_rho.value('W')
-                volume[i:i+thickness,:,:]=25
+                volume[i:i+thickness,:,:]=mu_rho.value('W')
                 print("mu_wood",mu_rho.value('W'))
 
             i += thickness
@@ -84,38 +82,3 @@ class Painting_generator:
                 
         print("N_centers",len(centers))
         return centers
-
-"""
-    @staticmethod
-    def random_insert_spheres(layer, nspheres, r, intensity):
-        Generates valid center points and insert a sphere of radius r at those points
-
-        #Creates a box with at center a standard sphere of radius r
-        x,y,z = np.meshgrid(np.arange(2*r+1), np.arange(2*r+1), np.arange(2*r+1), indexing='ij')
-        mask = (x - r)**2 + (y - r)**2 + (z - r)**2  <= r**2
-
-        centers = []
-        attempts = 0
-        while len(centers) < nspheres and attempts < 1000:  
-
-            #Generates potential center points, using boundary conditions r<=x,y,z<n-r
-            c0 = round(r+random.random()*(layer.shape[0]-1-2*r))
-            c1 = round(r+random.random()*(layer.shape[1]-1-2*r))
-            c2 = round(r+random.random()*(layer.shape[2]-1-2*r))
-            collision = False
-
-            #Check if potential center points overlap with other spheres
-            for c in centers:
-                if (c0-c[0])**2+(c1-c[1])**2+(c2-c[2])**2 <= 4*r*r:
-                    collision=True
-                    attempts += 1
-                    break
-
-            if not collision:
-                centers.append((c0,c1,c2))
-                layer[c0-r:c0+r+1,c1-r:c1+r+1,c2-r:c2+r+1][mask] = intensity
-                attempts = 0
-                
-        print("N_centers",len(centers))
-        return centers
-"""
