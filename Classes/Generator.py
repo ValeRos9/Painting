@@ -6,6 +6,7 @@ import sys
 from .Painting import Painting
 from .mu import Attenuation
 
+
 class Painting_generator:
     def __init__(self,E,pigment,dim_x,dim_y,layers,N_spheres,radius):
         self.E = E
@@ -24,28 +25,24 @@ class Painting_generator:
         volume = np.empty((total_thickness,self.dim_y,self.dim_x))
 
         i = 0
-        mu = Attenuation(self.E)
+        mu_rho = Attenuation(self.E)
         for typex, thickness in self.layers.items():
             if typex == 'P':
-                #mu_rho_oil = mu.value('O')
+                volume[i:i+thickness,:,:] = mu_rho.value('O')
                 print("mu_oil",mu.value('O'))
-                mu_rho_oil = 3
-                volume[i:i+thickness,:,:] = mu_rho_oil
 
                 if i+thickness < 2 * self.radius + 1:
                     print("Error! thickness of Paint layer", i+thickness, "is too small compared with r_sphere=", self.radius,",radius can't be more than",(i+thickness-1)/2)
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
-                    print("mu_pigment",mu.value(self.pigment))
-                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu.value(self.pigment))
+                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho.value(self.pigment))
+                    print("mu_pigment",mu_rho.value(self.pigment))
             else:
                 #Remember your missing the ground layer value, and you need to put typex
-                #mu_rho_std = mu.value(typex)
-
-                print("mu_wood",mu.value('W'))
-                mu_rho_whatever = 2
-                volume[i:i+thickness,:,:]=mu_rho_whatever
+                #mu.value(typex) not mu.value('W')
+                volume[i:i+thickness,:,:]=mu_rho.value('W')
+                print("mu_wood",mu_rho.value('W'))
 
             i += thickness
 

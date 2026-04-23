@@ -17,6 +17,18 @@ class User_interface:
         s1.pack(fill="x", padx=20, pady=10)
         s2.pack(fill="x", padx=20, pady=10)
 
+        #Alternative for pigment, it is a dictionary (key:layer number,value:list of strings for formulas)
+        #{1:PbC03,S3H2,2:NaCL,AuPbC03}
+        #Maybe change the name to pigment 
+        #You would have to iterate through the list for a given layer 
+        #maybe layer_nbr -> pigments = self.pigment[nbr] and iteration for spheres
+        #Maybe know you want to generalize with the thickness as well
+        #nbr of layers 5 
+        #Type {P,P,P,G,W}
+        #Thickness 50,60,70,80,90
+        #Pigment per P layer 1:PbC03,S3H2,2:NaCL,AuPbC03
+
+
         f1 = [
             ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
             ("Dim X []","dim_x",100),("Dim Y []","dim_y",100),
