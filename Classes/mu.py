@@ -43,7 +43,7 @@ class Attenuation:
         for atom, count in atoms.items():
             element = getattr(ptable, atom)
             mass = count * element.mass
-            weighted_sum += mass * self._cs_total(element.number, self.E)
+            weighted_sum += mass * self.cs_total(element.number, self.E)
             total_mass += mass
 
         return weighted_sum / total_mass
