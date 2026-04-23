@@ -17,7 +17,7 @@ print("Running on remote GPU server...")
 painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], params['dim_y'], 
     params['layers'], params['N_spheres'],params['radius']).paint()
 
-print(painting.volume.shape)
+print(painting.volume)
 
 #Generate Projection Geometry
 Geom = Geometry(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
