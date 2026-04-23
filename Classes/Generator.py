@@ -36,8 +36,7 @@ class Painting_generator:
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
-                    #mu_rho_sphere = Attenuation(self.E, self.pigment).value() 
-                    mu_rho_sphere = 5
+                    mu_rho_sphere = Attenuation(self.E, self.pigment).value() 
                     centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho_sphere)
                     i += thickness
             else:

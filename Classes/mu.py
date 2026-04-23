@@ -1,50 +1,70 @@
 import xraylib as xray
 import periodictable as ptable
-import chemparse as chemparse
-#import pubchempy as pcp
+import chemparse as chp
 
 #Resources:
 #Formula https://physics.nist.gov/PhysRefData/XrayMassCoef/chap2.html
 #code https://github.com/tschoonj/xraylib/wiki/The-xraylib-API-list-of-all-functions#cross-sections
 
 class Attenuation: 
-    def __init__(self,E,pigment):
+    def __init__(self,E):
         self.energy = E
-        self.pigment = pigment
 
-    def value(self):
-        atoms = chemparse.parse_formula(self.pigment)
+    def value(self,string=None):
+        if string == pigment
+            return formula_to_mu(pigment,self.E)
+        elif string == "oil":
+            self.oil()
+        else string == "wood":
+            self.wood()
+
+    @staticmethod 
+    def formula_to_mu(molecule,E):
+        atoms = chp.parse_formula(molecule)
         total_mass = sum(count*getattr(ptable, atom).mass for atom,count in atoms.items())
         amount = 0
+
         for atom, count in atoms.items():
             element = getattr(ptable, atom)
             wi = count*element.mass
-            amount += wi * xray.CS_Total(getattr(ptable, atom).number, self.energy) 
+            amount += wi * xray.CS_Total(element.number, E) 
+
         return amount/total_mass
-
-#You need to compute the mu for wood and oil and then fit everything together in a general manner
-
-
-    # def mu__wood_or_oil(self):
-    #     keyword = wood 
-    #     molecules = self.storage(keyword)
-    #     summer = 0
-    #     for molecules,percentage in wood.items:
-    #         compound = pcp.get_compounds(molecules, 'name')[0]
-    #         formula = compound.molecular_formula
-    #         mu_rho_compound = self.value(formula)
-    #         summer += percentage * mu_rho_compound
-    #     return summer
     
-    # @statimethod
-    # def storage(string)
-    #     if string == wood
-    #         return molecules_wood = {"cellulose": 0.45,"hemicellulose": 0.25,"lignin": 0.28}
-    #     elif string == oil 
-    #         return molecules_oil = {"C18H30O2":0.519, "C18H34O2":0.185, "C18H32O2": 0.142, "C16H32O2":0.07, "C18H36O2":0.034} 
-    #         #α-Linolenic acid (51.9–55.2%), "oleic acid": (18.5–22.6%),
-    #         #linoleic acid:14.2–17%, palmitic acid: 7%, stearic acid:3.4%
-    #     else 
-    #         return print("error")
+    @staticmethod
+    def oil(E):
+        chem_comp = {"C18H30O2":0.519, "C18H34O2":0.185, "C18H32O2": 0.142, "C16H32O2":0.07, "C18H36O2":0.034}
+        #α-Linolenic acid (51.9–55.2%), "oleic acid": (18.5–22.6%),linoleic acid:14.2–17%, palmitic acid: 7%, stearic acid:3.4%
+        total_mu_rho = 0
+
+        for formula,percentage in chem_comp.items():
+            mu_rho_compound = Attenuation.formula_to_mu(formula,E)
+            total_mu_rho += percentage * mu_rho_compound
+
+        return total_mu_rho
+    
+    @staticmethod
+    def wood(E):
+        el_comp = {"C": 0.50, "O": 0.43, "H": 0.06, "N": 0.01}
+
+        total_mu_rho = 0
+        for element_symbol, wi in el_comp.items():
+            element = getattr(ptable, element_symbol)
+            mu_rho_element = xray.CS_Total(element.number, E)
+            total_mu_rho += wi * mu_rho_element
+        return total_mu_rho
+
+
+    def formula_to_mu(molecule,E):
+        atoms = chp.parse_formula(molecule)
+        total_mass = sum(count*getattr(ptable, atom).mass for atom,count in atoms.items())
+        amount = 0
+
+        for atom, count in atoms.items():
+            element = getattr(ptable, atom)
+            wi = count*element.mass
+            amount += wi * xray.CS_Total(element.number, E) 
+
+        return amount/total_mass
 
 
