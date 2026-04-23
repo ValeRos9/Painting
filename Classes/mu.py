@@ -8,8 +8,6 @@ from functools import lru_cache
 #Formula https://physics.nist.gov/PhysRefData/XrayMassCoef/chap2.html
 #code https://github.com/tschoonj/xraylib/wiki/The-xraylib-API-list-of-all-functions#cross-sections
 
-
-
 class Attenuation:
     std_materials = {
         "W": {"C": 0.50, "O": 0.43, "H": 0.06, "N": 0.01},

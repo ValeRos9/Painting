@@ -28,7 +28,8 @@ class Painting_generator:
         mu_rho = Attenuation(self.E)
         for typex, thickness in self.layers.items():
             if typex == 'P':
-                volume[i:i+thickness,:,:] = mu_rho.value('O')
+                #volume[i:i+thickness,:,:] = mu_rho.value('O')
+                volume[i:i+thickness,:,:] = 0
                 print("mu_oil",mu.value('O'))
 
                 if i+thickness < 2 * self.radius + 1:
@@ -36,12 +37,14 @@ class Painting_generator:
                     raise SystemExit(1)
                 else:
                     #insert spheres with value mu/rho_sphere 
-                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho.value(self.pigment))
+                    centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, 1)
+                    #centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, mu_rho.value(self.pigment))
                     print("mu_pigment",mu_rho.value(self.pigment))
             else:
                 #Remember your missing the ground layer value, and you need to put typex
                 #mu.value(typex) not mu.value('W')
-                volume[i:i+thickness,:,:]=mu_rho.value('W')
+                #volume[i:i+thickness,:,:]=mu_rho.value('W')
+                volume[i:i+thickness,:,:]=25
                 print("mu_wood",mu_rho.value('W'))
 
             i += thickness
