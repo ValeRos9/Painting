@@ -5,8 +5,9 @@ import chemparse as chp
 from functools import lru_cache
 
 #Resources:
-#Formula https://physics.nist.gov/PhysRefData/XrayMassCoef/chap2.html
+#Formula for mu_rho https://physics.nist.gov/PhysRefData/XrayMassCoef/chap2.html
 #code https://github.com/tschoonj/xraylib/wiki/The-xraylib-API-list-of-all-functions#cross-sections
+#
 
 class Attenuation:
     std_materials = {
@@ -21,8 +22,8 @@ class Attenuation:
     def value(self, keyword):
         materials = self.std_materials.get(keyword)
         if materials:
-            return self.mu_rho_default(materials)
-        return self.mu_rho_molecule(keyword)
+            return self.mu_rho_default(materials) #I think we need to multiply by rho
+        return self.mu_rho_molecule(keyword) #I think we need to multiply by rho
 
     def mu_rho_default(self, composition):
         """Generic weighted mixture (elements or molecules)."""
