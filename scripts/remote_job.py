@@ -27,9 +27,9 @@ print(proj_geom)
 
 
 #Perform Tomography 
-#tomo = Tomography(painting, proj_geom, params['algorithm'])
-#projections = tomo.project()
-#tomo.save_projections('projections',projections)
+tomo = Tomography(painting, proj_geom, params['algorithm'])
+projections = tomo.project()
+tomo.save_projections('projections',projections)
 #slices = tomo.reconstruct(projections)
 #tomo.save_reconstruction('slices',slices)
 
