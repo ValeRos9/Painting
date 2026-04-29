@@ -14,10 +14,11 @@ from imageio import get_writer, imwrite
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
-#1. We've got tomosipo on the remote, changed remote conda env from Painting to tomo_env
-#2. Run an example with the rotating lab one and visualize it
-#3. Make the whole vector version work and create a separate class, within the remote but not locally sthg like this 
-#4. Figure out how to implement varying geometries 
+#. We've got tomosipo on the remote, changed remote conda env from Painting to tomo_env
+#. Make reconstruction work, saving both projections, reconstructions
+#. Figure out SVG and the jupyter notebook
+#. create a separate class, within the remote but not locally sthg like this 
+#. Figure out how to implement varying geometries 
 
 
 def CT_ASTRA(painting, SO, OD, n_proj,geometry_type,det_x,det_y, spacing_x, spacing_y,algorithm):
