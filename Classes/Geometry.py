@@ -2,8 +2,6 @@
 from __future__ import division
 import numpy as np
 import astra
-import tomosipo as ts 
-import torch
 
 class Geometry:
 
