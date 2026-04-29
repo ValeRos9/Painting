@@ -36,7 +36,7 @@ def operator(standard,obj,det_x,det_y):
     pg = ts.cone_vec(shape=detector_shape, src_pos=s_pos, det_pos=d_pos, det_v=(pixel, 0, 0), det_u=(0, 0, pixel))
     vol_dim = obj.shape[0],obj.shape[1],obj.shape[2]
     c_pos = (0,0,0)
-    if standard == true:
+    if standard == True:
         vg0 = ts.volume(shape=(1,1,1), pos=c_pos, size=vol_dim)
         R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 10, endpoint=False))
         vg = R * vg0.to_vec()
@@ -90,7 +90,9 @@ print(painting.volume.shape)
 #CT with tomosipo
 keyword = 'standard'
 A = operator(keyword,painting.volume,params['det_x'], params['det_y'])
+print(A,type(A))
 projections = A(painting.volume)
+print(projections,type(projections))
 #reconstructions = reconstruct(projections,A)
 
 
