@@ -6,6 +6,7 @@ from Classes.Geometry import Geometry
 from Classes.Tomography import Tomography
 import tomosipo as ts 
 import torch 
+import numpy as np
 
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
