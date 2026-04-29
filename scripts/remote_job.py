@@ -38,7 +38,8 @@ def operator(standard,obj,det_x,det_y):
     vol_dim = (obj.shape[0],obj.shape[1],obj.shape[2])
     c_pos = (0,0,0)
     if standard == 'standard':
-        vg0 = ts.volume(shape=(1,1,1), pos=c_pos, size=vol_dim)
+        vg0 = ts.volume(shape=vol_dim, pos=c_pos, size=(1,1,1))
+        print(vg0,type(vg0))
         R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 10, endpoint=False))
         vg = R * vg0.to_vec()
     else:
