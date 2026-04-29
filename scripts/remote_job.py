@@ -10,9 +10,9 @@ import torch
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
-#1. Figure out how tomosipo can be used, either jupyter notebook or blabla
+#1. We've got tomosipo on the remote, changed remote conda env from Painting to tomo_env
 #2. Run an example with the rotating lab one and visualize it
-#3. Make the whole vector version work and create a separate class
+#3. Make the whole vector version work and create a separate class, within the remote but not locally sthg like this 
 #4. Figure out how to implement varying geometries 
 
 
@@ -34,15 +34,14 @@ def operator(standard,obj,det_x,det_y):
     s_pos = (0,0,0)
     d_pos = (0,4,0)
     pg = ts.cone_vec(shape=detector_shape, src_pos=s_pos, det_pos=d_pos, det_v=(pixel, 0, 0), det_u=(0, 0, pixel))
-    vol_dim = obj.shape[0],obj.shape[1],obj.shape[2]
+    vol_dim = (obj.shape[0],obj.shape[1],obj.shape[2])
     c_pos = (0,0,0)
-    if standard == True:
+    if standard == 'standard':
         vg0 = ts.volume(shape=(1,1,1), pos=c_pos, size=vol_dim)
         R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 10, endpoint=False))
         vg = R * vg0.to_vec()
     else:
-        c_pos = (0,2,0)
-        vg = ts.volume_vec(vol_dim, pos=c_pos, w=(1, 0, 0), v=(0, 1, 0), u=(0, 0, 1))
+        vg = ts.volume_vec(vol_dim, pos=c_pos, w=array([[1., 0., 0.]]), v=array([[0., 1., 0.]]), u=array([[0., 0., 1.]]))
     return ts.operator(vg, pg)
 
     
