@@ -90,7 +90,6 @@ print(painting.volume.shape)
 #CT with tomosipo
 keyword = 'standard'
 A = operator(keyword,painting.volume,params['det_x'], params['det_y'])
-print(A,type(A))
 projections = A(painting.volume)
 print(projections[0])
 #reconstructions = reconstruct(projections,A)
