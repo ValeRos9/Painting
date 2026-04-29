@@ -28,18 +28,23 @@ def CT_ASTRA(painting, SO, OD, n_proj,geometry_type,det_x,det_y, spacing_x, spac
     slices = tomo.reconstruct(projections)
     tomo.save_reconstruction('slices',slices)
 
-def operator(detector,object):
+def operator(standard,obj,det_x,det_y):
     pixel = 1
-    detector_shape
-    pg = ts.cone_vec(shape=detector_shape, src_pos=(0,2,0), det_pos=(0,4,0), det_v=(pixel, 0, 0), det_u=(0, 0, pixel),)
-    if 
-        rot_axis_pos = 
-        vg0 = ts.volume(shape=volume_shape, pos=(0, 0, 0), size=volume_shape * voxel_size,)
-        R = ts.rotate(pos=rot_axis_pos, axis=(1, 0, 0), angles=angles)
+    detector_shape = (det_x,det_y)
+    s_pos = (0,0,0)
+    d_pos = (0,4,0)
+    pg = ts.cone_vec(shape=detector_shape, src_pos=s_pos, det_pos=d_pos, det_v=(pixel, 0, 0), det_u=(0, 0, pixel))
+    vol_dim = obj.shape[0],obj.shape[1],obj.shape[2]
+    c_pos = (0,0,0)
+    if standard == true:
+        vg0 = ts.volume(shape=(1,1,1), pos=c_pos, size=vol_dim)
+        R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 10, endpoint=False))
         vg = R * vg0.to_vec()
-    else
-        vg = ts.volume_vec(*, shape, pos=0, w=(1, 0, 0), v=(0, 1, 0), u=(0, 0, 1))
+    else:
+        c_pos = (0,2,0)
+        vg = ts.volume_vec(vol_dim, pos=c_pos, w=(1, 0, 0), v=(0, 1, 0), u=(0, 0, 1))
     return ts.operator(vg, pg)
+
     
 def reconstruction(y,A):
     # Prepare preconditioning matrices R and C
@@ -83,11 +88,10 @@ print(painting.volume.shape)
 #     params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y'],params['algorithm'])
 
 #CT with tomosipo
-#projection
-phantom = painting.volume
-A = operator()
-projections = A(phantom)
-reconstructions = reconstruct(projections,A)
+keyword = 'standard'
+A = operator(keyword,painting.volume,params['det_x'], params['det_y'])
+projections = A(painting.volume)
+#reconstructions = reconstruct(projections,A)
 
 
 #Save projection image at angle 0 
