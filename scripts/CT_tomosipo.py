@@ -64,19 +64,19 @@ class Tomo:
         print(f"SIRT finished in {timer() - start:0.2f} seconds using PyTorch")
         return x_rec
 
-def save_projections(folder,projections):
-        if not isdir(folder):
-            mkdir(folder)
-        projections = np.round(projections * 65535).astype(np.uint16)
-        for i in range(projections.shape[1]):
-            projection = projections[:, i, :]
-            with get_writer(join(folder, 'proj%04d.tif' %i)) as writer:
-                writer.append_data(projection, {'compress': 9})
+    def save_projections(folder,projections):
+            if not isdir(folder):
+                mkdir(folder)
+            projections = np.round(projections * 65535).astype(np.uint16)
+            for i in range(projections.shape[1]):
+                projection = projections[:, i, :]
+                with get_writer(join(folder, 'proj%04d.tif' %i)) as writer:
+                    writer.append_data(projection, {'compress': 9})
 
-def save_reconstruction(folder,reconstruction):
-        if not isdir(folder):
-            mkdir(folder)
-        for i in range(reconstruction.shape[0]):
-            im = reconstruction[i, :, :]
-            im = np.flipud(im)
-            imwrite(join(folder, 'reco%04d.png' % i), im)
+    def save_reconstruction(folder,reconstruction):
+            if not isdir(folder):
+                mkdir(folder)
+            for i in range(reconstruction.shape[0]):
+                im = reconstruction[i, :, :]
+                im = np.flipud(im)
+                imwrite(join(folder, 'reco%04d.png' % i), im)
