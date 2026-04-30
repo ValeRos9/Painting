@@ -17,23 +17,29 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,volume,n_proj,det_row,det_col,SO,OD):
-        self.volume = volume
+    def __init__(self,volume,n_proj,det_row,det_col,SO,OD,Nx,Ny,Nslices):
+        self.volume = np.moveaxis(volume,0,-1)
         self.n_proj = n_proj
         self.det_row = det_row
         self.det_col = det_col
         self.SO = SO
         self.OD = OD
+        self.Nx = Nx
+        self.Ny = Ny
+        self.Nslices = Nslices
 
     def operator(self):
-
         #set projection geometry
         pg = ts.cone_vec(shape=(self.det_row,self.det_col), src_pos=(0,-self.SO,0), det_pos=(0,self.OD,0), 
             det_v=(1, 0, 0), det_u=(0, 0, 1))
+        print(pg)
 
         #set volume geometry
-        Painting_shape = (self.volume.shape[0],self.volume.shape[1],self.volume.shape[2])
-        vg = ts.volume_vec(shape=Painting_shape,pos=(0,0,0), w=(1,0,0), v=(0,1,0), u=(0,0,1))
+        dw = self.volume.shape[0]/self.Nx
+        dv = self.volume.shape[1]/self.Ny
+        du = self.volume.shape[2]/self.Nslices
+        vg = ts.volume_vec(shape=(self.Nx,self.Ny,self.Nslices),pos=(0,0,0), 
+            w=(dw,0,0), v=(0,dv,0), u=(0,0,du))
 
         #Create rotation geometry and apply
         angles = np.linspace(np.pi/2, 2*np.pi+np.pi/2, self.n_proj, endpoint=False)
@@ -47,6 +53,20 @@ class Tomo:
         #self.visual_CT(pg,vg)
 
         return ts.operator(vg_rot, pg)
+    
+    def projections(self,A):
+        tomo_resampled = zoom(self.volume, 
+        zoom=(self.Nx/self.volume.shape[0], self.Ny/self.volume.shape[1], self.Nslices/self.volume.shape[2]), 
+        order=1)
+        projections = A(tomo_resampled)
+
+        print("test projections")
+        print(f"Shape: {projections.shape}")
+        print(f"Type: {projections.dtype}")
+        print(f"Expected shape logic: Angles={projections.shape[0] if len(projections.shape)==3 else 'Unknown'}, DetY={projections.shape[1]}, DetX={projections.shape[2]}")
+        print(projections.shape)
+
+        return projections
 
     @staticmethod
     def visual_rot(R,vg):
@@ -58,6 +78,7 @@ class Tomo:
         ts.svg(P * vg, P * pg).save("CT.svg")
     
     def reconstruction(self,y,A):
+        print("domain_shape",A.domain_shape)
         # Prepare preconditioning matrices R and C
         R = 1 / A(np.ones(A.domain_shape))
         R = np.minimum(R, 1 / ts.epsilon)
@@ -97,6 +118,7 @@ class Tomo:
             reconstruction[reconstruction < 0] = 0 #Unsure if you should do this here ?
             reconstruction /= np.max(reconstruction)
             reconstruction = np.round(reconstruction * 255).astype(np.uint8)
+            print("shaper",reconstruction.shape)
             for i in range(reconstruction.shape[0]):
                 im = reconstruction[i, :, :]
                 im = np.flipud(im)

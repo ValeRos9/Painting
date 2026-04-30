@@ -4,7 +4,7 @@ from Classes.mu import Attenuation
 from Classes.Generator import Painting_generator
 from CT_tomosipo import Tomo
 import numpy as np
-
+from scipy.ndimage import zoom
 
 ######## main #######
 with open(sys.argv[1], "rb") as f:
@@ -21,17 +21,18 @@ print(painting.volume.shape)
 #CT with tomosipo
 det_row = params['det_x']
 det_col = params['det_y']
-tomo_volume = np.moveaxis(painting.volume,0,-1)
-CT_tomosipo = Tomo(tomo_volume,params['n_proj'],det_row,det_col,params['SO'],params['OD'])
+n_proj = params['n_proj']
+SO = params['SO']
+OD = params['OD']
+Nx = 256
+Ny = 256
+slices = 100
+
+CT_tomosipo = Tomo(painting.volume,n_proj,det_row,det_col,SO,OD,Nx,Ny,slices)
 
 A = CT_tomosipo.operator()
-projections = A(tomo_volume)
 
-print(f"Shape: {projections.shape}")
-print(f"Type: {projections.dtype}")
-print(f"Expected shape logic: Angles={projections.shape[0] if len(projections.shape)==3 else 'Unknown'}, DetY={projections.shape[1]}, DetX={projections.shape[2]}")
-print(projections.shape)
-
+projections = CT_tomosipo.projections(A)
 CT_tomosipo.save_projections('projections',projections)
 
 slices = CT_tomosipo.reconstruction(projections,A)
