@@ -17,30 +17,35 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,volume,det_row,det_col,SO,OD):
+    def __init__(self,volume,n_proj,det_row,det_col,SO,OD):
         self.volume = volume
+        self.n_proj = n_proj
         self.det_row = det_row
         self.det_col = det_col
         self.SO = SO
         self.OD = OD
 
-    def operator(self,det_row,det_col,SO,OD):
-        
+    def operator(self):
+
         #set projection geometry
-        pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,-SO,0), det_pos=(0,OD,0), det_v=(1, 0, 0), det_u=(0, 0, 1))
+        pg = ts.cone_vec(shape=(self.det_row,self.det_col), src_pos=(0,-self.SO,0), det_pos=(0,self.OD,0), 
+            det_v=(1, 0, 0), det_u=(0, 0, 1))
 
         #set volume geometry
         Painting_shape = (self.volume.shape[0],self.volume.shape[1],self.volume.shape[2])
-        vg = ts.volume_vec(Painting_shape,pos=(0,0,0), w=array([[1., 0., 0.]]), v=array([[0., 1., 0.]]), u=array([[0., 0., 1.]]))
+        vg = ts.volume_vec(shape=Painting_shape,pos=(0,0,0), w=(1,0,0), v=(0,1,0), u=(0,0,1))
 
         #Create rotation geometry and apply
-        angles = np.linspace(0, 2*np.pi, 180, endpoint=False)
+        angles = np.linspace(np.pi/2, 2*np.pi+np.pi/2, self.n_proj, endpoint=False)
         axis_pos = (0,0,0)
         axis_direction = (1,0,0)
         R = ts.rotate(pos=axis_pos, axis=axis_direction, angles=angles)
         vg_rot = R * vg
+        
+        #Create SVG visuals 
         #self.visual_rot(R,vg)
         #self.visual_CT(pg,vg)
+
         return ts.operator(vg_rot, pg)
 
     @staticmethod

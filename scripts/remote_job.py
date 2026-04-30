@@ -3,6 +3,7 @@ import pickle
 from Classes.mu import Attenuation
 from Classes.Generator import Painting_generator
 from CT_tomosipo import Tomo
+import numpy as np
 
 
 ######## main #######
@@ -18,13 +19,13 @@ painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], par
 print(painting.volume.shape)
 
 #CT with tomosipo
-pixel = 1 
 det_row = params['det_x']
 det_col = params['det_y']
-CT_tomosipo = Tomo(painting.volume,pixel,det_row,det_col,params['SO'],params['OD'])
+tomo_volume = np.moveaxis(painting.volume,0,-1)
+CT_tomosipo = Tomo(tomo_volume,params['n_proj'],det_row,det_col,params['SO'],params['OD'])
 
 A = CT_tomosipo.operator()
-projections = A(painting.volume)
+projections = A(tomo_volume)
 
 print(f"Shape: {projections.shape}")
 print(f"Type: {projections.dtype}")
