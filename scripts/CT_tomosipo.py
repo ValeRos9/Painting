@@ -3,17 +3,17 @@ import torch
 import numpy as np
 from os import mkdir
 from os.path import join, isdir
-from imageio import get_writer, imwrite
 from timeit import default_timer as timer
+import tifffile
 
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
 #. We've got tomosipo on the remote, changed remote conda env from Painting to tomo_env
-#. Make reconstruction work, saving both projections, reconstructions
+#. We need to check if projections and reconstruction are visually sound 
 #. Figure out SVG and the jupyter notebook
-#. create a separate class, within the remote but not locally sthg like this 
 #. Figure out how to implement varying geometries 
+#. Update the layout 
 
 class Tomo:
 
@@ -64,19 +64,22 @@ class Tomo:
         print(f"SIRT finished in {timer() - start:0.2f} seconds using PyTorch")
         return x_rec
 
-    def save_projections(folder,projections):
+    def save_projections(self,folder,projections):
             if not isdir(folder):
                 mkdir(folder)
+            projections /= np.max(projections) #normalization, not sure if i need to do it here or after ?
             projections = np.round(projections * 65535).astype(np.uint16)
             for i in range(projections.shape[1]):
                 projection = projections[:, i, :]
-                with get_writer(join(folder, 'proj%04d.tif' %i)) as writer:
-                    writer.append_data(projection, {'compress': 9})
+                tifffile.imwrite(join(folder, 'proj%04d.tif' % i),projection, compression='zlib') 
 
-    def save_reconstruction(folder,reconstruction):
+    def save_reconstruction(self,folder,reconstruction):
             if not isdir(folder):
                 mkdir(folder)
+            reconstruction[reconstruction < 0] = 0 #Unsure if you should do this here ?
+            reconstruction /= np.max(reconstruction)
+            reconstruction = np.round(reconstruction * 255).astype(np.uint8)
             for i in range(reconstruction.shape[0]):
                 im = reconstruction[i, :, :]
                 im = np.flipud(im)
-                imwrite(join(folder, 'reco%04d.png' % i), im)
+                tifffile.imwrite(join(folder, 'reco%04d.tif' % i),im,compression='zlib')

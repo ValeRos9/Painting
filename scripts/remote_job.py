@@ -7,19 +7,6 @@ from Classes.Tomography import Tomography
 from CT_tomosipo import Tomo
 
 
-def CT_ASTRA(painting, SO, OD, n_proj,geometry_type,det_x,det_y, spacing_x, spacing_y,algorithm):
-    #Generate Projection Geometry
-    Geom = Geometry(painting, SO, OD, n_proj,geometry_type,det_x,det_y, spacing_x, spacing_y)
-    proj_geom = Geom.projection()
-
-    #Perform Tomography 
-    tomo = Tomography(painting, proj_geom, algorithm)
-    projections = tomo.project()
-    tomo.save_projections('projections',projections)
-    slices = tomo.reconstruct(projections)
-    tomo.save_reconstruction('slices',slices)
-
-
 ######## main #######
 with open(sys.argv[1], "rb") as f:
     params = pickle.load(f)
@@ -34,17 +21,19 @@ print(painting.volume.shape)
 
 
 #CT with tomosipo
-CT = Tomo(painting.volume,'standard',params['det_x'], params['det_y'])
-A = CT.operator()
+CT_tomosipo = Tomo(painting.volume,'standard',params['det_x'], params['det_y'])
+A = CT_tomosipo.operator()
 projections = A(painting.volume)
-print(projections.shape, type(projections[0]))
-CT.save_projections('projections',projections)
-reconstructions = reconstruction(projections,A)
-print(reconstructions.shape)
 
-#Classic tomography with ASTRA 
-# CT_ASTRA(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
-#     params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y'],params['algorithm'])
+print(f"Shape: {projections.shape}")
+print(f"Type: {projections.dtype}")
+print(f"Expected shape logic: Angles={projections.shape[0] if len(projections.shape)==3 else 'Unknown'}, DetY={projections.shape[1]}, DetX={projections.shape[2]}")
+print(projections.shape)
+
+CT_tomosipo.save_projections('projections',projections)
+slices = CT.reconstruction(projections,A)
+CT_tomosipo.save_reconstruction('slices',slices)
+print(slices.shape)
 
 
 #Save projection image at angle 0 
@@ -53,3 +42,5 @@ with open("projections/proj0000.tif", "rb") as f:
 
 with open("result.pkl", "wb") as f:
     pickle.dump(data, f)
+
+
