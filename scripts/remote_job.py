@@ -34,7 +34,7 @@ print(painting.volume.shape)
 
 
 #CT with tomosipo
-CT = Tomo('standard',painting.volume,params['det_x'], params['det_y'])
+CT = Tomo(painting.volume,'standard',params['det_x'], params['det_y'])
 A = CT.operator()
 projections = A(painting.volume)
 print(projections.shape, type(projections[0]))
