@@ -43,7 +43,7 @@ def operator(standard,obj,det_x,det_y):
     c_pos = (0,0,0)
     if standard == 'standard':
         vg0 = ts.volume(shape=vol_dim, pos=c_pos, size=(1,1,1))
-        R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 10, endpoint=False))
+        R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 180, endpoint=False))
         vg = R * vg0.to_vec()
     else:
         vg = ts.volume_vec(vol_dim, pos=c_pos, w=array([[1., 0., 0.]]), v=array([[0., 1., 0.]]), u=array([[0., 0., 1.]]))
@@ -113,7 +113,7 @@ A = operator(keyword,painting.volume,params['det_x'], params['det_y'])
 projections = A(painting.volume)
 print(projections.shape, type(projections[0]))
 #save_projections('projections',projections)
-reconstructions = reconstruct(projections,A)
+reconstructions = reconstruction(projections,A)
 print(reconstructions.shape)
 
 
