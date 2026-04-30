@@ -32,18 +32,19 @@ painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], par
     params['layers'], params['N_spheres'],params['radius']).paint()
 print(painting.volume.shape)
 
-#Classic tomography with ASTRA 
-# CT_ASTRA(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
-#     params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y'],params['algorithm'])
 
 #CT with tomosipo
-CT = Tomo(keyword,painting.volume,params['det_x'], params['det_y'])
+CT = Tomo('standard',painting.volume,params['det_x'], params['det_y'])
 A = CT.operator
 projections = A(painting.volume)
 print(projections.shape, type(projections[0]))
 CT.save_projections('projections',projections)
 reconstructions = reconstruction(projections,A)
 print(reconstructions.shape)
+
+#Classic tomography with ASTRA 
+# CT_ASTRA(painting, params['SO'], params['OD'], params['n_proj'],params['geometry_type'],
+#     params['det_x'], params['det_y'],params['spacing_x'], params['spacing_y'],params['algorithm'])
 
 
 #Save projection image at angle 0 
