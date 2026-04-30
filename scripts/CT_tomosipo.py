@@ -17,27 +17,40 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,volume,word,det_x,det_y,):
+    def __init__(self,volume,det_row,det_col,SO,OD):
         self.volume = volume
-        self.word = word
-        self.det_x = det_x
-        self.det_y = det_y
+        self.det_row = det_row
+        self.det_col = det_col
+        self.SO = SO
+        self.OD = OD
 
-    def operator(self):
-        pixel = 1
-        detector_shape = (self.det_x,self.det_y)
-        s_pos = (0,0,0)
-        d_pos = (0,4,0)
-        pg = ts.cone_vec(shape=detector_shape, src_pos=s_pos, det_pos=d_pos, det_v=(pixel, 0, 0), det_u=(0, 0, pixel))
-        vol_dim = (self.volume.shape[0],self.volume.shape[1],self.volume.shape[2])
-        c_pos = (0,0,0)
-        if self.word == 'standard':
-            vg0 = ts.volume(shape=vol_dim, pos=c_pos, size=(1,1,1))
-            R = ts.rotate(pos=(0,0,0), axis=(1, 0, 0), angles=np.linspace(0, 2*np.pi, 180, endpoint=False))
-            vg = R * vg0.to_vec()
-        else:
-            vg = ts.volume_vec(vol_dim, pos=c_pos, w=array([[1., 0., 0.]]), v=array([[0., 1., 0.]]), u=array([[0., 0., 1.]]))
-        return ts.operator(vg, pg)
+    def operator(self,det_row,det_col,SO,OD):
+        
+        #set projection geometry
+        pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,-SO,0), det_pos=(0,OD,0), det_v=(1, 0, 0), det_u=(0, 0, 1))
+
+        #set volume geometry
+        Painting_shape = (self.volume.shape[0],self.volume.shape[1],self.volume.shape[2])
+        vg = ts.volume_vec(Painting_shape,pos=(0,0,0), w=array([[1., 0., 0.]]), v=array([[0., 1., 0.]]), u=array([[0., 0., 1.]]))
+
+        #Create rotation geometry and apply
+        angles = np.linspace(0, 2*np.pi, 180, endpoint=False)
+        axis_pos = (0,0,0)
+        axis_direction = (1,0,0)
+        R = ts.rotate(pos=axis_pos, axis=axis_direction, angles=angles)
+        vg_rot = R * vg
+        #self.visual_rot(R,vg)
+        #self.visual_CT(pg,vg)
+        return ts.operator(vg_rot, pg)
+
+    @staticmethod
+    def visual_rot(R,vg):
+        ts.svg(R * vg).save("rotation.svg")
+
+    @staticmethod
+    def visual_CT(pg,vg):
+        P = ts.from_perspective(vol=pg.to_vol())
+        ts.svg(P * vg, P * pg).save("CT.svg")
     
     def reconstruction(self,y,A):
         # Prepare preconditioning matrices R and C

@@ -2,8 +2,6 @@ import sys
 import pickle
 from Classes.mu import Attenuation
 from Classes.Generator import Painting_generator
-from Classes.Geometry import Geometry
-from Classes.Tomography import Tomography
 from CT_tomosipo import Tomo
 
 
@@ -19,9 +17,12 @@ painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], par
     params['layers'], params['N_spheres'],params['radius']).paint()
 print(painting.volume.shape)
 
-
 #CT with tomosipo
-CT_tomosipo = Tomo(painting.volume,'standard',params['det_x'], params['det_y'])
+pixel = 1 
+det_row = params['det_x']
+det_col = params['det_y']
+CT_tomosipo = Tomo(painting.volume,pixel,det_row,det_col,params['SO'],params['OD'])
+
 A = CT_tomosipo.operator()
 projections = A(painting.volume)
 
@@ -31,7 +32,8 @@ print(f"Expected shape logic: Angles={projections.shape[0] if len(projections.sh
 print(projections.shape)
 
 CT_tomosipo.save_projections('projections',projections)
-slices = CT.reconstruction(projections,A)
+
+slices = CT_tomosipo.reconstruction(projections,A)
 CT_tomosipo.save_reconstruction('slices',slices)
 print(slices.shape)
 
