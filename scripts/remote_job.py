@@ -10,6 +10,7 @@ import numpy as np
 from os import mkdir
 from os.path import join, isdir
 from imageio import get_writer, imwrite
+from timeit import default_timer as timer
 
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
@@ -66,6 +67,7 @@ def reconstruction(y,A):
 
     # Perform algorithm
     start = timer()
+    num_iters = 100
     for i in range(num_iters):
         x_rec += C * A.T(R * (y - A(x_rec)))
 
