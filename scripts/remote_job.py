@@ -111,8 +111,8 @@ print(painting.volume.shape)
 keyword = 'standard'
 A = operator(keyword,painting.volume,params['det_x'], params['det_y'])
 projections = A(painting.volume)
-save_projections('projections',projections)
-#reconstructions = reconstruct(projections,A)
+#save_projections('projections',projections)
+reconstructions = reconstruct(projections,A)
 
 
 #Save projection image at angle 0 
