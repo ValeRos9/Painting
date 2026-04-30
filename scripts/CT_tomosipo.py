@@ -64,7 +64,6 @@ class Tomo:
         print(f"SIRT finished in {timer() - start:0.2f} seconds using PyTorch")
         return x_rec
 
-@staticmethod
 def save_projections(folder,projections):
         if not isdir(folder):
             mkdir(folder)
@@ -74,7 +73,6 @@ def save_projections(folder,projections):
             with get_writer(join(folder, 'proj%04d.tif' %i)) as writer:
                 writer.append_data(projection, {'compress': 9})
 
-@staticmethod  
 def save_reconstruction(folder,reconstruction):
         if not isdir(folder):
             mkdir(folder)
