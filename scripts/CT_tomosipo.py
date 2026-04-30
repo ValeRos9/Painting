@@ -29,7 +29,7 @@ class Tomo:
         s_pos = (0,0,0)
         d_pos = (0,4,0)
         pg = ts.cone_vec(shape=detector_shape, src_pos=s_pos, det_pos=d_pos, det_v=(pixel, 0, 0), det_u=(0, 0, pixel))
-        vol_dim = (obj.shape[0],obj.shape[1],obj.shape[2])
+        vol_dim = (self.volume.shape[0],self.volume.shape[1],self.volume.shape[2])
         c_pos = (0,0,0)
         if self.word == 'standard':
             vg0 = ts.volume(shape=vol_dim, pos=c_pos, size=(1,1,1))
