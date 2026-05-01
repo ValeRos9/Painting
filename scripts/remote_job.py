@@ -2,6 +2,13 @@ import sys, pickle
 from Classes.Generator import Painting_generator
 from CT_tomosipo import Tomo
 
+def safe_read(path):
+    try:
+        with open(path, "rb") as f:
+            return f.read()
+    except FileNotFoundError:
+        return None
+
 # Load params
 with open(sys.argv[1], "rb") as f: 
     params = pickle.load(f)
@@ -21,7 +28,7 @@ Nx, Ny, n_slices = 256, 256, 1
 CT_tomosipo = Tomo(painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Ny, n_slices)
 A = CT_tomosipo.operator() 
 
-# Run Sim & Save
+
 projections = CT_tomosipo.projections(A)
 CT_tomosipo.save_projections('projections', projections)
 
@@ -29,13 +36,11 @@ slices = CT_tomosipo.reconstruction(projections, A)
 CT_tomosipo.save_reconstruction('slices', slices)
 
 # Package & Send (Safe read: handles missing files gracefully)
-result_package = {}
-file_map = {"tiff": "projections/proj0000.tif", "rotation_svg": "rotation.svg", "ct_svg": "CT.svg"}
-
-for key, path in file_map.items():
-    with open(path, "rb") as f: 
-        result_package[key] = f.read()
-        result_package[key] = None
+result_package = {
+    "tiff": safe_read("projections/proj0000.tif"),
+    "rotation_svg": safe_read("rotation.svg"),
+    "ct_svg": safe_read("CT.svg"),
+}
 
 with open("result.pkl", "wb") as f:
     pickle.dump(result_package, f)

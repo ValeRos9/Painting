@@ -5,33 +5,35 @@ def run_remotely(params):
     USER_HOST = "rosariovr@carbonite"
     REMOTE_DIR = "/data/rosariovr/Painting"
     
-    with open("params.pkl", "wb") as f: 
+    # Save params
+    with open("params.pkl", "wb") as f:
         pickle.dump(params, f)
 
-    # Upload, Run, Download
-    os.system(f"scp params.pkl {USER_HOST}:{REMOTE_DIR}/ && "
-              f"ssh {USER_HOST} 'cd {REMOTE_DIR} && PYTHONPATH={REMOTE_DIR} conda run -n tomo_env python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
-              f"scp {USER_HOST}:{REMOTE_DIR}/result.pkl . && "
-              f"scp {USER_HOST}:{REMOTE_DIR}/rotation.svg . && "
-              f"scp {USER_HOST}:{REMOTE_DIR}/CT.svg .")
+    # Upload → Run → Download (only result.pkl)
+    os.system(
+        f"scp params.pkl {USER_HOST}:{REMOTE_DIR}/ && "
+        f"ssh {USER_HOST} 'cd {REMOTE_DIR} && "
+        f"PYTHONPATH={REMOTE_DIR} conda run -n tomo_env "
+        f"python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
+        f"scp {USER_HOST}:{REMOTE_DIR}/result.pkl ."
+    )
 
-    # Unpack dictionary
-    with open("result.pkl", "rb") as f: 
+    # Load results
+    with open("result.pkl", "rb") as f:
         data = pickle.load(f)
-    
-    with open("proj0000.tif", "wb") as f: 
-        f.write(data["tiff"])
 
-    if data.get("rotation_svg"): 
-        with open("rotation.svg", "wb") as f: 
-            f.write(data["rotation_svg"])
-            
-    if data.get("ct_svg"): 
-        with open("CT.svg", "wb") as f: 
-            f.write(data["ct_svg"])
+    if data.get("tiff"):
+        open("proj0000.tif", "wb").write(data["tiff"])
+
+    if data.get("rotation_svg"):
+        open("rotation.svg", "wb").write(data["rotation_svg"])
+
+    if data.get("ct_svg"):
+        open("CT.svg", "wb").write(data["ct_svg"])
 
     os.system("open -a ImageJ proj0000.tif")
     os.system("open rotation.svg")
     os.system("open CT.svg")
+
 
 User_interface(target=run_remotely).run()
