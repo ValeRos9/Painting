@@ -13,8 +13,7 @@ def run_remotely(params):
     os.system(
         f"scp params.pkl {USER_HOST}:{REMOTE_DIR}/ && "
         f"ssh {USER_HOST} 'cd {REMOTE_DIR} && "
-        f"PYTHONPATH={REMOTE_DIR} conda run -n tomo_env "
-        f"python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
+        f"PYTHONPATH={REMOTE_DIR} conda run -n tomo_env python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
         f"scp {USER_HOST}:{REMOTE_DIR}/result.pkl ."
     )
 

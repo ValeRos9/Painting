@@ -3,11 +3,9 @@ from Classes.Generator import Painting_generator
 from CT_tomosipo import Tomo
 
 def safe_read(path):
-    try:
         with open(path, "rb") as f:
             return f.read()
-    except FileNotFoundError:
-        return None
+
 
 # Load params
 with open(sys.argv[1], "rb") as f: 
@@ -27,7 +25,6 @@ Nx, Ny, n_slices = 256, 256, 1
 # Perform CT (Triggers SVG generation inside Tomo.operator)
 CT_tomosipo = Tomo(painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Ny, n_slices)
 A = CT_tomosipo.operator() 
-
 
 projections = CT_tomosipo.projections(A)
 CT_tomosipo.save_projections('projections', projections)
