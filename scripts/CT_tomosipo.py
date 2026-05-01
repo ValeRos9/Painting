@@ -4,7 +4,9 @@ import numpy as np
 from os import mkdir
 from os.path import join, isdir
 from timeit import default_timer as timer
+from scipy.ndimage import zoom
 import tifffile
+
 
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
@@ -17,29 +19,36 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,volume,n_proj,det_row,det_col,SO,OD,Nx,Ny,Nslices):
+    def __init__(self,volume,n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,Nx,Ny,Nslices):
         self.volume = np.moveaxis(volume,0,-1)
         self.n_proj = n_proj
         self.det_row = det_row
         self.det_col = det_col
         self.SO = SO
         self.OD = OD
+        self.spacing_x = spacing_x
+        self.spacing_y = spacing_y
         self.Nx = Nx
         self.Ny = Ny
         self.Nslices = Nslices
+        print(self.volume.shape)
 
     def operator(self):
-        #set projection geometry
+        #set projection geometry (handles resolution,sampling, etc of projection images)
         pg = ts.cone_vec(shape=(self.det_row,self.det_col), src_pos=(0,-self.SO,0), det_pos=(0,self.OD,0), 
-            det_v=(1, 0, 0), det_u=(0, 0, 1))
+            det_v=(self.spacing_x, 0, 0), det_u=(0, 0, self.spacing_y))
+        #example: if det_row= 512 (amount of pixels) and det_v=0.5 (pixel_step) -> 512x0.5=256 (physical size)
         print(pg)
 
-        #set volume geometry
+        #set volume geometry (handles resolution,sampling, etc of reconstruction images)
         dw = self.volume.shape[0]/self.Nx
         dv = self.volume.shape[1]/self.Ny
         du = self.volume.shape[2]/self.Nslices
+
         vg = ts.volume_vec(shape=(self.Nx,self.Ny,self.Nslices),pos=(0,0,0), 
             w=(dw,0,0), v=(0,dv,0), u=(0,0,du))
+        print(vg)
+        #example: if Nx = 256 (pixels) and dw = 100/256 (pixel_step) -> 256x100/256=100 (physical size)
 
         #Create rotation geometry and apply
         angles = np.linspace(np.pi/2, 2*np.pi+np.pi/2, self.n_proj, endpoint=False)
@@ -49,8 +58,8 @@ class Tomo:
         vg_rot = R * vg
         
         #Create SVG visuals 
-        #self.visual_rot(R,vg)
-        #self.visual_CT(pg,vg)
+        self.visual_rot(R,vg)
+        self.visual_CT(pg,vg)
 
         return ts.operator(vg_rot, pg)
     
@@ -100,6 +109,7 @@ class Tomo:
 
         # Convert reconstruction back to numpy array
         x_rec = x_rec.cpu().numpy()
+        print("x_rec",x_rec.shape)
         print(f"SIRT finished in {timer() - start:0.2f} seconds using PyTorch")
         return x_rec
 
@@ -119,7 +129,7 @@ class Tomo:
             reconstruction /= np.max(reconstruction)
             reconstruction = np.round(reconstruction * 255).astype(np.uint8)
             print("shaper",reconstruction.shape)
-            for i in range(reconstruction.shape[0]):
-                im = reconstruction[i, :, :]
-                im = np.flipud(im)
+            for i in range(reconstruction.shape[2]):
+                im = reconstruction[:, :, i]
+                #im = np.flipud(im)
                 tifffile.imwrite(join(folder, 'reco%04d.tif' % i),im,compression='zlib')

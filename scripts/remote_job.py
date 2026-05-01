@@ -19,16 +19,19 @@ painting = Painting_generator(params['E'],params['pigment'],params['dim_x'], par
 print(painting.volume.shape)
 
 #CT with tomosipo
+n_proj = params['n_proj']
 det_row = params['det_x']
 det_col = params['det_y']
-n_proj = params['n_proj']
+spacing_x = params['spacing_x']
+spacing_y = params['spacing_y']
 SO = params['SO']
 OD = params['OD']
 Nx = 256
 Ny = 256
-slices = 100
+n_slices = 100
 
-CT_tomosipo = Tomo(painting.volume,n_proj,det_row,det_col,SO,OD,Nx,Ny,slices)
+#Perfom CT 
+CT_tomosipo = Tomo(painting.volume,n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,Nx,Ny,n_slices)
 
 A = CT_tomosipo.operator()
 
@@ -39,12 +42,18 @@ slices = CT_tomosipo.reconstruction(projections,A)
 CT_tomosipo.save_reconstruction('slices',slices)
 print(slices.shape)
 
+files_to_send = {
+    "tiff": "projections/proj0000.tif",
+    "rotation_svg": "rotation.svg",
+    "ct_svg": "CT.svg"
+}
 
-#Save projection image at angle 0 
-with open("projections/proj0000.tif", "rb") as f:
-    data = f.read()
+result_package = {}
+for key, path in files_to_send.items():
+    with open(path, "rb") as f:
+        result_package[key] = f.read()
 
 with open("result.pkl", "wb") as f:
-    pickle.dump(data, f)
+    pickle.dump(result_package, f)
 
 
