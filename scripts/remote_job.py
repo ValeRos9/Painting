@@ -17,6 +17,8 @@ print("Running on remote GPU server...")
 painting = Painting_generator(params['E'], params['pigment'], params['dim_x'], params['dim_y'], 
                               params['layers'], params['N_spheres'], params['radius']).paint()
 
+print(painting.volume.shape)
+
 # CT Setup
 n_proj, det_row, det_col = params['n_proj'], params['det_x'], params['det_y']
 spacing_x, spacing_y, SO, OD = params['spacing_x'], params['spacing_y'], params['SO'], params['OD']

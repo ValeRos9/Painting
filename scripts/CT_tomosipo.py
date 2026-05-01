@@ -69,12 +69,6 @@ class Tomo:
         order=1)
         projections = A(tomo_resampled)
 
-        print("test projections")
-        print(f"Shape: {projections.shape}")
-        print(f"Type: {projections.dtype}")
-        print(f"Expected shape logic: Angles={projections.shape[0] if len(projections.shape)==3 else 'Unknown'}, DetY={projections.shape[1]}, DetX={projections.shape[2]}")
-        print(projections.shape)
-
         return projections
 
     @staticmethod
@@ -87,7 +81,6 @@ class Tomo:
         ts.svg(P * vg, P * pg).save("CT.svg")
     
     def reconstruction(self,y,A):
-        print("domain_shape",A.domain_shape)
         # Prepare preconditioning matrices R and C
         R = 1 / A(np.ones(A.domain_shape))
         R = np.minimum(R, 1 / ts.epsilon)
@@ -109,7 +102,6 @@ class Tomo:
 
         # Convert reconstruction back to numpy array
         x_rec = x_rec.cpu().numpy()
-        print("x_rec",x_rec.shape)
         print(f"SIRT finished in {timer() - start:0.2f} seconds using PyTorch")
         return x_rec
 
@@ -120,6 +112,8 @@ class Tomo:
             projections = np.round(projections * 65535).astype(np.uint16)
             for i in range(projections.shape[1]):
                 projection = projections[:, i, :]
+                if i ==0: 
+                    print(projection.shape)
                 tifffile.imwrite(join(folder, 'proj%04d.tif' % i),projection, compression='zlib') 
 
     def save_reconstruction(self,folder,reconstruction):
@@ -128,7 +122,6 @@ class Tomo:
             reconstruction[reconstruction < 0] = 0 #Unsure if you should do this here ?
             reconstruction /= np.max(reconstruction)
             reconstruction = np.round(reconstruction * 255).astype(np.uint8)
-            print("shaper",reconstruction.shape)
             for i in range(reconstruction.shape[2]):
                 im = reconstruction[:, :, i]
                 #im = np.flipud(im)
