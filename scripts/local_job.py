@@ -21,12 +21,14 @@ def run_remotely(params):
     
     with open("proj0000.tif", "wb") as f: 
         f.write(data["tiff"])
+
     if data.get("rotation_svg"): 
         with open("rotation.svg", "wb") as f: 
-        f.write(data["rotation_svg"])
+            f.write(data["rotation_svg"])
+            
     if data.get("ct_svg"): 
         with open("CT.svg", "wb") as f: 
-        f.write(data["ct_svg"])
+            f.write(data["ct_svg"])
 
     os.system("open -a ImageJ proj0000.tif")
     os.system("open rotation.svg")
