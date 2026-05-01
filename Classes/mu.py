@@ -1,4 +1,3 @@
-
 import xraylib as xray
 import periodictable as ptable
 import chemparse as chp
@@ -55,3 +54,21 @@ class Attenuation:
     def cs_total(Z, E):
         """Cache expensive cross-section calls."""
         return xray.CS_Total(Z, E)
+    
+
+    #Fred notes:
+    # 1. Linear attenuation coefficient is what you get from an unknown composition reconstruction 
+    # mu = [cm^-1]
+    # mu/rho * rho =
+    # 2. Maybe x-ray lib can do it more directly 
+    # 3. Ground layer, like painting structure, chalk or lead white or a mixture in linseed oil,
+    # with thicker spheres 
+    # 4. Canvas -> textile fiber (but what type won't matter much to the CT)
+    #paint+groung = 0.5mm, and canvas = 1mm
+    # 10^5 x 10^5 x 10^2 microns - 100'000 spheres with radius 1 microns 
+
+    # 10^6 x 10^6 x 10^4 - 100'000 spheres with radius 5 microns 
+
+    # r = 5 microns = 5
+    # y = 1 m = 1 x 10 ^6 microns 
+    # depth = 1 m = 100 cm
