@@ -112,8 +112,6 @@ class Tomo:
             projections = np.round(projections * 65535).astype(np.uint16)
             for i in range(projections.shape[1]):
                 projection = projections[:, i, :]
-                if i ==0: 
-                    print(projection.shape)
                 tifffile.imwrite(join(folder, 'proj%04d.tif' % i),projection, compression='zlib') 
 
     def save_reconstruction(self,folder,reconstruction):
