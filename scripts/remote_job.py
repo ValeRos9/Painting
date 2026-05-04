@@ -14,7 +14,7 @@ with open(sys.argv[1], "rb") as f:
 print("Running on remote GPU server...")
 
 # Create Painting
-painting = Painting_generator(params['E'], params['pigment'], params['dim_x'], params['dim_y'], 
+painting = Painting_generator(params['E'], params['pigment'], params['height'], params['width'], 
                               params['layers'], params['N_spheres'], params['radius']).paint()
 
 print("Shape of the painting",painting.volume.shape)

@@ -8,11 +8,11 @@ from .mu import Attenuation
 
 
 class Painting_generator:
-    def __init__(self,E,pigment,dim_x,dim_y,layers,N_spheres,radius):
+    def __init__(self,E,pigment,height,width,layers,N_spheres,radius):
         self.E = E
         self.pigment = pigment
-        self.dim_x = dim_x
-        self.dim_y = dim_y
+        self.height = height
+        self.width = width
         self.layers = layers #this is a dict 
         self.N_spheres = N_spheres 
         self.radius = radius
@@ -22,7 +22,7 @@ class Painting_generator:
 
         #Create volume
         total_thickness = sum(count for count in self.layers.values())
-        volume = np.empty((total_thickness,self.dim_y,self.dim_x)) #I changed this 
+        volume = np.empty((total_thickness,self.width,self.height)) #I changed this 
 
         i = 0
         mu_rho = Attenuation(self.E)

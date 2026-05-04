@@ -55,7 +55,7 @@ class User_interface:
         p = self.entries
         return {
             'E': int(p['E'].get()), 'pigment': p['pigment'].get(),
-            'height': int(p['dim_x'].get()), 'width': int(p['dim_y'].get()),
+            'height': int(p['height'].get()), 'width': int(p['width'].get()),
             'layers': ast.literal_eval(p['layers'].get()),
             'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),
             'SO': float(p['SO'].get()), 'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),
