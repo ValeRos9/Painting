@@ -42,7 +42,7 @@ class Painting_generator:
             else:
                 #Remember your missing the ground layer value, and you need to put typex
                 #mu.value(typex) not mu.value('W')
-                volume[i:i+thickness,:,:]= 0#mu_rho.value('W')
+                volume[i:i+thickness,:,:]= 0.2#mu_rho.value('W')
                 #print("mu_wood",mu_rho.value('W'))
 
             i += thickness
