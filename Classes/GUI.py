@@ -39,7 +39,6 @@ class User_interface:
             ("SO []","SO",1000),("OD []","OD",200),("N Projections","n_proj",1),
             ("Det X []","det_x",256),("Det Y []","det_y",256),
             ("Spacing X []","spacing_x",1.0),("Spacing Y []","spacing_y",1.0),
-            ("Geometry Type","geometry_type","cone"),("Recon Method","algorithm","FDK_CUDA")
         ]
 
         for parent, fields in [(s1,f1),(s2,f2)]:
@@ -62,7 +61,6 @@ class User_interface:
             'SO': float(p['SO'].get()), 'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),
             'det_x': int(p['det_x'].get()), 'det_y': int(p['det_y'].get()),
             'spacing_x': float(p['spacing_x'].get()), 'spacing_y': float(p['spacing_y'].get()),
-            'geometry_type': p['geometry_type'].get(), 'algorithm': p['algorithm'].get()
         }
 
     def _execute(self):

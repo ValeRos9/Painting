@@ -41,11 +41,11 @@ class Tomo:
         print(pg)
 
         #set volume geometry (handles resolution,sampling, etc of reconstruction images)
-        dw = self.volume.shape[0]/self.Nx
-        dv = self.volume.shape[1]/self.Ny
-        du = self.volume.shape[2]/self.Nslices
+        dw = self.volume.shape[0]/self.Nslices
+        dv = self.volume.shape[1]/self.Nx
+        du = self.volume.shape[2]/self.Ny
 
-        vg = ts.volume_vec(shape=(self.Nx,self.Ny,self.Nslices),pos=(0,0,0), 
+        vg = ts.volume_vec(shape=(self.Nslices,self.Nx,self.Ny),pos=(0,0,0), 
             w=(dw,0,0), v=(0,dv,0), u=(0,0,du))
         print(vg)
         #example: if Nx = 256 (pixels) and dw = 100/256 (pixel_step) -> 256x100/256=100 (physical size)
@@ -65,7 +65,7 @@ class Tomo:
     
     def projections(self,A):
         tomo_resampled = zoom(self.volume, 
-        zoom=(self.Nx/self.volume.shape[0], self.Ny/self.volume.shape[1], self.Nslices/self.volume.shape[2]), 
+        zoom=(self.Nslices/self.volume.shape[0], self.Nx/self.volume.shape[1], self.Ny/self.volume.shape[2]), 
         order=1)
         projections = A(tomo_resampled)
 
@@ -120,7 +120,7 @@ class Tomo:
             reconstruction[reconstruction < 0] = 0 #Unsure if you should do this here ?
             reconstruction /= np.max(reconstruction)
             reconstruction = np.round(reconstruction * 255).astype(np.uint8)
-            for i in range(reconstruction.shape[2]):
-                im = reconstruction[:, :, i]
+            for i in range(reconstruction.shape[0]):
+                im = reconstruction[i, :, :]
                 #im = np.flipud(im)
                 tifffile.imwrite(join(folder, 'reco%04d.tif' % i),im,compression='zlib')
