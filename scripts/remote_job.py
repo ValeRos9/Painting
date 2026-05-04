@@ -17,14 +17,14 @@ print("Running on remote GPU server...")
 painting = Painting_generator(params['E'], params['pigment'], params['dim_x'], params['dim_y'], 
                               params['layers'], params['N_spheres'], params['radius']).paint()
 
-print(painting.volume.shape)
+print("Shape of the painting",painting.volume.shape)
 
 # CT Setup
 n_proj, det_row, det_col = params['n_proj'], params['det_x'], params['det_y']
 spacing_x, spacing_y, SO, OD = params['spacing_x'], params['spacing_y'], params['SO'], params['OD']
-Nx = 128
-Ny = 128
-n_slices = 10
+Nx = 40
+Ny = 14
+n_slices = 80
 
 # Perform CT (Triggers SVG generation inside Tomo.operator)
 CT_tomosipo = Tomo(painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Ny, n_slices)

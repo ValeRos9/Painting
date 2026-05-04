@@ -31,7 +31,7 @@ class User_interface:
 
         f1 = [
             ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
-            ("Dim X []","dim_x",100),("Dim Y []","dim_y",100),
+            ("Height []","height",100),("Width []","width",100),
             ("Layers {'type':thickness[]}","layers","{'P': 10, 'G': 2, 'W': 2}"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
         ]
@@ -55,7 +55,7 @@ class User_interface:
         p = self.entries
         return {
             'E': int(p['E'].get()), 'pigment': p['pigment'].get(),
-            'dim_x': int(p['dim_x'].get()), 'dim_y': int(p['dim_y'].get()),
+            'height': int(p['dim_x'].get()), 'width': int(p['dim_y'].get()),
             'layers': ast.literal_eval(p['layers'].get()),
             'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),
             'SO': float(p['SO'].get()), 'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),

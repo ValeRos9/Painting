@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a" height="200" width="320">
+      <title>Click to pause/unpause, press and hold to scroll through animation</title>
+        <g>
+          <path d="M0,200 h0.0 v-5.0 h-0.0 Z" fill="black" stroke="none" fill-opacity="0.2"/>
+          <polyline points="16.00 20.00 14.40 6.28" stroke="rgb(255, 0, 0)" fill="none" stroke-width="1.00"/>
+<polyline points="16.00 20.00 30.20 18.63" stroke="rgb(0, 255, 0)" fill="none" stroke-width="1.00"/>
+<polyline points="16.00 20.00 17.65 23.88" stroke="rgb(0, 0, 255)" fill="none" stroke-width="1.00"/>
+<polyline points="-229.61 768.65 -347.68 1397.81" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="372.04 495.40 543.39 753.97" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="2735.36 4492.91 701.12 1109.06" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="1273.06 -2745.34 -2724.34 5050.16" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="-229.61 768.65 372.04 495.40" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="-347.68 1397.81 543.39 753.97" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="2735.36 4492.91 1273.06 -2745.34" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="701.12 1109.06 -2724.34 5050.16" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="-229.61 768.65 2735.36 4492.91" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="-347.68 1397.81 701.12 1109.06" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="372.04 495.40 1273.06 -2745.34" stroke="black" fill="none" stroke-width="1.00"/>
+<polyline points="543.39 753.97 -2724.34 5050.16" stroke="black" fill="none" stroke-width="1.00"/>
+          <animate
+              attributeName="display"
+              values="none;inline;none;none"
+              keyTimes="0;0.0;1.0;1"
+              dur="3s"
+              begin="0s"
+              repeatCount="indefinite" />
+     </g>
+    
+        
+      <script type="text/ecmascript"><![CDATA[
+          function mouse_move_fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a(evt) {
+              if (evt.buttons > 0) {
+                    var root = document.getElementById('fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a');
+                    root.pauseAnimations();
+                    var new_time = 3 * evt.layerX / evt.target.getBBox().width;
+                    root.setCurrentTime(new_time);
+              }
+          }
+          function on_click_fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a(evt) {
+              var root = document.getElementById('fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a');
+              //console.log(root);
+              root.animationsPaused() ? root.unpauseAnimations() : root.pauseAnimations();
+          }
+        ]]>
+      </script>
+
+    
+        <rect x="1" y="1" rx="5" ry="5" onmousemove='mouse_move_fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a(evt)' onclick='on_click_fc8d176ea2149b0cdd7ebedd07432e75b24a606ce45dd3aa2b7dc7c79e57095fd96e41d63b8d62f1f214ac4332076feb2ec87df7a0c349258e904abf2abd449a(evt)' width="318" height="198" stroke="gray" fill="transparent" stroke-width="1"/>
+    </svg>
+    
