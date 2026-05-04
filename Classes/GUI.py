@@ -31,7 +31,7 @@ class User_interface:
 
         f1 = [
             ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
-            ("Height []","height",100),("Width []","width",100),
+            ("Height []","height",80),("Width []","width",40),
             ("Layers {'type':thickness[]}","layers","{'P': 10, 'G': 2, 'W': 2}"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
         ]
