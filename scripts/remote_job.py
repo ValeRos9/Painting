@@ -23,7 +23,7 @@ print("Shape of the painting",painting.volume.shape)
 n_proj, det_row, det_col = params['n_proj'], params['det_x'], params['det_y']
 spacing_x, spacing_y, SO, OD = params['spacing_x'], params['spacing_y'], params['SO'], params['OD']
 Nx = 40
-Nz = 14
+Nz = 24
 n_slices = 80
 
 # Perform CT (Triggers SVG generation inside Tomo.operator)

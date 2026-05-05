@@ -30,7 +30,7 @@ class User_interface:
 
 
         f1 = [
-            ("Energy [keV]","E",100),("Pigment","pigment","Pb"),
+            ("Energy [keV]","E",100),("Pigment","pigment","{'1': ['PbCO3','HgS'], '2': 'PbCO3'}"),
             ("Height []","height",80),("Width []","width",40),
             ("Layers {'type':thickness[]}","layers","{'P': 10, 'G': 2, 'W': 2}"),
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
@@ -54,7 +54,7 @@ class User_interface:
     def _get_params(self):
         p = self.entries
         return {
-            'E': int(p['E'].get()), 'pigment': p['pigment'].get(),
+            'E': int(p['E'].get()), 'pigment': ast.literal_eval(p['pigment'].get()),
             'height': int(p['height'].get()), 'width': int(p['width'].get()),
             'layers': ast.literal_eval(p['layers'].get()),
             'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),

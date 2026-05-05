@@ -65,6 +65,7 @@ class Tomo:
 
     @staticmethod
     def visuals(pg,vg_rot):
+        
         s = ts.scale(0.004)
         align = ts.rotate(pos=(0, 0, 0), axis=(1, 0, 0),angles=[np.pi/2])
 
@@ -72,7 +73,6 @@ class Tomo:
 
     def projections(self, A):
         vol = self.volume  # (80,40,14)
-
         roi = np.zeros(A.domain_shape, dtype=vol.dtype)  # (120,60,21)
 
         # compute offsets (center the object)
@@ -81,9 +81,7 @@ class Tomo:
         off2 = (roi.shape[2] - vol.shape[2]) // 2
 
         roi[off0:off0+vol.shape[0],off1:off1+vol.shape[1],off2:off2+vol.shape[2]] = vol
-
         projections = A(roi)
-
         
         return projections
  
@@ -94,6 +92,7 @@ class Tomo:
         R = np.minimum(R, 1 / ts.epsilon)
         C = 1 / A.T(np.ones(A.range_shape))
         C = np.minimum(C, 1 / ts.epsilon)
+
         # Move all data to GPU:
         dev = torch.device("cuda")
         y = torch.from_numpy(y).to(dev)
