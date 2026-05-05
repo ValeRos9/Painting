@@ -47,7 +47,7 @@ class Painting_generator:
                     #print("mu_pigment",mu.value(self.pigment[str(nbr)]))
             else:
                 volume[i:i+thickness,:,:]= 0.2 #mu.value(typex)
-                print("mu_wood",mu.value(typex))
+                print("mu_wood",mu.value('W'))
             i += thickness
             nbr +=1
 
