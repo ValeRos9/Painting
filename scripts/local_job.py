@@ -27,12 +27,8 @@ def run_remotely(params):
     if data.get("rotation_svg"):
         open("rotation.svg", "wb").write(data["rotation_svg"])
 
-    if data.get("ct_svg"):
-        open("CT.svg", "wb").write(data["ct_svg"])
-
     os.system("open -a ImageJ proj0000.tif")
     os.system("open rotation.svg")
-    os.system("open CT.svg")
 
 
 User_interface(target=run_remotely).run()

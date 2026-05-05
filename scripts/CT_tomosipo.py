@@ -36,8 +36,6 @@ class Tomo:
         #set projection geometry (projections are along z)
         pg = ts.cone_vec(shape=(self.det_row,self.det_col), src_pos=(0,0,-self.SO), det_pos=(0,0,self.OD), 
             det_v=(self.spacing_x, 0, 0), det_u=(0, self.spacing_y, 0))
-        #example: if det_row= 512 (amount of pixels) and det_v=0.5 (pixel_step) -> 512x0.5=256 (physical size)
-        print(pg)
 
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
         scale = 1.5
@@ -53,19 +51,23 @@ class Tomo:
         vg = ts.volume_vec(shape=(self.Nslices,self.Nx,self.Nz),pos=(0,0,0), 
             w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
 
-
         #Create rotation geometry and apply
         axis_pos = (0,0,0)
         axis_direction = (1,0,0)
         R = ts.rotate(pos=axis_pos, axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
-        vg_rot = R * vg
-        
-        #Create SVG visuals 
-        self.visual_rot(R,vg)
-        self.visual_CT(pg,vg)
+        vg_rot = R*vg
 
-        return ts.operator(R*vg, pg)
+        #Create SVG visuals 
+        self.visuals(pg,vg_rot)
+
+        return ts.operator(vg_rot, pg)
     
+
+    @staticmethod
+    def visuals(pg,vg_rot):
+        s = ts.scale(0.005) 
+        ts.svg(s * vg_rot, s * pg).save("rotation.svg")
+
     def projections(self, A):
         vol = self.volume  # (80,40,14)
 
@@ -82,15 +84,7 @@ class Tomo:
 
         
         return projections
-
-    @staticmethod
-    def visual_rot(R,vg):
-        ts.svg(R * vg).save("rotation.svg")
-
-    @staticmethod
-    def visual_CT(pg,vg):
-        P = ts.from_perspective(vol=pg.to_vol())
-        ts.svg(P * vg, P * pg).save("CT.svg")
+ 
     
     def reconstruction(self,y,A):
         # Prepare preconditioning matrices R and C

@@ -40,7 +40,6 @@ CT_tomosipo.save_reconstruction('slices', slices)
 result_package = {
     "tiff": safe_read("projections/proj0000.tif"),
     "rotation_svg": safe_read("rotation.svg"),
-    "ct_svg": safe_read("CT.svg"),
 }
 
 with open("result.pkl", "wb") as f:
