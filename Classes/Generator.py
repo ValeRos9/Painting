@@ -44,11 +44,12 @@ class Painting_generator:
                     # else:
                     #     mu_sphere = mu.value(self.pigment[str(nbr)])
                     centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, 1) #mu_sphere
-                    print("mu_pigment",mu_sphere)
+                    print("mu_pigment",mu.value(self.pigment[str(nbr)])
             else:
                 volume[i:i+thickness,:,:]= 0.2 #mu.value(typex)
                 print("mu_wood",mu.value(typex))
             i += thickness
+            nbr +=1
 
         return Painting(volume)
 
