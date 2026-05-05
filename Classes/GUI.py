@@ -36,7 +36,7 @@ class User_interface:
             ("N Spheres","N_spheres",10),("Radius []","radius",1)
         ]
         f2 = [
-            ("SO []","SO",1000),("OD []","OD",200),("N Projections","n_proj",1),
+            ("SO []","SO",1000),("OD []","OD",200),("N Projections","n_proj",180),
             ("Det X []","det_x",256),("Det Y []","det_y",256),
             ("Spacing X []","spacing_x",1.0),("Spacing Y []","spacing_y",1.0),
         ]
