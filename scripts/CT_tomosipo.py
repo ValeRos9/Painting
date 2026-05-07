@@ -36,7 +36,7 @@ class Tomo:
     def operator(self):
 
         #Generate proj geometry 
-        pg = self.proj_geom(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.spacing_x,self.spacing_y)
+        pg = self.proj_geometry(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.spacing_x,self.spacing_y)
 
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
         scale = 1.5
@@ -69,7 +69,7 @@ class Tomo:
             pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,0,-SO), det_pos=(0,0,OD), 
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
 
-        else beam_geometry == 'parallel':
+        else:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
                 det_v=(pacing_x, 0, 0), det_u=(0,spacing_y, 0))
         return pg 
