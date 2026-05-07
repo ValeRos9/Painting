@@ -30,7 +30,7 @@ class Painting_generator:
         mu = Attenuation(self.E)
         for typex, thickness in self.layers.items():
             
-            if typex == 'P' or 'G':
+            if typex == 'P':
                 volume[i:i+thickness,:,:] = 0.5#mu.value(typex)
                 print("mu_oil",mu.value('O'))
 
