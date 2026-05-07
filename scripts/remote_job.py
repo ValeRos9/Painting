@@ -22,12 +22,11 @@ print("Shape of the painting",painting.volume.shape)
 # CT Setup
 n_proj, det_row, det_col = params['n_proj'], params['det_x'], params['det_y']
 spacing_x, spacing_y, SO, OD = params['spacing_x'], params['spacing_y'], params['SO'], params['OD']
-Nx = 40
-Nz = 14
-n_slices = 80
+Nx,Nz,n_slices = 40,14,80
+beam = 'cone'
 
 # Perform CT (Triggers SVG generation inside Tomo.operator)
-CT_tomosipo = Tomo(painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Nz, n_slices)
+CT_tomosipo = Tomo(beam,painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Nz, n_slices)
 A = CT_tomosipo.operator() 
 
 projections = CT_tomosipo.projections(A)

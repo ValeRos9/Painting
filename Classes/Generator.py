@@ -30,7 +30,7 @@ class Painting_generator:
         mu = Attenuation(self.E)
         for typex, thickness in self.layers.items():
             
-            if typex == 'P':
+            if typex == 'P' or 'G': #if you had G you get a problem with layer[tah,tah] boolean axis 0 and 3, compare 'P' with what works for 'G'
                 volume[i:i+thickness,:,:] = 0.5#mu.value(typex)
                 print("mu_oil",mu.value('O'))
 
@@ -78,6 +78,8 @@ class Painting_generator:
 
             if not collision:
                 centers.append((c0,c1,c2))
+                print(centers)
+                print(layer[c0-r:c0+r+1,c1-r:c1+r+1,c2-r:c2+r+1].shape)
                 layer[c0-r:c0+r+1,c1-r:c1+r+1,c2-r:c2+r+1][mask] = intensity
                 attempts = 0
                 
