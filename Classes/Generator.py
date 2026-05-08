@@ -8,12 +8,13 @@ from .mu import Attenuation
 
 
 class Painting_generator:
-    def __init__(self,E,pigment,height,width,layers,N_spheres,radius):
+    def __init__(self,E,layer_type,pigment,height,width,thickness,N_spheres,radius): 
         self.E = E
+        self.layer_type = layer_type
         self.pigment = pigment
         self.height = height
         self.width = width
-        self.layers = layers #this is a dict 
+        self.thickness = thickness 
         self.N_spheres = N_spheres 
         self.radius = radius
 
@@ -24,10 +25,10 @@ class Painting_generator:
         total_thickness = sum(count for count in self.layers.values())
         volume = np.empty((total_thickness,self.width,self.height)) 
 
-        #Set Painting layers with quantities  
-        Painting_layers = Layers(self.layer_type, self.thickness,self.pigment, self.N_spheres, self.N_radius)
+        #Set Painting layers with characterisitics 
+        Painting_layers = self.layers(self.layer_type, self.thickness,self.pigment, self.N_spheres, self.N_radius)
 
-        #Create Attenuation Class
+        #Call Attenuation Class
         mu = Attenuation(self.E)
 
         i = 0
@@ -58,12 +59,13 @@ class Painting_generator:
         return Painting(volume)
 
     @staticmethod
-    def layers(type, thickness, pigment, N_spheres, N_radius):
+    def layers(layer, thickness, pigment, N_spheres, N_radius):
 
         layers_dict = {}
-        for i in range(len(type)-1):
-            layers_dict[type[i]] = {'thickness':thickness[i],'pigment':pigment[str(i+1)],
-                'N_spheres':N_spheres[str(i+1)],'radius':N_radius[str(i+1)]} 
+        for i in range(len(layer)-1):
+            layer = layer[i]
+            layers_dict[layer[i]] = {'thickness':thickness[i],'pigment':pigment[layer[i]],
+                'N_spheres': N_spheres[layer[i]],'radius':N_radius[layer[i]]} 
 
         return layers_dict
     

@@ -19,12 +19,12 @@ class User_interface:
 
         f1 = [
             ("Energy [keV]", "E", "100"),
-            ("Pigment", "pigment", "{'1': ['PbCO3','HgS'], '2': 'PbCO3'}"),
+            ("Pigment", "pigment", "{'P1': ['PbCO3','HgS'], 'G': 'PbCO3'}"),
             ("Height []", "height", "80"), ("Width []", "width", "40"),
             ("Layer Type", "type", "['P1','G','W']"),
             ("Thickness[]", "thickness", "[10,20,40]"),
-            ("N Spheres", "N_spheres", "{'1':[10e4],'2':[10e4]}"),
-            ("Radius []", "radius", "{'1':[1],'2':[1]}")
+            ("N Spheres", "N_spheres", "{'P1':[10e4],'G':[10e4]}"),
+            ("Radius []", "radius", "{'P1':[1],'G':[1]}")
         ]
 
         f2 = [
