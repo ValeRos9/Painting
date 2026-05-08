@@ -17,28 +17,21 @@ class User_interface:
         s1.pack(fill="x", padx=20, pady=10)
         s2.pack(fill="x", padx=20, pady=10)
 
-        #Alternative for pigment, it is a dictionary (key:layer number,value:list of strings for formulas)
-        #{1:PbC03,S3H2,2:NaCL,AuPbC03}
-        #Maybe change the name to pigment 
-        #You would have to iterate through the list for a given layer 
-        #maybe layer_nbr -> pigments = self.pigment[nbr] and iteration for spheres
-        #Maybe know you want to generalize with the thickness as well
-        #nbr of layers 5 
-        #Type {P,P,P,G,W}
-        #Thickness 50,60,70,80,90
-        #Pigment per P layer 1:PbC03,S3H2,2:NaCL,AuPbC03
-
-
         f1 = [
-            ("Energy [keV]","E",100),("Pigment","pigment","{'1': ['PbCO3','HgS'], '2': 'PbCO3'}"),
-            ("Height []","height",80),("Width []","width",40),
-            ("Layers {'type':thickness[]}","layers","{'P': 10, 'G': 2, 'W': 2}"),
-            ("N Spheres","N_spheres",10),("Radius []","radius",1)
+            ("Energy [keV]", "E", "100"),
+            ("Pigment", "pigment", "{'1': ['PbCO3','HgS'], '2': 'PbCO3'}"),
+            ("Height []", "height", "80"), ("Width []", "width", "40"),
+            ("Layer Type", "type", "['P1','G','W']"),
+            ("Thickness[]", "thickness", "[10,20,40]"),
+            ("N Spheres", "N_spheres", "{'1':[10e4],'2':[10e4]}"),
+            ("Radius []", "radius", "{'1':[1],'2':[1]}")
         ]
+
         f2 = [
-            ("SO []","SO",1000),("OD []","OD",200),("N Projections","n_proj",180),
-            ("Det X []","det_x",256),("Det Y []","det_y",256),
-            ("Spacing X []","spacing_x",1.0),("Spacing Y []","spacing_y",1.0),
+            ("SO []", "SO", "1000"), ("OD []", "OD", "200"),
+            ("N Projections", "n_proj", "180"),
+            ("Det X []", "det_x", "256"), ("Det Y []", "det_y", "256"),
+            ("Spacing X []", "spacing_x", "1.0"), ("Spacing Y []", "spacing_y", "1.0"),
         ]
 
         for parent, fields in [(s1,f1),(s2,f2)]:
@@ -54,13 +47,8 @@ class User_interface:
     def _get_params(self):
         p = self.entries
         return {
-            'E': int(p['E'].get()), 'pigment': ast.literal_eval(p['pigment'].get()),
-            'height': int(p['height'].get()), 'width': int(p['width'].get()),
-            'layers': ast.literal_eval(p['layers'].get()),
-            'N_spheres': int(p['N_spheres'].get()), 'radius': int(p['radius'].get()),
-            'SO': float(p['SO'].get()), 'OD': float(p['OD'].get()), 'n_proj': int(p['n_proj'].get()),
-            'det_x': int(p['det_x'].get()), 'det_y': int(p['det_y'].get()),
-            'spacing_x': float(p['spacing_x'].get()), 'spacing_y': float(p['spacing_y'].get()),
+            key: ast.literal_eval(value.get())
+            for key, value in p.items()
         }
 
     def _execute(self):
@@ -69,8 +57,6 @@ class User_interface:
     def run(self):
         self.root.mainloop()
     
-
-
 
 #Alternative Ways:
 #Modern UI/Complex Interactions: If you need interactive 3D previews of the geometry inside the GUI before running, 
