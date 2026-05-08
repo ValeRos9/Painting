@@ -66,7 +66,7 @@ class Painting_generator:
 
         layers_dict = {}
         for i in range(len(layer)):
-            if layer[i] == 'P' or layer[i] == 'G':
+            if layer[i].startswith(('P', 'G')):
                 layers_dict[layer[i]] = {'thickness':thickness[i],'pigment':pigment[layer[i]],
                     'N_spheres': N_spheres[layer[i]],'radius':radius[layer[i]]} 
                 print(layers_dict)
@@ -74,6 +74,7 @@ class Painting_generator:
                 layers_dict[layer[i]] = {'thickness':thickness[i]} 
         return layers_dict
     
+
     # def paint(self):
     #     """generates a volume, inserts spheres and adds mu/rho values"""
 
