@@ -15,8 +15,8 @@ print("Running on remote GPU server...")
 print(params)
 
 # Create Painting
-painting = Painting_generator(params['E'], params['pigment'], params['height'], params['width'], 
-                              params['layers'], params['N_spheres'], params['radius']).paint()
+painting = Painting_generator(params['E'], params['type'],params['pigment'], params['height'], params['width'], 
+                              params['thickness'], params['N_spheres'], params['radius']).paint()
 
 print("Shape of the painting",painting.volume)
 
