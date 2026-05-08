@@ -21,23 +21,27 @@ class Painting_generator:
     def paint(self):
         """generates a volume, inserts spheres and adds mu values"""
 
-        #Create volume
-        total_thickness = sum(count for count in self.layers.values())
-        volume = np.empty((total_thickness,self.width,self.height)) 
+        #Generate Painting volume
+        volume = np.empty((sum(self.thickness),self.width,self.height)) 
 
         #Set Painting layers with characterisitics 
-        Painting_layers = self.layers(self.layer_type, self.thickness,self.pigment, self.N_spheres, self.N_radius)
+        Painting_layers = self.layers(self.layer_type, self.thickness,self.pigment, self.N_spheres, self.radius)
+        print(Painting_layers)
 
         #Call Attenuation Class
         mu = Attenuation(self.E)
 
         i = 0
-        for layer, qtys in Painting_Layers.items():
+        for layer, qtys in Painting_layers.items():
 
             if layer.startswith(('P', 'G')):
-
+                print(qtys)
                 thickness = qtys['thickness']
-                volume[i:i+thickness,:,:] = mu.value('O')
+
+                if layer.startswith(('P')):
+                    volume[i:i+thickness,:,:] = 2 #mu.value('O')
+                else:
+                    volume[i:i+thickness,:,:] = 5
 
                 for sphere_i in range(len(qtys['N_spheres'])-1):
                     
@@ -49,24 +53,25 @@ class Painting_generator:
                         N_sphere = qtys['N_spheres'][sphere_i]
                         N_radius = qtys['N_radius'][sphere_i]
                         pigment = qtys['pigment'][sphere_i]
-                        centers = self.random_insert_spheres(volume[i:i+thickness,:,:], N_sphere, N_radius, mu.value(pigment))
+                        centers = self.random_insert_spheres(volume[i:i+thickness,:,:], N_sphere, N_radius, 1) #mu.value(pigment)
             else:
-
-                volume[i:i+thickness,:,:]= mu.value(layer)
+                volume[i:i+thickness,:,:]= 3#mu.value(layer)
 
             i += thickness
 
         return Painting(volume)
 
     @staticmethod
-    def layers(layer, thickness, pigment, N_spheres, N_radius):
+    def layers(layer, thickness, pigment, N_spheres, radius):
 
         layers_dict = {}
-        for i in range(len(layer)-1):
-            layer = layer[i]
-            layers_dict[layer[i]] = {'thickness':thickness[i],'pigment':pigment[layer[i]],
-                'N_spheres': N_spheres[layer[i]],'radius':N_radius[layer[i]]} 
-
+        for i in range(len(layer)):
+            if layer[i] == 'P' or layer[i] == 'G':
+                layers_dict[layer[i]] = {'thickness':thickness[i],'pigment':pigment[layer[i]],
+                    'N_spheres': N_spheres[layer[i]],'radius':radius[layer[i]]} 
+                print(layers_dict)
+            else:
+                layers_dict[layer[i]] = {'thickness':thickness[i]} 
         return layers_dict
     
     # def paint(self):

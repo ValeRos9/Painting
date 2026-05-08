@@ -19,6 +19,8 @@ for key, qty in layers.items():
     if key.startswith(('P', 'G')):
         print(key)
 
+print(sum(thickness))
+
 
     # def paint(self):
     #     """generates a volume, inserts spheres and adds mu values"""

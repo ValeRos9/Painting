@@ -6,25 +6,24 @@ def safe_read(path):
         with open(path, "rb") as f:
             return f.read()
 
-
 # Load params
 with open(sys.argv[1], "rb") as f: 
-    params = pickle.load(f)
+    p = pickle.load(f)
 
 print("Running on remote GPU server...")
-print(params)
 
 # Create Painting
-painting = Painting_generator(params['E'], params['type'],params['pigment'], params['height'], params['width'], 
-                              params['thickness'], params['N_spheres'], params['radius']).paint()
+painting = Painting_generator(p['E'], p['type'],p['pigment'], p['height'], p['width'], 
+                              p['thickness'], p['N_spheres'], p['radius']).paint()
 
 print("Shape of the painting",painting.volume)
+print("Shape of the painting",painting.volume.shape)
 
 # # CT Setup
-# n_proj, det_row, det_col = params['n_proj'], params['det_x'], params['det_y']
-# spacing_x, spacing_y, SO, OD = params['spacing_x'], params['spacing_y'], params['SO'], params['OD']
+# n_proj, det_row, det_col = p['n_proj'], p['det_x'], p['det_y']
+# spacing_x, spacing_y, SO, OD = p['spacing_x'], p['spacing_y'], p['SO'], p['OD']
+# beam = p['beam_type']
 # Nx,Nz,n_slices = 40,14,80
-# beam = 'cone'
 
 # # Perform CT (Triggers SVG generation inside Tomo.operator)
 # CT_tomosipo = Tomo(beam,painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Nz, n_slices)
