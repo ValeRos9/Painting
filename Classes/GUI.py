@@ -24,7 +24,7 @@ class User_interface:
             ("Thickness[]", "thickness", "[10,20,40]"),
             ("Pigment", "pigment", "{'P1': ['PbCO3','HgS'], 'G': ['PbCO3']}"),
             ("N Spheres", "N_spheres", "{'P1':[1],'G':[1]}"),
-            ("Radius []", "radius", "{'P1':[1],'G':[2]}")
+            ("Radius []", "radius", "{'P1':[1],'G':[2]}"),
         ]
 
         f2 = [
@@ -32,7 +32,7 @@ class User_interface:
             ("N Projections", "n_proj", "180"),
             ("Det X []", "det_x", "256"), ("Det Y []", "det_y", "256"),
             ("Spacing X []", "spacing_x", "1.0"), ("Spacing Y []", "spacing_y", "1.0"),
-            ("Beam_type","beam_type","cone")
+            ("Beam_type","beam_type","'cone'"),
         ]
 
         for parent, fields in [(s1,f1),(s2,f2)]:
