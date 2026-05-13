@@ -60,7 +60,7 @@ class Tomo:
 
         #Create rotation geometry and apply
         axis_direction = (1,0,0)
-        R = ts.rotate(pos=(-H/2,-W/2,D/2), axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
+        R = ts.rotate(pos=(0,0,0), axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
         vg_rot = R*vg
 
         #Create SVG visuals 
