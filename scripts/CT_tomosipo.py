@@ -31,23 +31,30 @@ class Tomo:
         self.Nx = Nx
         self.Nz = Nz
         self.Nslices = Nslices
-        
+        # self.scale_nslices 
+        # self.scale_xy
+
 
     def operator(self):
 
         #Generate proj geometry 
         pg = self.proj_geometry(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.spacing_x,self.spacing_y)
-
+        
+        #Generate volume geometry 
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
+        #Nslices = scale_nslices * H
+        #Nx, Ny = scale_xy * W, scale_xy * D
+        #dx,dy,dz= W/Nx,H/Nslices,D/Ny
         scale = 1.5
-
         self.Nx = int(scale * W)
         self.Nslices = int(scale * H)
         self.Nz = int(scale * D)
+        print("Nx,Nslices,Nz",self.Nx,self.Nslices,self.Nz)
 
         dx = W / self.Nx * scale
         dy = H / self.Nslices * scale
         dz = D / self.Nz * scale
+        print("Nx,Nslices,Nz",self.Nx* scale,self.Nslices* scale,self.Nz* scale)
 
         vg = ts.volume_vec(shape=(self.Nslices,self.Nx,self.Nz),pos=(0,0,0), 
             w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
@@ -64,14 +71,15 @@ class Tomo:
     
     @staticmethod
     def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
+        
         #set projection geometry (projections are along z)
         if beam == 'cone':
             pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,0,-SO), det_pos=(0,0,OD), 
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
-
         else:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
                 det_v=(pacing_x, 0, 0), det_u=(0,spacing_y, 0))
+
         return pg 
     
 
@@ -141,5 +149,4 @@ class Tomo:
             reconstruction = np.round(reconstruction * 255).astype(np.uint8)
             for i in range(reconstruction.shape[0]):
                 im = reconstruction[i, :, :]
-                #im = np.flipud(im)
                 tifffile.imwrite(join(folder, 'reco%04d.tif' % i),im,compression='zlib')
