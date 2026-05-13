@@ -35,27 +35,28 @@ class Painting_generator:
         for layer, qtys in Painting_layers.items():
 
             if layer.startswith(('P', 'G')):
-                print(qtys)
+
                 thickness = qtys['thickness']
 
                 if layer.startswith(('P')):
-                    volume[i:i+thickness,:,:] = 2 #mu.value('O')
+                    volume[i:i+thickness,:,:] = 0.5 #mu.value('O')
                 else:
-                    volume[i:i+thickness,:,:] = 5
+                    volume[i:i+thickness,:,:] = 0
 
-                for sphere_i in range(len(qtys['N_spheres'])-1):
+                for sph_i in range(len(qtys['pigment'])):
+                    print('sphere',sph_i)
+                    radius = qtys['radius'][sph_i]
                     
-                    if thickness < 2 * self.radius + 1:
-                        print("Error! thickness of Paint or Ground layer", thickness, "is too small compared with r_sphere=", self.radius,",radius can't be more than",(thickness-1)/2)
+                    if any(x < 2 * radius + 1 for x in (thickness, self.width, self.height)):
+                        print("Error! dims of layer", x, "is too small compared with r_sphere=", radius,",radius can't be more than",(x-1)/2)
                         raise SystemExit(1)
 
                     else:
-                        N_sphere = qtys['N_spheres'][sphere_i]
-                        N_radius = qtys['N_radius'][sphere_i]
-                        pigment = qtys['pigment'][sphere_i]
-                        centers = self.random_insert_spheres(volume[i:i+thickness,:,:], N_sphere, N_radius, 1) #mu.value(pigment)
+                        N_sphere = qtys['N_spheres'][sph_i]
+                        pigment = qtys['pigment'][sph_i]
+                        centers = self.random_insert_spheres(volume[i:i+thickness,:,:], N_sphere, radius, 1) #mu.value(pigment)
             else:
-                volume[i:i+thickness,:,:]= 3#mu.value(layer)
+                volume[i:i+thickness,:,:]= 0#mu.value(layer)
 
             i += thickness
 
@@ -66,12 +67,13 @@ class Painting_generator:
 
         layers_dict = {}
         for i in range(len(layer)):
+
             if layer[i].startswith(('P', 'G')):
                 layers_dict[layer[i]] = {'thickness':thickness[i],'pigment':pigment[layer[i]],
                     'N_spheres': N_spheres[layer[i]],'radius':radius[layer[i]]} 
-                print(layers_dict)
             else:
                 layers_dict[layer[i]] = {'thickness':thickness[i]} 
+
         return layers_dict
     
 

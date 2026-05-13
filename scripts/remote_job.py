@@ -19,29 +19,29 @@ painting = Painting_generator(p['E'], p['type'],p['pigment'], p['height'], p['wi
 print("Shape of the painting",painting.volume)
 print("Shape of the painting",painting.volume.shape)
 
-# # CT Setup
-# n_proj, det_row, det_col = p['n_proj'], p['det_x'], p['det_y']
-# spacing_x, spacing_y, SO, OD = p['spacing_x'], p['spacing_y'], p['SO'], p['OD']
-# beam = p['beam_type']
-# Nx,Nz,n_slices = 40,14,80
+# CT Setup
+n_proj, det_row, det_col = p['n_proj'], p['det_x'], p['det_y']
+spacing_x, spacing_y, SO, OD = p['spacing_x'], p['spacing_y'], p['SO'], p['OD']
+beam = p['beam_type']
+Nx,Nz,n_slices = 40,14,80
 
-# # Perform CT (Triggers SVG generation inside Tomo.operator)
-# CT_tomosipo = Tomo(beam,painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Nz, n_slices)
-# A = CT_tomosipo.operator() 
+# Perform CT (Triggers SVG generation inside Tomo.operator)
+CT_tomosipo = Tomo(beam,painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Nz, n_slices)
+A = CT_tomosipo.operator() 
 
-# projections = CT_tomosipo.projections(A)
-# CT_tomosipo.save_projections('projections', projections)
+projections = CT_tomosipo.projections(A)
+CT_tomosipo.save_projections('projections', projections)
 
-# slices = CT_tomosipo.reconstruction(projections, A)
-# CT_tomosipo.save_reconstruction('slices', slices)
+slices = CT_tomosipo.reconstruction(projections, A)
+CT_tomosipo.save_reconstruction('slices', slices)
 
-# # Package & Send (Safe read: handles missing files gracefully)
-# result_package = {
-#     "tiff": safe_read("projections/proj0000.tif"),
-#     "rotation_svg": safe_read("rotation.svg"),
-# }
+# Package & Send (Safe read: handles missing files gracefully)
+result_package = {
+    "tiff": safe_read("projections/proj0000.tif"),
+    "rotation_svg": safe_read("rotation.svg"),
+}
 
-# with open("result.pkl", "wb") as f:
-#     pickle.dump(result_package, f)
+with open("result.pkl", "wb") as f:
+    pickle.dump(result_package, f)
 
 

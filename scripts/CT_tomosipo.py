@@ -7,7 +7,6 @@ from timeit import default_timer as timer
 from scipy.ndimage import zoom
 import tifffile
 
-
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
@@ -61,7 +60,7 @@ class Tomo:
 
         #Create rotation geometry and apply
         axis_direction = (1,0,0)
-        R = ts.rotate(pos=(0,0,0), axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
+        R = ts.rotate(pos=(-H/2,-W/2,D/2), axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
         vg_rot = R*vg
 
         #Create SVG visuals 
@@ -71,7 +70,7 @@ class Tomo:
     
     @staticmethod
     def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
-        
+
         #set projection geometry (projections are along z)
         if beam == 'cone':
             pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,0,-SO), det_pos=(0,0,OD), 
@@ -90,6 +89,7 @@ class Tomo:
         align = ts.rotate(pos=(0, 0, 0), axis=(1, 0, 0),angles=[np.pi/2])
 
         ts.svg(align * s * vg_rot, align * s * pg,  width=1200, height=600).save("rotation.svg")
+        
 
     def projections(self, A):
         vol = self.volume  # (80,40,14)
