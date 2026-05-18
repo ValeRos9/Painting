@@ -32,28 +32,27 @@ class Painting_generator:
         mu = Attenuation(self.E)
 
         i = 0
-        for layer, qtys in Painting_layers.items():
+        for layer, q in Painting_layers.items():
 
             if layer.startswith(('P', 'G')):
 
-                thickness = qtys['thickness']
+                thickness = q['thickness']
 
                 if layer.startswith(('P')):
                     volume[i:i+thickness,:,:] = 0.5 #mu.value('O')
                 else:
                     volume[i:i+thickness,:,:] = 0
 
-                for sph_i in range(len(qtys['pigment'])):
-                    print('sphere',sph_i)
-                    radius = qtys['radius'][sph_i]
+                for p_i in range(len(q['pigment'])):
+                    print('sphere',p_i)
+                    radius = q['radius'][p_i]
+                    N_sphere = q['N_spheres'][p_i]
+                    pigment = q['pigment'][p_i]
                     
                     if any(x < 2 * radius + 1 for x in (thickness, self.width, self.height)):
                         print("Error! dims of layer", x, "is too small compared with r_sphere=", radius,",radius can't be more than",(x-1)/2)
                         raise SystemExit(1)
-
                     else:
-                        N_sphere = qtys['N_spheres'][sph_i]
-                        pigment = qtys['pigment'][sph_i]
                         centers = self.random_insert_spheres(volume[i:i+thickness,:,:], N_sphere, radius, 1) #mu.value(pigment)
             else:
                 volume[i:i+thickness,:,:]= 0#mu.value(layer)
