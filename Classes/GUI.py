@@ -24,7 +24,7 @@ class User_interface:
             ("Thickness[]", "thickness", "[10]"),
             ("Pigment", "pigment", "{'P1': ['PbCO3']}"),
             ("N Spheres", "N_spheres", "{'P1':[1]}"),
-            ("Radius []", "radius", "{'P1':[1]"),
+            ("Radius []", "radius", "{'P1':[1]}"),
         ]
 
         f2 = [
