@@ -16,7 +16,7 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,beam_type,volume,n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,Nx,Nz,Nslices):
+    def __init__(self,beam_type,volume,n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,scale_slices,scale_xy):
         self.beam_type = beam_type
         self.volume = volume.transpose(2, 1, 0) 
         print("It's been flipped",self.volume.shape)
@@ -27,36 +27,17 @@ class Tomo:
         self.OD = OD
         self.spacing_x = spacing_x
         self.spacing_y = spacing_y
-        self.Nx = Nx
-        self.Nz = Nz
-        self.Nslices = Nslices
-        # self.scale_nslices 
-        # self.scale_xy
+        self.scale_slices = scale_slices
+        self.scale_xy = scale_xy
 
 
     def operator(self):
 
-        #Generate proj geometry 
+        #Generate proj and volume geometry 
         pg = self.proj_geometry(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.spacing_x,self.spacing_y)
-        
-        #Generate volume geometry 
+
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
-        #Nslices = scale_nslices * H
-        #Nx, Ny = scale_xy * W, scale_xy * D
-        #dx,dy,dz= W/Nx,H/Nslices,D/Ny
-        scale = 1.5
-        self.Nx = int(scale * W)
-        self.Nslices = int(scale * H)
-        self.Nz = int(scale * D)
-        print("Nx,Nslices,Nz",self.Nx,self.Nslices,self.Nz)
-
-        dx = W / self.Nx * scale
-        dy = H / self.Nslices * scale
-        dz = D / self.Nz * scale
-        print("Nx,Nslices,Nz",self.Nx* scale,self.Nslices* scale,self.Nz* scale)
-
-        vg = ts.volume_vec(shape=(self.Nslices,self.Nx,self.Nz),pos=(0,0,0), 
-            w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
+        vg = self.vol_geometry(H,W,D,scale_nslices,scale_xy)
 
         #Create rotation geometry and apply
         axis_direction = (1,0,0)
@@ -80,6 +61,20 @@ class Tomo:
                 det_v=(pacing_x, 0, 0), det_u=(0,spacing_y, 0))
 
         return pg 
+
+    @staticmethod
+    def vol_geometry(H,W,D,scale_nslices,scale_xy):
+
+        Nslices = int(scale_nslices * H)
+        dy = H/Nslices * scale_nslices
+        Nx, Nz = int(scale_xy * W), int(scale_xy * D)
+        dx, dz= W/Nx * scale_xy, D/Nz* scale_xy
+
+        print("wut",scale_nslices, H,int(scale_nslices * H), H/Nslices, dy)
+        
+        vg = ts.volume_vec(shape=(Nslices,Nx,Nz),pos=(0,0,0), w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
+
+        return vg
     
 
     @staticmethod
