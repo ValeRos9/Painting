@@ -4,15 +4,18 @@ import numpy as np
 from os import mkdir
 from os.path import join, isdir
 from timeit import default_timer as timer
-from scipy.ndimage import zoom
 import tifffile
 
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
-#. Figure out SVG
-#. Figure out how to implement varying geometries 
-#. Rewrite the repetitions 
+#Figure out parallel beam
+#Figure out multilayered painting 
+#Figure out how to implement varying geometries 
+#Figure out how to do multiple radius 
+#Re-write Generator 
+#Do reconstructions of ESRF 
+
 
 class Tomo:
 
