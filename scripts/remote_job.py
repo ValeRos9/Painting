@@ -19,16 +19,10 @@ painting = Painting_generator(p['E'], p['type'],p['pigment'], p['height'], p['wi
 print("Shape of the painting",painting.volume)
 print("Shape of the painting",painting.volume.shape)
 
-# CT Setup
-beam = p['beam_type']
-n_proj, det_row, det_col = p['n_proj'], p['det_x'], p['det_y']
-spacing_x, spacing_y, SO, OD = p['spacing_x'], p['spacing_y'], p['SO'], p['OD']
-scale = 1.5
-scale_xy = scale
-scale_nslices = scale
 
 # Perform CT (Triggers SVG generation inside Tomo.operator)
-CT_tomosipo = Tomo(beam,painting.volume, n_proj, det_row, det_col, SO, OD, spacing_x, spacing_y, Nx, Nz, n_slices)
+CT_tomosipo = Tomo(painting.volume, p['beam_type'], p['n_proj'], p['det_x'], p['det_y'],
+    p['SO'], p['OD'], p['spacing_x'], p['spacing_y'], p['scale_slices'], p['scale_xy'])
 A = CT_tomosipo.operator() 
 
 projections = CT_tomosipo.projections(A)

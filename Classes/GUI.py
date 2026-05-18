@@ -33,6 +33,7 @@ class User_interface:
             ("Det X []", "det_x", "256"), ("Det Y []", "det_y", "256"),
             ("Spacing X []", "spacing_x", "1.0"), ("Spacing Y []", "spacing_y", "1.0"),
             ("Beam_type","beam_type","'cone'"),
+            ("Scale_xy","scale_xy","1.5"),("Scale_slices","scale_slices","1.5")
         ]
 
         for parent, fields in [(s1,f1),(s2,f2)]:

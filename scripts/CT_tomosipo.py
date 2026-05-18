@@ -16,10 +16,10 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,beam_type,volume,n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,scale_slices,scale_xy):
-        self.beam_type = beam_type
+    def __init__(self,volume, beam_type, n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,scale_slices,scale_xy):
         self.volume = volume.transpose(2, 1, 0) 
         print("It's been flipped",self.volume.shape)
+        self.beam_type = beam_type
         self.n_proj = n_proj
         self.det_row = det_row
         self.det_col = det_col
@@ -33,11 +33,11 @@ class Tomo:
 
     def operator(self):
 
-        #Generate proj and volume geometry 
+        #Generate projection and volume geometry 
         pg = self.proj_geometry(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.spacing_x,self.spacing_y)
 
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
-        vg = self.vol_geometry(H,W,D,scale_nslices,scale_xy)
+        vg = self.vol_geometry(H,W,D,self.scale_slices,self.scale_xy)
 
         #Create rotation geometry and apply
         axis_direction = (1,0,0)
@@ -63,15 +63,15 @@ class Tomo:
         return pg 
 
     @staticmethod
-    def vol_geometry(H,W,D,scale_nslices,scale_xy):
+    def vol_geometry(H,W,D,scale_slices,scale_xy):
 
-        Nslices = int(scale_nslices * H)
-        dy = H/Nslices * scale_nslices
+        Nslices = int(scale_slices * H)
         Nx, Nz = int(scale_xy * W), int(scale_xy * D)
-        dx, dz= W/Nx * scale_xy, D/Nz* scale_xy
 
-        print("wut",scale_nslices, H,int(scale_nslices * H), H/Nslices, dy)
-        
+        dx = W / Nx
+        dy = H / Nslices
+        dz = D / Nz
+
         vg = ts.volume_vec(shape=(Nslices,Nx,Nz),pos=(0,0,0), w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
 
         return vg
