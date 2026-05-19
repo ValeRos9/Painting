@@ -14,8 +14,6 @@ class User_interface:
 
         s1 = ttk.LabelFrame(self.root, text="Painting")
         s2 = ttk.LabelFrame(self.root, text="CT")
-        #s1.pack(fill="x", padx=20, pady=10)
-        #s2.pack(fill="x", padx=20, pady=10)
         s1.pack(side="left", fill="both", expand=True, padx=10, pady=10)
         s2.pack(side="left", fill="both", expand=True, padx=10, pady=10)
 
@@ -25,9 +23,9 @@ class User_interface:
             ("Height []", "height", "80"), ("Width []", "width", "40"),
             ("Layer Type", "type", "['P1']"),
             ("Thickness[]", "thickness", "[10]"),
-            ("Pigment", "pigment", "{'P1': ['PbCO3']}"),
-            ("N Spheres", "N_spheres", "{'P1':[1]}"),
-            ("Radius []", "radius", "{'P1':[1]}"),
+            ("Pigment", "pigment", "{'P1': ['PbCO3'],'G':['PbCO3']}"),
+            ("N Spheres", "N_spheres", "{'P1':[1], 'G':[2]}"),
+            ("Radius []", "radius", "{'P1':[1], 'G':[2]}"),
         ]
 
         f2 = [
@@ -39,12 +37,6 @@ class User_interface:
             ("Scale_xy","scale_xy","1.5"),("Scale_slices","scale_slices","1.5")
         ]
 
-        # for parent, fields in [(s1,f1),(s2,f2)]:
-        #     for label, key, default in fields:
-        #         f = ttk.Frame(parent); f.pack(fill="x", padx=10, pady=5)
-        #         ttk.Label(f, text=label, width=20, anchor="e").pack(side="left", padx=(0,10)) #width change label size
-        #         e = ttk.Entry(f,width=20); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True) #same for entry
-        #         self.entries[key] = e
         for i, (label, key, default) in enumerate(f1):
             ttk.Label(s1, text=label, width=15, anchor="e").grid(row=i, column=0, padx=5, pady=5)
             e = ttk.Entry(s1, width=15)

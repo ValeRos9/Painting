@@ -12,6 +12,7 @@ with open(sys.argv[1], "rb") as f:
 
 print("Running on remote GPU server...")
 
+
 # Create Painting
 painting = Painting_generator(p['E'], p['type'],p['pigment'], p['height'], p['width'], 
                               p['thickness'], p['N_spheres'], p['radius']).paint()
@@ -19,8 +20,7 @@ painting = Painting_generator(p['E'], p['type'],p['pigment'], p['height'], p['wi
 print("Shape of the painting",painting.volume)
 print("Shape of the painting",painting.volume.shape)
 
-
-# Perform CT (Triggers SVG generation inside Tomo.operator)
+# Perform CT 
 CT_tomosipo = Tomo(painting.volume, p['beam_type'], p['n_proj'], p['det_x'], p['det_y'],
     p['SO'], p['OD'], p['spacing_x'], p['spacing_y'], p['scale_slices'], p['scale_xy'])
 A = CT_tomosipo.operator() 

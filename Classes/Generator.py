@@ -47,6 +47,7 @@ class Painting_generator:
                     print('sphere',p_i)
                     radius = q['radius'][p_i]
                     N_sphere = q['N_spheres'][p_i]
+                    print(N_sphere)
                     pigment = q['pigment'][p_i]
                     
                     if any(x < 2 * radius + 1 for x in (thickness, self.width, self.height)):
