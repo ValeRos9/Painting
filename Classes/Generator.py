@@ -37,17 +37,11 @@ class Painting_generator:
             if layer.startswith(('P', 'G')):
 
                 thickness = q['thickness']
-
-                if layer.startswith(('P')):
-                    volume[i:i+thickness,:,:] = 0.5 #mu.value('O')
-                else:
-                    volume[i:i+thickness,:,:] = 0
+                volume[i:i+thickness,:,:] = 0#mu.value('O')
 
                 for p_i in range(len(q['pigment'])):
-                    print('sphere',p_i)
-                    radius = q['radius'][p_i]
+                    radius = q['radius'][p_i] #Because their lists 
                     N_sphere = q['N_spheres'][p_i]
-                    print(N_sphere)
                     pigment = q['pigment'][p_i]
                     
                     if any(x < 2 * radius + 1 for x in (thickness, self.width, self.height)):
@@ -56,7 +50,7 @@ class Painting_generator:
                     else:
                         centers = self.random_insert_spheres(volume[i:i+thickness,:,:], N_sphere, radius, 1) #mu.value(pigment)
             else:
-                volume[i:i+thickness,:,:]= 0#mu.value(layer)
+                volume[i:i+thickness,:,:]= 2#mu.value(layer)
 
             i += thickness
 

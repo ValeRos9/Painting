@@ -9,13 +9,16 @@ import tifffile
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
-#Figure out parallel beam, I think it works 
-#Figure out multilayered painting 
-#Rewrite Generator 
+#Figure out parallel beam -> check
+#Figure out multilayered painting -> check
+
+#Rijks:Figure out Dimensions of the ESRF experiment 
+#Rijks:Figure out how to do multiple radius -> best way to do radius implementation and what should it look like 
+#Rijks:Do reconstructions of ESRF 
 
 #Figure out how to implement varying geometries 
-#Figure out how to do multiple radius 
-#Do reconstructions of ESRF 
+#Figure out What Reconstruction to use 
+#Figure out scalability 
 
 
 class Tomo:
