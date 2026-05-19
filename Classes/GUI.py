@@ -14,8 +14,11 @@ class User_interface:
 
         s1 = ttk.LabelFrame(self.root, text="Painting")
         s2 = ttk.LabelFrame(self.root, text="CT")
-        s1.pack(fill="x", padx=20, pady=10)
-        s2.pack(fill="x", padx=20, pady=10)
+        #s1.pack(fill="x", padx=20, pady=10)
+        #s2.pack(fill="x", padx=20, pady=10)
+        s1.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+        s2.pack(side="left", fill="both", expand=True, padx=10, pady=10)
+
 
         f1 = [
             ("Energy [keV]", "E", "100"),
@@ -36,12 +39,25 @@ class User_interface:
             ("Scale_xy","scale_xy","1.5"),("Scale_slices","scale_slices","1.5")
         ]
 
-        for parent, fields in [(s1,f1),(s2,f2)]:
-            for label, key, default in fields:
-                f = ttk.Frame(parent); f.pack(fill="x", padx=10, pady=5)
-                ttk.Label(f, text=label, width=20, anchor="e").pack(side="left", padx=(0,10)) #width change label size
-                e = ttk.Entry(f,width=20); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True) #same for entry
-                self.entries[key] = e
+        # for parent, fields in [(s1,f1),(s2,f2)]:
+        #     for label, key, default in fields:
+        #         f = ttk.Frame(parent); f.pack(fill="x", padx=10, pady=5)
+        #         ttk.Label(f, text=label, width=20, anchor="e").pack(side="left", padx=(0,10)) #width change label size
+        #         e = ttk.Entry(f,width=20); e.insert(0,str(default)); e.pack(side="left", fill="x", expand=True) #same for entry
+        #         self.entries[key] = e
+        for i, (label, key, default) in enumerate(f1):
+            ttk.Label(s1, text=label, width=15, anchor="e").grid(row=i, column=0, padx=5, pady=5)
+            e = ttk.Entry(s1, width=15)
+            e.insert(0, default)
+            e.grid(row=i, column=1, padx=5, pady=5)
+            self.entries[key] = e
+
+        for i, (label, key, default) in enumerate(f2):
+            ttk.Label(s2, text=label, width=15, anchor="e").grid(row=i, column=0, padx=5, pady=5)
+            e = ttk.Entry(s2, width=15)
+            e.insert(0, default)
+            e.grid(row=i, column=1, padx=5, pady=5)
+            self.entries[key] = e
 
         ttk.Button(self.root, text="Run", command=self._execute).pack(pady=20, fill="x", padx=20)
         ttk.Button(self.root, text="Close", command=self.root.destroy).pack(fill="x", padx=20)

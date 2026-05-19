@@ -9,11 +9,12 @@ import tifffile
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
-#Figure out parallel beam
+#Figure out parallel beam, I think it works 
 #Figure out multilayered painting 
+#Rewrite Generator 
+
 #Figure out how to implement varying geometries 
 #Figure out how to do multiple radius 
-#Re-write Generator 
 #Do reconstructions of ESRF 
 
 
@@ -61,7 +62,7 @@ class Tomo:
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
         else:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
-                det_v=(pacing_x, 0, 0), det_u=(0,spacing_y, 0))
+                det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
 
         return pg 
 
