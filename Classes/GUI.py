@@ -23,9 +23,9 @@ class User_interface:
             ("Height []", "height", "80"), ("Width []", "width", "40"),
             ("Layer Type", "type", "['P1']"),
             ("Thickness[]", "thickness", "[10]"),
-            ("Pigment", "pigment", "{'P1': ['PbCO3'],'G':['PbCO3']}"),
-            ("N Spheres", "N_spheres", "{'P1':[1], 'G':[2]}"),
-            ("Radius []", "radius", "{'P1':[1], 'G':[2]}"),
+            ("Pigment", "pigment", "{'P1': ['PbCO3']}"),
+            ("N Spheres", "N_spheres", "{'P1':[3]}"),
+            ("Radius []", "radius", "{'P1':[2]}"),
         ]
 
         f2 = [

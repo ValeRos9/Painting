@@ -37,7 +37,7 @@ class Painting_generator:
             if layer.startswith(('P', 'G')):
 
                 thickness = q['thickness']
-                volume[i:i+thickness,:,:] = 0#mu.value('O')
+                volume[i:i+thickness,:,:] = 0.5#mu.value('O')
 
                 for p_i in range(len(q['pigment'])):
                     radius = q['radius'][p_i] #Because their lists 
