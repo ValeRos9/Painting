@@ -17,7 +17,7 @@ print("Running on remote GPU server...")
 painting = Painting_generator(p['E'], p['type'],p['pigment'], p['height'], p['width'], 
                               p['thickness'], p['N_spheres'], p['radius']).paint()
 
-print("Shape of the painting",painting.volume)
+#print("Shape of the painting",painting.volume)
 print("Shape of the painting",painting.volume.shape)
 
 # Perform CT 
@@ -28,8 +28,8 @@ A = CT_tomosipo.operator()
 projections = CT_tomosipo.projections(A)
 CT_tomosipo.save_projections('projections', projections)
 
-slices = CT_tomosipo.reconstruction(projections, A)
-CT_tomosipo.save_reconstruction('slices', slices)
+#slices = CT_tomosipo.reconstruction(projections, A)
+#CT_tomosipo.save_reconstruction('slices', slices)
 
 # Package & Send (Safe read: handles missing files gracefully)
 result_package = {

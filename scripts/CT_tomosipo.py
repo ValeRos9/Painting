@@ -47,9 +47,9 @@ class Tomo:
         vg = self.vol_geometry(H,W,D,self.scale_slices,self.scale_xy)
 
         #Create rotation geometry and apply
-        axis_direction = (1,0,0)
+        axis_direction = (1,0,0) #tilted axis - (1,0,-1)
         R = ts.rotate(pos=(0,0,0), axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
-        vg_rot = R*vg
+        vg_rot = R*vg 
 
         #Create SVG visuals 
         self.visuals(pg,vg_rot)
@@ -60,8 +60,10 @@ class Tomo:
     def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
         #classic src_pos=(0,0,-SO), det_pos=(0,0,OD)
         #Tilted src_pos=(-SO*np.sin(angle),0,-SO*np.cos(angle)), det_pos=(SO*np.sin(angle),0,OD*np.cos(angle))
+        #angle = np.pi/4 This good but i want to tilt the object 
+
         if beam == 'cone':
-            pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,0,-SO), det_pos=(0,0,OD), 
+            pg = ts.cone_vec(shape=(det_row,det_col),src_pos=(0,0,-SO), det_pos=(0,0,OD),
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
         else:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
@@ -78,8 +80,11 @@ class Tomo:
         dy = H / Nslices
         dz = D / Nz
 
-        vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
-
+        angle = np.pi/4
+        vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), 
+            w=(dx,0,0), 
+            v=(0,dy,0), 
+            u=(0,0,dz)) #Maybe this needs to be changed if you want to tilt it forwards but it wasn't working for now
         return vg
     
 
