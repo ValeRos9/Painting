@@ -58,15 +58,14 @@ class Tomo:
     
     @staticmethod
     def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
-
-        #set projection geometry (projections are along z)
+        #classic src_pos=(0,0,-SO), det_pos=(0,0,OD)
+        #Tilted src_pos=(-SO*np.sin(angle),0,-SO*np.cos(angle)), det_pos=(SO*np.sin(angle),0,OD*np.cos(angle))
         if beam == 'cone':
             pg = ts.cone_vec(shape=(det_row,det_col), src_pos=(0,0,-SO), det_pos=(0,0,OD), 
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
         else:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
-
         return pg 
 
     @staticmethod
@@ -79,7 +78,7 @@ class Tomo:
         dy = H / Nslices
         dz = D / Nz
 
-        vg = ts.volume_vec(shape=(Nslices,Nx,Nz),pos=(0,0,0), w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
+        vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), w=(dx,0,0), v=(0,dy,0), u=(0,0,dz))
 
         return vg
     
