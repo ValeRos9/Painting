@@ -76,15 +76,11 @@ class Tomo:
         Nslices = int(scale_slices * H)
         Nx, Nz = int(scale_xy * W), int(scale_xy * D)
 
-        dx = W / Nx
-        dy = H / Nslices
-        dz = D / Nz
-
         angle = np.pi/4
         vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), 
-            w=(dx,0,0), 
-            v=(0,dy,0), 
-            u=(0,0,dz)) #Maybe this needs to be changed if you want to tilt it forwards but it wasn't working for now
+            w=(W/Nx,0,0), 
+            v=(H/Nslices * np.sin(angle),H/Nslices * np.cos(angle),0), 
+            u=(0,0,D/Nz)) 
         return vg
     
 

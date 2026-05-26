@@ -20,11 +20,11 @@ class User_interface:
 
         f1 = [
             ("Energy [keV]", "E", "100"),
-            ("Height []", "height", "80"), ("Width []", "width", "40"),
+            ("Height []", "height", "100"), ("Width []", "width", "100"),
             ("Layer Type", "type", "['P1']"),
             ("Thickness[]", "thickness", "[10]"),
             ("Pigment", "pigment", "{'P1': ['PbCO3']}"),
-            ("N Spheres", "N_spheres", "{'P1':[3]}"),
+            ("N Spheres", "N_spheres", "{'P1':[2]}"),
             ("Radius []", "radius", "{'P1':[2]}"),
         ]
 
@@ -33,7 +33,7 @@ class User_interface:
             ("N Projections", "n_proj", "180"),
             ("Det X []", "det_x", "256"), ("Det Y []", "det_y", "256"),
             ("Spacing X []", "spacing_x", "1.0"), ("Spacing Y []", "spacing_y", "1.0"),
-            ("Beam_type","beam_type","'cone'"),
+            ("Beam_type","beam_type","'parallel'"),
             ("Scale_xy","scale_xy","1.5"),("Scale_slices","scale_slices","1.5")
         ]
 
