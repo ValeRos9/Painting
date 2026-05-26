@@ -46,9 +46,8 @@ class Tomo:
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
         vg = self.vol_geometry(H,W,D,self.scale_slices,self.scale_xy)
 
-        #Create rotation geometry and apply
-        axis_direction = (1,0,0) #tilted axis - (1,0,-1)
-        R = ts.rotate(pos=(0,0,0), axis=axis_direction, angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
+        #Create rotation geometry and apply old axis (1,0,0)
+        R = ts.rotate(pos=(0,0,0), axis=(1,0,-1) ,angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
         vg_rot = R*vg 
 
         #Create SVG visuals 
@@ -58,9 +57,6 @@ class Tomo:
     
     @staticmethod
     def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
-        #classic src_pos=(0,0,-SO), det_pos=(0,0,OD)
-        #Tilted src_pos=(-SO*np.sin(angle),0,-SO*np.cos(angle)), det_pos=(SO*np.sin(angle),0,OD*np.cos(angle))
-        #angle = np.pi/4 This good but i want to tilt the object 
 
         if beam == 'cone':
             pg = ts.cone_vec(shape=(det_row,det_col),src_pos=(0,0,-SO), det_pos=(0,0,OD),
@@ -74,14 +70,19 @@ class Tomo:
     def vol_geometry(H,W,D,scale_slices,scale_xy):
 
         Nslices = int(scale_slices * H)
-        Nx, Nz = int(scale_xy * W), int(scale_xy * D)
+        Nx = int(scale_xy * W)
+        Nz = int(scale_xy * D)
 
-        angle = np.pi/4
         vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), 
             w=(W/Nx,0,0), 
-            v=(H/Nslices * np.sin(angle),H/Nslices * np.cos(angle),0), 
+            v=(0,H/Nslices,0), 
             u=(0,0,D/Nz)) 
-        return vg
+        
+        #Tilt the volume by certain angle 
+        tilt_angle = np.pi/4 #0 is no tilt
+        tilt = ts.rotate(pos=(0,0,0), axis=(0,1,0), angles=tilt_angle)
+
+        return tilt * vg
     
 
     @staticmethod
