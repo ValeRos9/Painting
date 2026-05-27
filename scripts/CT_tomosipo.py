@@ -23,7 +23,7 @@ import tifffile
 
 class Tomo:
 
-    def __init__(self,volume, beam_type, n_proj,det_row,det_col,SO,OD,spacing_x,spacing_y,scale_slices,scale_xy):
+    def __init__(self,volume, beam_type, n_proj,det_row,det_col,SO,OD,pixel_size,scale_slices,scale_xy):
         self.volume = volume.transpose(2, 1, 0) 
         print("It's been flipped",self.volume.shape)
         self.beam_type = beam_type
@@ -32,8 +32,7 @@ class Tomo:
         self.det_col = det_col
         self.SO = SO
         self.OD = OD
-        self.spacing_x = spacing_x
-        self.spacing_y = spacing_y
+        self.pixel_size = pixel_size
         self.scale_slices = scale_slices
         self.scale_xy = scale_xy
 
@@ -41,7 +40,7 @@ class Tomo:
     def operator(self):
 
         #Generate projection and volume geometry 
-        pg = self.proj_geometry(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.spacing_x,self.spacing_y)
+        pg = self.proj_geometry(self.beam_type,self.det_row,self.det_col,self.SO,self.OD,self.pixel_size)
 
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
         vg = self.vol_geometry(H,W,D,self.scale_slices,self.scale_xy)
@@ -57,14 +56,14 @@ class Tomo:
     
 
     @staticmethod
-    def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
+    def proj_geometry(beam,det_row,det_col,SO,OD,pixel_size):
 
         if beam == 'cone':
             pg = ts.cone_vec(shape=(det_row,det_col),src_pos=(0,0,-SO), det_pos=(0,0,OD),
-                det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
+                det_v=(pixel_size, 0, 0), det_u=(0,pixel_size, 0))
         else:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
-                det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
+                det_v=(pixel_size, 0, 0), det_u=(0,pixel_size, 0))
         return pg 
 
 

@@ -19,7 +19,7 @@ class User_interface:
 
 
         f1 = [
-            ("Energy [keV]", "E", "100"),
+            ("Energy [keV]", "E", "152.5"),
             ("Height []", "height", "100"), ("Width []", "width", "100"),
             ("Layer Type", "type", "['P1']"),
             ("Thickness[]", "thickness", "[10]"),
@@ -32,7 +32,7 @@ class User_interface:
             ("SO []", "SO", "1000"), ("OD []", "OD", "200"),
             ("N Projections", "n_proj", "180"),
             ("Det X []", "det_x", "256"), ("Det Y []", "det_y", "256"),
-            ("Spacing X []", "spacing_x", "1.0"), ("Spacing Y []", "spacing_y", "1.0"),
+            ("Pixel size []", "pixel_size", "1.0"),
             ("Beam_type","beam_type","'parallel'"),
             ("Scale_xy","scale_xy","1.5"),("Scale_slices","scale_slices","1.5")
         ]

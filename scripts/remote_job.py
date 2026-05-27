@@ -22,7 +22,7 @@ print("Shape of the painting",painting.volume.shape)
 
 # Perform CT 
 CT_tomosipo = Tomo(painting.volume, p['beam_type'], p['n_proj'], p['det_x'], p['det_y'],
-    p['SO'], p['OD'], p['spacing_x'], p['spacing_y'], p['scale_slices'], p['scale_xy'])
+    p['SO'], p['OD'], p['pixel_size'], p['scale_slices'], p['scale_xy'])
 A = CT_tomosipo.operator() 
 
 projections = CT_tomosipo.projections(A)
