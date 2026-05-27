@@ -43,6 +43,7 @@ class Painting_generator:
                     radius = q['radius'][p_i] #Because their lists 
                     N_sphere = q['N_spheres'][p_i]
                     pigment = q['pigment'][p_i]
+                    print("Trou de binocchio", mu.value(pigment))
                     
                     if any(x < 2 * radius + 1 for x in (thickness, self.width, self.height)):
                         print("Error! dims of layer", x, "is too small compared with r_sphere=", radius,",radius can't be more than",(x-1)/2)

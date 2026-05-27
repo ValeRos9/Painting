@@ -31,7 +31,7 @@ class Attenuation:
                 mu_tot += fraction * self.mu_molecule(comp)
             else:
                 Z = getattr(ptable, comp).number
-                mu = xlib.ElementDensity(Z) * self.cs_total(Z, self.E)
+                mu = xlib.ElementDensity(Z) * self.cs_total(Z, self.E) # do 1/10^4 for conversion to micrometers
                 mu_tot += fraction * mu
                 
         return mu_tot
@@ -45,7 +45,7 @@ class Attenuation:
             element = getattr(ptable, atom)
             mass = count * element.mass
             Z = element.number
-            mu = xlib.ElementDensity(Z) * self.cs_total(Z, self.E)
+            mu = xlib.ElementDensity(Z) * self.cs_total(Z, self.E) # do 1/10^4 for conversion to micrometers
             weighted_sum += mass * mu
             total_mass += mass
 
