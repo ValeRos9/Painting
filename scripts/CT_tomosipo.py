@@ -9,16 +9,16 @@ import tifffile
 #Explantion of Geometries: https://aahendriksen.gitlab.io/tomosipo/topics/geometries.html#topics-geometries
 #Example of object being rotated: https://aahendriksen.gitlab.io/tomosipo/intro/lab_frame.html
 #TO-DO
-#Figure out parallel beam -> check
-#Figure out multilayered painting -> check
-
 #Rijks:Figure out Dimensions of the ESRF experiment 
 #Rijks:Figure out how to do multiple radius -> best way to do radius implementation and what should it look like 
-#Rijks:Do reconstructions of ESRF 
 
-#Figure out how to implement varying geometries 
+#Figure out multilayered painting -> does it work ?
 #Figure out What Reconstruction to use 
 #Figure out scalability 
+
+#Rijks:Do reconstructions of ESRF 
+
+
 
 
 class Tomo:
@@ -46,15 +46,16 @@ class Tomo:
         H, W, D = self.volume.shape[0], self.volume.shape[1], self.volume.shape[2]
         vg = self.vol_geometry(H,W,D,self.scale_slices,self.scale_xy)
 
-        #Create rotation geometry and apply old axis (1,0,0)
-        R = ts.rotate(pos=(0,0,0), axis=(1,0,-1) ,angles=np.linspace(0, 2*np.pi, self.n_proj, endpoint=False))
-        vg_rot = R*vg 
+        #Apply transform (tilt+rotation)
+        tilt_angle = np.pi/4
+        vg_rot = self.transform(tilt_angle, vg, self.n_proj)
 
         #Create SVG visuals 
         self.visuals(pg,vg_rot)
 
         return ts.operator(vg_rot, pg)
     
+
     @staticmethod
     def proj_geometry(beam,det_row,det_col,SO,OD,spacing_x,spacing_y):
 
@@ -65,6 +66,7 @@ class Tomo:
             pg = ts.parallel_vec(shape=(det_row,det_col), ray_dir=(0,0,1), det_pos=(0,0,OD), 
                 det_v=(spacing_x, 0, 0), det_u=(0,spacing_y, 0))
         return pg 
+
 
     @staticmethod
     def vol_geometry(H,W,D,scale_slices,scale_xy):
@@ -77,12 +79,28 @@ class Tomo:
             w=(W/Nx,0,0), 
             v=(0,H/Nslices,0), 
             u=(0,0,D/Nz)) 
-        
-        #Tilt the volume by certain angle 
-        tilt_angle = np.pi/4 #0 is no tilt
-        tilt = ts.rotate(pos=(0,0,0), axis=(0,1,0), angles=tilt_angle)
 
-        return tilt * vg
+        return vg
+    
+    @staticmethod
+    def transform(tilt_angle, vg, n_proj):
+
+        if tilt_angle == 0:
+            #Pick rotation axis along height of Painting 
+            axis = (1,0,0)
+
+        else: 
+            #tilt the volume 
+            tilt = ts.rotate(pos=(0,0,0), axis=(0,1,0), angles=tilt_angle)
+            vg = tilt * vg
+
+            #Pick rotation axis normal to face of Painting 
+            axis = (np.sin(tilt_angle),0,-np.cos(tilt_angle))
+
+        #Apply CT rotation to volume 
+        R = ts.rotate(pos=(0,0,0), axis=axis, angles=np.linspace(0, 2*np.pi, n_proj, endpoint=False))
+
+        return R*vg 
     
 
     @staticmethod
