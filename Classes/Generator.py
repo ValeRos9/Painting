@@ -6,7 +6,6 @@ import sys
 from .Painting import Painting
 from .mu import Attenuation
 
-
 class Painting_generator:
     def __init__(self,E,layer_type,pigment,height,width,thickness,N_spheres,radius): 
         self.E = E
@@ -72,44 +71,6 @@ class Painting_generator:
         return layers_dict
     
 
-    # def paint(self):
-    #     """generates a volume, inserts spheres and adds mu/rho values"""
-
-    #     #Create volume
-    #     total_thickness = sum(count for count in self.layers.values())
-    #     volume = np.empty((total_thickness,self.width,self.height)) #I changed this 
-        
-    #     #Create Attenuation Class
-    #     mu = Attenuation(self.E)
-
-    #     #Index for iteration
-    #     i = 0
-    #     nbr = 1
-    #     for typex, thickness in self.layers.items():
-    #         if typex == 'P' or typex == 'G': #if you had G you get a problem with layer[tah,tah] boolean axis 0 and 3, compare 'P' with what works for 'G'
-    #             print(typex)
-    #             print(i,i+thickness)
-                
-    #             volume[i:i+thickness,:,:] = 0.5#mu.value('O')
-    #             print("mu_oil",mu.value('O'))
-
-    #             if  thickness < 2 * self.radius + 1:
-    #                 print("Error! thickness of Paint or Ground layer", thickness, "is too small compared with r_sphere=", self.radius,",radius can't be more than",(thickness-1)/2)
-    #                 raise SystemExit(1)
-    #             else:
-    #                 mu_sphere = mu.value(self.pigment[str(nbr)])
-    #                 centers = self.random_insert_spheres(volume[i:i+thickness,:,:], self.N_spheres, self.radius, 1) #mu_sphere
-    #                 print("pigment",self.pigment[str(nbr)])
-    #                 print("mu_pigment",mu_sphere)
-    #                 nbr +=1
-    #         else:
-    #             volume[i:i+thickness,:,:]= 0.2 #mu.value(typex)
-    #             print("mu_wood",mu.value('W'))
-    #         i += thickness
-
-    #     return Painting(volume)
-
-
     @staticmethod
     def random_insert_spheres(layer, nspheres, r, intensity):
         print(layer.shape)
@@ -145,3 +106,71 @@ class Painting_generator:
         print("N_centers",len(centers))
         return centers
     
+
+#     @staticmethod
+#     def random_insert_continuous_spheres(layer, nspheres, r, intensity):
+#         """Generates valid center points and insert a sphere of radius r at those points"""
+
+#         centers = []
+#         attempts = 0
+#         while len(centers) < nspheres and attempts < 1000:  
+
+#             #Generates potential center points, using boundary conditions r<=x,y,z<n-r
+#             c0 = r+random.random()*(layer.shape[0]-1-2*r)
+#             c1 = r+random.random()*(layer.shape[1]-1-2*r)
+#             c2 = r+random.random()*(layer.shape[2]-1-2*r)
+#             collision = False
+
+#             #Check if potential center points overlap with other spheres
+#             for c in centers:
+#                 if (c0-c[0])**2+(c1-c[1])**2+(c2-c[2])**2 <= 4*r*r:
+#                     collision=True
+#                     attempts += 1
+#                     break
+
+#              if collision:
+#                 continue
+# th
+#             # integer voxel containing the center
+#             ic0, ic1, ic2 = round(c0), round(c1), round(c2)
+#             oversample = 32
+#             frac = Painting_generator.sphere_fraction_kernel(r,c0 - ic0,c1 - ic1,c2 - ic2,oversample)
+#             layer[ic0 - r : ic0 + r + 1,ic1 - r : ic1 + r + 1, ic2 - r : ic2 + r + 1] += intensity * frac
+
+#             centers.append((c0, c1, c2))
+#             attempts = 0
+
+#         return centers
+
+#     @staticmethod
+#     def sphere_fraction_kernel(r, cx, cy, cz, oversample=32):
+#         """
+#         Volume-fraction kernel for a sphere of radius r whose center is shifted by
+#         (cx, cy, cz) relative to the central voxel.
+#         """
+
+#         n = 2 * r + 1
+
+#         # voxel-center coordinates relative to sphere center
+#         i = np.arange(n) - r - cx
+#         j = np.arange(n) - r - cy
+#         k = np.arange(n) - r - cz
+
+#         I, J, K = np.meshgrid(i, j, k, indexing="ij")
+
+#         # subvoxel sampling grid
+#         u = (np.arange(oversample) + 0.5) / oversample - 0.5
+
+#         dx, dy, dz = np.meshgrid(u, u, u, indexing="ij")
+#         dx, dy, dz = dx.ravel(), dy.ravel(), dz.ravel()
+
+
+#         # fully vectorized MC
+#         x = I[..., None] + dx
+#         y = J[..., None] + dy
+#         z = K[..., None] + dz
+
+#         frac = (x * x + y * y + z * z <= r * r).mean(axis=-1)
+
+#         return frac.astype(np.float32)
+
