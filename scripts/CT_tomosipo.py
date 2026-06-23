@@ -46,7 +46,7 @@ class Tomo:
         vg = self.vol_geometry(H,W,D,self.scale_slices,self.scale_xy)
 
         #Apply transform (tilt+rotation)
-        tilt_angle = np.pi/4
+        tilt_angle = 0 #np.pi/4
         vg_rot = self.transform(tilt_angle, vg, self.n_proj)
 
         #Create SVG visuals 
