@@ -104,8 +104,12 @@ class Fraction:
         dist[:, 1] = np.where(s == 1, (c + h) - (v + 0.5), (v - 0.5) - (c - h))
         return dist
 
-#1. I think voxel length is up to u to choose, you consider voxel grid to be length 1, so a' = a/L, based on the L the scheme changes 
-#2. Change the path for the local script and put all the folders in the Workstation 
-#3. check if it works 
-#4. Where do u put Tomosipo and understand scripts, info, how this is setup
-#5. Change the Github 
+#1. voxel length vs pixel length of detector, i think here u have sthg interesting to think about 
+#2. Where do u put Tomosipo and understand scripts, info, how this is setup
+#3. Change the Github 
+
+#1. I would start by making sure that Painting gets generated properly for all 3 cases.
+#2. I would check that a simulation works
+#3. I would understand the relationship between voxel length of volume and pixel length of detector, what freedom this gives u 
+#4. I would look into ESRF example to get the coordinates and study the figure, same with Rijksmuseum
+#5. Understand how the repo is setup, change CT_tomosipo, and Github

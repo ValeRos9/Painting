@@ -8,7 +8,7 @@ from functools import lru_cache
 #code https://github.com/tschoonj/xraylib/wiki/The-xraylib-API-list-of-all-functions#cross-sections
 
 class Attenuation:
-    std_materials = {
+    standard = {
         "W": {"C": 0.50, "O": 0.43, "H": 0.06, "N": 0.01},
         "O": {"C18H30O2": 1}, #"O": {"C18H30O2": 0.519,"C18H34O2": 0.185,"C18H32O2": 0.142,"C16H32O2": 0.07,"C18H36O2": 0.034,},
     }
@@ -16,27 +16,27 @@ class Attenuation:
     def __init__(self, E):
         self.E = E
 
-    def value(self, keyword):
-        materials = self.std_materials.get(keyword)
-        if materials:
-            return self.mu_default(materials)
-        return self.mu_molecule(keyword)
+    def value(self, matter):
+        M = self.standard.get(matter)
+        if M:
+            return self.default(matter)
+        return self.molecule(matter)
 
-    def mu_default(self, composition):
+    def default(self, composition):
         """Generic weighted mixture (elements or molecules)."""
 
-        mu_tot = 0
-        for comp, fraction in composition.items():
+        tot = 0
+        for comp, f in composition.items():
             if any(c.isdigit() for c in comp):
-                mu_tot += fraction * self.mu_molecule(comp)
+                tot += f * self.molecule(comp)
             else:
                 Z = getattr(ptable, comp).number
                 mu = xlib.ElementDensity(Z) * self.cs_total(Z, self.E) # do 1/10^4 for conversion to micrometers
-                mu_tot += fraction * mu
+                tot += f * mu
                 
-        return mu_tot
+        return tot
 
-    def mu_molecule(self, molecule):
+    def molecule(self, molecule):
         atoms = chp.parse_formula(molecule)
         total_mass = 0.0
         weighted_sum = 0.0
