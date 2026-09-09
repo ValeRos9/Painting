@@ -1,7 +1,6 @@
 import sys, pickle
 from Classes.Generator import Painting_generator
 from CT_tomosipo import Tomo
-from 
 
 def safe_read(path):
         with open(path, "rb") as f:

@@ -4,6 +4,7 @@ from Classes.GUI import User_interface
 def run_remotely(params):
     USER_HOST = "valentin97@al-jabr"
     REMOTE_DIR = "~/Documents/Painting"
+    REMOTE_PYTH = "/home/valentin97/miniconda3/envs/Painting/bin/python"
     
     # Save params
     with open("params.pkl", "wb") as f:
@@ -13,7 +14,8 @@ def run_remotely(params):
     os.system(
         f"scp params.pkl {USER_HOST}:{REMOTE_DIR}/ && "
         f"ssh {USER_HOST} 'cd {REMOTE_DIR} && "
-        f"PYTHONPATH={REMOTE_DIR} conda run -n Painting python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
+        f"PYTHONPATH={REMOTE_DIR} {REMOTE_PYTH} "
+        f"scripts/remote_job.py params.pkl' && "
         f"scp {USER_HOST}:{REMOTE_DIR}/result.pkl ."
     )
 
