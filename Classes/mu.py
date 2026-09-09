@@ -20,8 +20,8 @@ class Attenuation:
         M = self.standard.get(matter)
         print(M)
         if M:
-            return self.default(matter)
-        return self.molecule(matter)
+            return self.default(M)
+        return self.molecule(M)
 
     def default(self, composition):
         """Generic weighted mixture (elements or molecules)."""
