@@ -26,7 +26,7 @@ class User_interface:
             ("Pigment Type", "pigment", "{'P1': ['PbCO3']}"),
             ("N", "N", "{'P1':[1000]}"),
             ("Pigment Length [\u03BCm]", "a", "{'P1':[10]}"),
-            ("Voxel Length [\u03BCm]", "L", "[100]"),
+            ("Voxel Length [\u03BCm]", "L", "100"),
         ]
 
         f2 = [
