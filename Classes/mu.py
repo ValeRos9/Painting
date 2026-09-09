@@ -18,6 +18,7 @@ class Attenuation:
 
     def value(self, matter):
         M = self.standard.get(matter)
+        print(M)
         if M:
             return self.default(matter)
         return self.molecule(matter)
