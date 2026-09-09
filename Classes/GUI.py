@@ -20,13 +20,13 @@ class User_interface:
 
         f1 = [
             ("Energy [keV]", "E", "152.5"),
-            ("Height [cm]", "H", "100"), ("Width [cm]", "W", "100"),
+            ("Height [cm]", "H", "1"), ("Width [cm]", "W", "1"),
             ("Layer Type", "type", "['P1']"),
             ("Depth[cm]", "D", "[10]"),
             ("Pigment Type", "pigment", "{'P1': ['PbCO3']}"),
             ("N", "N", "{'P1':[1000]}"),
             ("Pigment Length [\u03BCm]", "a", "{'P1':[10]}"),
-            ("Voxel Length [\u03BCm]", "L", "[30]"),
+            ("Voxel Length [\u03BCm]", "L", "[100]"),
         ]
 
         f2 = [

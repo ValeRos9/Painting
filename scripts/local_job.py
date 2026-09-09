@@ -2,8 +2,8 @@ import pickle, os
 from Classes.GUI import User_interface
 
 def run_remotely(params):
-    USER_HOST = "rosariovr@carbonite"
-    REMOTE_DIR = "/data/rosariovr/Painting"
+    USER_HOST = "valentin97@al-jabr"
+    REMOTE_DIR = "~/Documents/Painting"
     
     # Save params
     with open("params.pkl", "wb") as f:
@@ -13,7 +13,7 @@ def run_remotely(params):
     os.system(
         f"scp params.pkl {USER_HOST}:{REMOTE_DIR}/ && "
         f"ssh {USER_HOST} 'cd {REMOTE_DIR} && "
-        f"PYTHONPATH={REMOTE_DIR} conda run -n tomo_env python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
+        f"PYTHONPATH={REMOTE_DIR} conda run -n Painting python scripts/remote_job.py {REMOTE_DIR}/params.pkl' && "
         f"scp {USER_HOST}:{REMOTE_DIR}/result.pkl ."
     )
 
