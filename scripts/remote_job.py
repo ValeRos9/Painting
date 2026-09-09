@@ -37,7 +37,7 @@ print("Shape of the painting",painting.volume.shape)
 #     "rotation_svg": safe_read("rotation.svg"),
 # }
 
-# with open("result.pkl", "wb") as f:
-#     pickle.dump(result_package, f)
+with open("result.pkl", "wb") as f:
+     pickle.dump(result_package, f)
 
 
