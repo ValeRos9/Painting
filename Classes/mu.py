@@ -25,7 +25,7 @@ class Attenuation:
 
     def default(self, composition):
         """Generic weighted mixture (elements or molecules)."""
-
+        print(composition)
         tot = 0
         for comp, f in composition.items():
             if any(c.isdigit() for c in comp):
