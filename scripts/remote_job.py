@@ -14,7 +14,7 @@ print("Running on remote GPU server...")
 
 
 # Create Painting
-painting = Painting_generator(p['E'], p['type'],p['pigment'], p['H'], p['W'], p['D'], p['N'], p['a']).paint()
+painting = Painting_generator(p['E'], p['type'],p['pigment'], p['H'], p['W'], p['D'], p['N'], p['a'],p['L']).paint()
 
 
 print("Shape of the painting",painting.volume.shape)
