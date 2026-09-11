@@ -38,14 +38,14 @@ class Painting_generator:
 
             if T.startswith(('P', 'G')):
                 Pigment, N, a = q['pigment'], q['N'], q['a']
-                mu_pigment = mu.value(Pigment)
 
-                for P in range(len(Pigment)):
+                for i in range(len(Pigment)):
+                    mu_pigment = mu.value(Pigment[i])
                     if any(x < 2 * a + 1 for x in (D, self.W, self.H)):
                         print("Error! dims of layer", x, "is too small compared with r_sphere=", a,",radius can't be more than",(x-1)/2)
                         raise SystemExit(1)
    
-                    vol[:] = Fraction(self.L, a, vol, N).Pigment_fraction()
+                    vol[:] = Fraction(self.L, a[i], vol, N).Pigment_fraction()
                     vol[:] = vol * mu_Pigment 
                     vol[vol == 0] = mu_oil
                 
