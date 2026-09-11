@@ -44,9 +44,11 @@ class Painting_generator:
                     Lp = a[P]
                     Np = N[P]
                     
-                    if any(x < 2 * Lp + 1 for x in (D, self.W, self.H)):
-                        print("Error! dims of layer", x, "is too small compared with r_sphere=", Lp,",radius can't be more than",(x-1)/2)
-                        raise SystemExit(1)
+                    for x in (D, self.W, self.H):
+                        if x < 2 * Lp + 1:
+                            print(f"Error! Dimension {x} is too small compared with r_sphere={Lp}. "
+                                f"Radius can't be more than {(x - 1) / 2}.")
+                            raise SystemExit(1)
    
                     vol[:] = Fraction(self.L, Lp, vol, Np).Pigment_fraction()
                     vol[:] = vol * mu_Pigment 
