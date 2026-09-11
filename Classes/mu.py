@@ -17,11 +17,12 @@ class Attenuation:
         self.E = E
 
     def value(self, matter):
-        M = self.standard.get(matter)
-        print(M)
-        if M:
-            return self.default(M)
-        return self.molecule(M)
+        print("matter",matter)
+        std = self.standard.get(matter)
+        print("std",std)
+        if std:
+            return self.default(std)
+        return self.molecule(matter)
 
     def default(self, composition):
         """Generic weighted mixture (elements or molecules)."""
@@ -38,6 +39,7 @@ class Attenuation:
         return tot
 
     def molecule(self, molecule):
+        print(molecule)
         atoms = chp.parse_formula(molecule)
         total_mass = 0.0
         weighted_sum = 0.0
