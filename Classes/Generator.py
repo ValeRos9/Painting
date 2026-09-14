@@ -24,7 +24,8 @@ class Painting_generator:
 
         scale = 10000/self.L
         D = [d * scale for d in self.D]
-        W,H = self.W, self.H * scale
+        W = self.W * scale
+        H = self.H * scale
         size = (int(sum(D)), int(W), int(H))
         print(size)
         volume = np.empty(size) 
