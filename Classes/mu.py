@@ -23,7 +23,7 @@ class Attenuation:
         return self.molecule(matter)
 
     def default(self, composition):
-        """Generic weighted mixture (elements or molecules).""" d
+        """Generic weighted mixture (elements or molecules)."""
 
         tot = 0
         for comp, f in composition.items():
