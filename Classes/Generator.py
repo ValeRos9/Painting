@@ -46,6 +46,8 @@ class Painting_generator:
                 
    
                     vol[:] = Fraction(self.L, Lp, vol, Np).Pigment_fraction()
+                    print(vol.shape)
+                    print(vol[0])
                     vol[:] = vol * mu_pigment 
                     vol[vol == 0] = mu_oil
                 
