@@ -62,7 +62,7 @@ class Tomo:
         Nslices = int(scale_slices * H)
         Nx = int(scale_xy * W)
         Nz = int(scale_xy * D)
-
+        
         vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), 
             w=(W/Nx,0,0), 
             v=(0,H/Nslices,0), 
