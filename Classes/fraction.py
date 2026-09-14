@@ -18,6 +18,7 @@ class Fraction:
         if self.L > 4 * self.a:
             n = 1 #n should be some kind of mask (NXNxN)
             f = (a_corr**3) * n
+            print("f",f)
             self.Volume[...] = f
     
         elif (4 * a >= L) and (L >= a):
