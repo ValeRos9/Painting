@@ -59,14 +59,19 @@ class Tomo:
     @staticmethod
     def vol_geometry(H,W,D,scale_slices,scale_xy):
 
-        Nslices = int(scale_slices * H)
-        Nx = int(scale_xy * W)
-        Nz = int(scale_xy * D)
-        
-        vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), 
-            w=(W/Nx,0,0), 
-            v=(0,H/Nslices,0), 
-            u=(0,0,D/Nz)) 
+        # Nslices = int(scale_slices * H)
+        # Nx = int(scale_xy * W)
+        # Nz = int(scale_xy * D)
+
+        # vg = ts.volume_vec(shape=(Nslices,Nx,Nz), pos=(0,0,0), 
+        #     w=(W/Nx,0,0), 
+        #     v=(0,H/Nslices,0), 
+        #     u=(0,0,D/Nz)) 
+        vg = ts.volume_vec(shape=(H,W,D), pos=(0,0,0), 
+            w=(1,0,0), 
+            v=(0,1,0), 
+            u=(0,0,1)) 
+
 
         return vg
     
