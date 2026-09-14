@@ -45,7 +45,7 @@ class Painting_generator:
                     Np = N[P]
                 
    
-                    vol[:] = Fraction(self.L, Lp, vol, Np).Pigment_fraction()
+                    Fraction(self.L, Lp, vol, Np).Pigment_fraction()
                     print(vol.shape)
                     print(vol[0])
                     vol[:] = vol * mu_pigment 
