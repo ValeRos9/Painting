@@ -25,8 +25,6 @@ CT_tomosipo = Tomo(painting.volume, p['beam_type'], p['n_proj'], p['det_x'], p['
 A = CT_tomosipo.operator() 
 
 projections = CT_tomosipo.projections(A)
-print(projections.shape)
-print(projections[0])
 CT_tomosipo.save_projections('projections', projections)
 
 slices = CT_tomosipo.reconstruction(projections, A)
