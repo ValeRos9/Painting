@@ -23,14 +23,13 @@ class Painting_generator:
         """generates a volume, inserts spheres and adds mu values"""
 
         scale = 10000/self.L
-        D = [d * scale for d in self.D]
-        W = self.W * scale
-        H = self.H * scale
+        D = [int(d * scale) for d in self.D]
+        W = int(self.W * scale)
+        H = int(self.H * scale)
         size = (int(sum(D)), int(W), int(H))
-        print(size)
         volume = np.empty(size) 
 
-        Layers = self.sort(self.types, self.D,self.pigment, self.N, self.a)
+        Layers = self.sort(self.types, D,self.pigment, self.N, self.a)
         
         mu = Attenuation(self.E)
         mu_oil = mu.value('O')
