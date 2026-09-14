@@ -18,7 +18,9 @@ class Fraction:
         if self.L > 4 * self.a:
             n = 1 #n should be some kind of mask (NXNxN)
             f = (a_corr**3) * n
+            print("f",f)
             self.Volume[...] = f
+            print(self.Volume)
     
         elif (4 * a >= L) and (L >= a):
             centers = Generate_centers("real",self.Volume, self.N, h)
