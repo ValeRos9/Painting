@@ -23,7 +23,7 @@ class Painting_generator:
         """generates a volume, inserts spheres and adds mu values"""
 
         scale = 10000/self.L
-        print(type(D),type(D[0]))
+        print(type(self.D),type(self.D[0]))
         D = self.D * scale
         W,H = self.W, self.H * scale
         size = tuple(dim for dim in (sum(D), W, H))
