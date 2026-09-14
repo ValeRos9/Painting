@@ -26,9 +26,8 @@ class Painting_generator:
         D = [int(d * scale) for d in self.D]
         W = int(self.W * scale)
         H = int(self.H * scale)
-        size = (int(sum(D)), int(W), int(H))
-        volume = np.empty(size) 
 
+        volume = np.empty((sum(D), W, H)) 
         Layers = self.sort(self.types, D,self.pigment, self.N, self.a)
         
         mu = Attenuation(self.E)
@@ -36,8 +35,7 @@ class Painting_generator:
 
         i = 0
         for T, q in Layers.items():
-            D = q['depth'] 
-            print(D,type(D))
+            D = q['depth']
             vol = volume[i:i+D,:,:]
 
             if T.startswith(('P', 'G')):
