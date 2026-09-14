@@ -24,6 +24,7 @@ class Painting_generator:
 
         scale = 10000/self.L
         size = tuple(int(dim * scale) for dim in (sum(self.D), self.W, self.H))
+        print("size",size)
         volume = np.empty(size) 
 
         Layers = self.sort(self.types, self.D,self.pigment, self.N, self.a)
