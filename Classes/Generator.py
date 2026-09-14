@@ -25,8 +25,9 @@ class Painting_generator:
         scale = 10000/self.L
         D = [d * scale for d in self.D]
         W,H = self.W, self.H * scale
-
-        volume = np.empty((sum(D), W, H)) 
+        size = (sum(D), W, H)
+        print(size)
+        volume = np.empty(size) 
 
         Layers = self.sort(self.types, self.D,self.pigment, self.N, self.a)
         
