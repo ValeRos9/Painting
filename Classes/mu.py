@@ -17,16 +17,14 @@ class Attenuation:
         self.E = E
 
     def value(self, matter):
-        print("matter",matter)
         std = self.standard.get(matter)
-        print("std",std)
         if std:
             return self.default(std)
         return self.molecule(matter)
 
     def default(self, composition):
-        """Generic weighted mixture (elements or molecules)."""
-        print(composition)
+        """Generic weighted mixture (elements or molecules).""" d
+
         tot = 0
         for comp, f in composition.items():
             if any(c.isdigit() for c in comp):
@@ -39,7 +37,7 @@ class Attenuation:
         return tot
 
     def molecule(self, molecule):
-        print(molecule)
+        
         atoms = chp.parse_formula(molecule)
         total_mass = 0.0
         weighted_sum = 0.0
