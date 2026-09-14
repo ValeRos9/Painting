@@ -38,6 +38,7 @@ class Painting_generator:
         i = 0
         for T, q in Layers.items():
             D = q['depth'] 
+            print(D,type(D))
             vol = volume[i:i+D,:,:]
 
             if T.startswith(('P', 'G')):
