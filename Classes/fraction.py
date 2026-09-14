@@ -16,6 +16,7 @@ class Fraction:
         h = a_corr/2
 
         if self.L > 4 * self.a:
+            print("i'm here")
             n = 1 #n should be some kind of mask (NXNxN)
             f = (a_corr**3) * n
             self.Volume[...] = f
