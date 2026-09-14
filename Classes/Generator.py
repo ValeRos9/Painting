@@ -23,7 +23,10 @@ class Painting_generator:
         """generates a volume, inserts spheres and adds mu values"""
 
         scale = 10000/self.L
-        size = tuple(int(dim * scale) for dim in (sum(self.D), self.W, self.H))
+        print(type(D),type(D[0]))
+        D = self.D * scale
+        W,H = self.W, self.H * scale
+        size = tuple(dim for dim in (sum(D), W, H))
         print("size",size)
         volume = np.empty(size) 
 
@@ -34,10 +37,7 @@ class Painting_generator:
 
         i = 0
         for T, q in Layers.items():
-            D = q['depth']
-            print("D",type(D),D)
-            print(volume.shape)
-            print("i",i,"i+D",i+D)
+            D = q['depth'] 
             vol = volume[i:i+D,:,:]
 
             if T.startswith(('P', 'G')):
