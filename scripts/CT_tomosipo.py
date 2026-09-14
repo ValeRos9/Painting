@@ -94,7 +94,7 @@ class Tomo:
     @staticmethod
     def visuals(pg,vg_rot):
         
-        s = ts.scale(0.0004)
+        s = ts.scale(0.004)
         align = ts.rotate(pos=(0, 0, 0), axis=(1, 0, 0),angles=[np.pi/2])
 
         ts.svg(align * s * vg_rot, align * s * pg,  width=1200, height=600).save("rotation.svg")
