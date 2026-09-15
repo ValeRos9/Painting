@@ -20,11 +20,9 @@ def view_one_scan(nb,PATH,FOLDER):
 
     plt.show()
 
-PATH = "/Users/valentinrosario/remote-al-jabr/Downloads/Painting/"
-FOLDER = "recon/"
 
 Volume = []
-FOLDER = Path("/Users/valentinrosario/remote-al-jabr/Downloads/Painting/recon")
+FOLDER = Path("/home/valentin97/Painting/recon")
 
 files = sorted(FOLDER.glob("scan_*.tif"))[200:1251:4]
 
