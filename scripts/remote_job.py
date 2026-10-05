@@ -30,6 +30,8 @@ CT_tomosipo.save_projections('projections', projections)
 
 
 slices = CT_tomosipo.reconstruction(projections, A)
+print(slices.shape)
+print(slices[0])
 CT_tomosipo.save_reconstruction('slices', slices)
 
 # Package & Send (Safe read: handles missing files gracefully)
