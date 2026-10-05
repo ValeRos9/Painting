@@ -22,11 +22,11 @@ class Fraction:
             self.Volume[...] = f
     
         elif (4 * self.a >= self.L) and (self.L >= self.a):
-            centers = Generate_centers("real",self.Volume, self.N, h)
+            centers = self.Generate_centers("real",self.Volume, self.N, h)
             fraction_tilda(self.Volume,centers,h)
 
         else:
-            centers = Generate_centers("integers",self.Volume, self.N, h)
+            centers = self.Generate_centers("integers",self.Volume, self.N, h)
             h = round(h)
             for c in centers:
                 f = 1 
