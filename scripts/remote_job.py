@@ -32,13 +32,13 @@ CT_tomosipo.save_projections('projections', projections)
 slices = CT_tomosipo.reconstruction(projections, A)
 CT_tomosipo.save_reconstruction('slices', slices)
 
-# # Package & Send (Safe read: handles missing files gracefully)
-# result_package = {
-#     "tiff": safe_read("projections/proj0000.tif"),
-#     "rotation_svg": safe_read("rotation.svg"),
-# }
+# Package & Send (Safe read: handles missing files gracefully)
+result_package = {
+    "tiff": safe_read("projections/proj0000.tif"),
+    "rotation_svg": safe_read("rotation.svg"),
+}
 
-# with open("result.pkl", "wb") as f:
-#      pickle.dump(result_package, f)
+with open("result.pkl", "wb") as f:
+     pickle.dump(result_package, f)
 
 
